@@ -4,6 +4,7 @@ import './App.css';
 import VoterRegistration from './Routes/VoterRegistration';
 import { Typography } from '@mui/material';
 import Instructions from './Routes/Instructions';
+import Submission from './Routes/Submission';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Instructions />} />
+          <Route path='/submitted' element={<Submission />} />
           <Route path="/*" element={<VoterRegistration />} />
         </Routes>
       </Router>

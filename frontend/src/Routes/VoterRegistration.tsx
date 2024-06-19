@@ -5,7 +5,6 @@ import PersonalDetails from './PersonalDetails';
 import Address from './Address';
 import OtherDetails from './OtherDetails';
 import Summary from './Summary';
-import Submission from './Submission';
 import Consent from './Consent';
 import '../Styles/VoterRegistration.css'
 
@@ -65,7 +64,6 @@ const VoterRegistration = () => {
                 <Routes>
                   <Route path="/step/:stepId" element={getStepContent(activeStep)} />
                   <Route path="/consent" element={<Consent handleNext={handleNext} />} />
-                  <Route path="/submitted" element={<Submission />} />
                 </Routes>
               </StepContent>
             )}
@@ -77,7 +75,6 @@ const VoterRegistration = () => {
             <Routes>
               <Route path="/step/:stepId" element={getStepContent(activeStep)} />
               <Route path="/consent" element={<Consent handleNext={handleNext} />} />
-              <Route path="/submitted" element={<Submission />} />
             </Routes>
           </div>
         )}

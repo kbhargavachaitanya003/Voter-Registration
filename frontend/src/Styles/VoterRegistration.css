@@ -1,0 +1,63 @@
+.registration-container {
+    margin-top: 20px;
+    background-color: #ffffff;
+    max-height: 550px;
+    overflow-y: auto;
+    border-radius: 10px;
+    max-width: 90% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .MuiStepper-root {
+    margin-top: 10px;
+    /* background-color: #e3eaf1; */
+    border-radius: 10px;
+    padding: 10px;
+  }
+  
+  .MuiStepLabel-label {
+    /* color: #1a3e72 !important; */
+    font-weight: bold !important;
+  }
+  
+  .MuiStepLabel-label.Mui-active {
+    color: #1a3e72 !important;
+  }
+
+  .MuiStepLabel-label.Mui-completed {
+    color: #4caf50 !important;
+  }
+
+  /* .MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+    color: #1a3e72 !important;
+  }
+
+  .MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+    color: #ff6f61 !important;
+  } */
+
+  .MuiSvgIcon-root-MuiStepIcon-root.Mui-completed{
+    color: #4caf50 !important;
+  }
+  
+  .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+    color: #4caf50 !important;
+  }
+
+  .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+    color: #1a3e72  !important;
+  }
+
+  .MuiButton-root {
+    background-color: #1a3e72 !important;
+    color: white !important;
+    margin: 10px !important;
+  }
+  
+  .MuiButton-root:hover {
+    background-color: #154165 !important;
+  }
+  

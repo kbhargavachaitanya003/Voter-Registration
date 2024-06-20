@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, TextField, FormControl, FormGroup, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
@@ -17,6 +17,8 @@ const PersonalDetails: React.FC = () => {
   const setPersonalDetails = useStore(state => state.setPersonalDetails);
   const PersonalDetails = useStore(state => state.personalDetails);
 
+  const [licenseError, setLicenseError] = useState('');
+
   const handleBackPersonalDetails = () => {
     navigate('/');
   };
@@ -28,6 +30,15 @@ const PersonalDetails: React.FC = () => {
   const onSubmit = (data: any) => {
     const today = dayjs();
     const birthDate = dayjs(data.dob);
+
+    if (birthDate.isAfter(today)) {
+      setError('dob', {
+        type: 'manual',
+        message: 'Invalid Date'
+      });
+      return;
+    }
+
     const age = today.diff(birthDate, 'year');
 
     if (age < 18) {
@@ -41,6 +52,15 @@ const PersonalDetails: React.FC = () => {
       data.dob = formattedDate;
       setPersonalDetails(data);
       handleNextPersonalDetails();
+    }
+  };
+
+  const handleLicenseKeyPress = (e: any) => {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+      setLicenseError('Only numbers are allowed');
+    } else {
+      setLicenseError('');
     }
   };
 
@@ -96,7 +116,7 @@ const PersonalDetails: React.FC = () => {
                         textField: {
                           className: 'per-detail',
                           error: !!errors.dob,
-                          helperText: errors.dob?.message === 'You are not eligible' ? 'Your age must be 18 years and above' : ''
+                          helperText: errors.dob?.message === 'You are not eligible' ? 'Your age must be 18 years and above' : (errors.dob?.message === 'Invalid Date' ? 'Date of Birth cannot be in the future' : '')
                         }
                       }}
                     />
@@ -116,12 +136,17 @@ const PersonalDetails: React.FC = () => {
                     message: 'Driving License is required'
                   },
                   pattern: {
-                    value: /^[0-9]{6}$/,
+                    value: /^[0-9]{9}$/,
                     message: 'Invalid Driving License'
                   }
                 })}
-                error={!!errors.dl}
-                helperText={errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 6-digit number' : ''}
+                error={!!errors.dl || !!licenseError}
+                helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
+                inputProps={{ 
+                  inputMode: 'numeric', 
+                  pattern: '[0-9]*',
+                  onKeyPress: handleLicenseKeyPress
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

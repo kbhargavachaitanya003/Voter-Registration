@@ -14,3 +14,11 @@ export interface AddressData {
     state: string;
     zip: number;
 }
+
+export interface OtherDetailsData {
+    partyName: string;
+    partyEnroll: string;
+    email: string;
+    mobile: number;
+    gender: string;
+}

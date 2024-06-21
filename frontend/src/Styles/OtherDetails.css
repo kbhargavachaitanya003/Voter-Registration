@@ -1,0 +1,76 @@
+.other-form{
+    margin-top: 30px;
+}
+
+.other-formcontrol{
+    width: 100%;
+}
+
+.other-party-header{
+    align-self: flex-start;
+    width: 95%;
+    text-align: start;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    margin-left: 2% !important;
+}
+
+.other-party-text{
+    width: 95%;
+    text-align: start;
+    margin-left: 2% !important;
+    margin-top: 10px !important;
+}
+
+.other-radio-group{
+    margin-left: 10% !important;
+    margin-top: 10px !important;
+    align-items: center;
+}
+
+.other-party-no{
+    align-self: center;
+}
+
+.other-party-name{
+    margin-right: 100px !important;
+    margin-bottom: 10px !important;
+    align-self: center;
+}
+
+.other-helper{
+    color: red !important;
+    align-self: center;
+}
+
+.other-addi-header{
+    align-self: flex-start;
+    width: 95%;
+    text-align: start;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    margin-left: 2% !important;
+    margin-top: 5px !important;
+}
+
+.other-details{
+    width: 75% !important;
+}
+
+.other-gender{
+    display: flex;
+    flex-direction: row !important;
+    /* justify-content: space-between; */
+    margin-left: 6% !important;
+    align-items: center;
+}
+
+.other-grid{
+    margin-top: 10px !important;
+}
+
+.other-gender-group{
+    margin-left: 2% !important;   
+}
+
+

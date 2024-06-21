@@ -57,7 +57,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
       <FormControl>
         <FormGroup>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
@@ -78,7 +78,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
@@ -93,7 +93,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                 error={!!errors.streetName}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
@@ -108,7 +108,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                 error={!!errors.apartUnit}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
@@ -123,7 +123,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                 error={!!errors.city}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
@@ -138,7 +138,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                 error={!!errors.state}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"

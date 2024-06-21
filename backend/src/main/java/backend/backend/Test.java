@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +26,8 @@ public class Test {
     private TestService ts;
 
     @GetMapping("/test")
-    public ResponseEntity<List<DTO>> getAllUsers() {
-        return new ResponseEntity<>(ts.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<List<DTO>> getAllDetails() {
+        return new ResponseEntity<>(ts.getAllDetails(), HttpStatus.OK);
     }
 }
 
@@ -34,9 +36,11 @@ public class Test {
 @NoArgsConstructor
 @AllArgsConstructor
 class DTO {
-    private String fname;
-    private String lname;
-    private String email;
+    private int PersonID;
+    private String FirstName;
+    private String LastName;
+    private int DrivingLisense;
+    private String Signature;
 }
 
 @Service
@@ -46,14 +50,16 @@ class TestService {
     @Autowired
     private REPO repo;
 
-    List<DTO> getAllUsers() {
-        List<User> users = repo.findAll();
+    List<DTO> getAllDetails() {
+        List<DrivingLisenseDetails> drivingLisenseDetails = repo.findAll();
         List<DTO> dtos = new ArrayList<>();
-        for (User u : users) {
+        for (DrivingLisenseDetails d : drivingLisenseDetails) {
             DTO dto = new DTO();
-            dto.setFname(u.getFname());
-            dto.setLname(u.getLname());
-            dto.setEmail(u.getEmail());
+            dto.setPersonID(d.getPersonID());
+            dto.setFirstName(d.getFirstName());
+            dto.setLastName(d.getLastName());
+            dto.setDrivingLisense(d.getDrivingLisense());
+            dto.setSignature(d.getSignature());
             dtos.add(dto);
         }
         return dtos;
@@ -61,22 +67,27 @@ class TestService {
 }
 
 @Entity
+@Table(name = "DrivingLisenseDetails")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-class User {
+class DrivingLisenseDetails {
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PersonID")
+    private int PersonID;
 
-    @Column(name = "first_name")
-    private String fname;
+    @Column(name = "FirstName")
+    private String FirstName;
 
-    @Column(name = "last_name")
-    private String lname;
+    @Column(name = "LastName")
+    private String LastName;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "DrivingLisense")
+    private int DrivingLisense;
+
+    @Column(name = "Signature")
+    private String Signature;
 }

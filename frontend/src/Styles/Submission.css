@@ -1,0 +1,67 @@
+.conf-container{
+    display: flex !important;
+    flex-direction: column;
+    margin-top: 20px;
+    background-color: #ffffff;
+    max-height: 550px;
+    overflow-y: auto;
+    border-radius: 10px;
+    max-width: 90% !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.conf-header{
+    margin-top: 30px !important;
+    font-weight: bold !important;
+    /* font-size: x-large !important; */
+    color: #1A3E72 !important;
+}
+
+.conf-sub-header{
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    width: 95%;
+    text-align:center;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    margin-top: 10px !important;
+    margin-left: 2% !important;
+    margin-bottom: 15px !important;
+}
+
+.conf-details{
+    width: 95% !important;
+    margin-left: 2% !important;
+}
+
+.conf-detail-header{
+    min-width: 200px !important;
+    text-align: start;
+    font-weight: bold !important;
+}
+
+.conf-detail-colon{
+    font-weight: bold !important;
+}
+
+.conf-detail-text{
+    margin-left: 10px !important;
+    text-align: start !important;
+}
+
+.conf-detail{
+    display: flex;
+    flex-direction: row;
+    padding-left: 0px !important;
+}
+
+.conf-note{
+    width: 95% !important;
+    margin-left: 2% !important;
+    text-align: start;
+}
+
+.conf-buttons{
+    margin-bottom: 20px !important; 
+}

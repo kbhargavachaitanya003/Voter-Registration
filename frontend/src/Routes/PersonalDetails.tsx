@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, FormControl, FormGroup, Grid } from '@mui/material';
+import { Box, Button, TextField, FormControl, FormGroup, Grid, Typography, Select, MenuItem, InputLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { PersonalDetailsData } from '../Components/types';
@@ -15,7 +15,7 @@ const PersonalDetails: React.FC = () => {
   const { errors } = formState;
   const navigate = useNavigate();
   const setPersonalDetails = useStore(state => state.setPersonalDetails);
-  const PersonalDetails = useStore(state => state.personalDetails);
+  const personalDetails = useStore(state => state.personalDetails);
 
   const [licenseError, setLicenseError] = useState('');
 
@@ -50,12 +50,13 @@ const PersonalDetails: React.FC = () => {
       clearErrors('dob');
       const formattedDate = birthDate.format('MM/DD/YYYY');
       data.dob = formattedDate;
+      console.log(data);
       setPersonalDetails(data);
       handleNextPersonalDetails();
     }
   };
 
-  const handleLicenseKeyPress = (e: any) => {
+  const handleLicenseKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
       setLicenseError('Only numbers are allowed');
@@ -68,12 +69,77 @@ const PersonalDetails: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)} noValidate className='per-form'>
       <FormControl fullWidth>
         <FormGroup>
+          <Typography variant='h5' className='per-header'>Type of Change</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} className='changeType-grid'>
+              <FormControl variant='outlined' fullWidth error={!!errors.voterType} className='per-detail-changeType'>
+                <InputLabel id="voterType-label">{errors.voterType?.message || 'Type of Voter*'}</InputLabel>
+                <Controller
+                  name='voterType'
+                  control={control}
+                  rules={{ required: 'Type of Voter is required' }}
+                  defaultValue={personalDetails?.voterType || ''}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      label={errors.voterType?.message || 'Type of Voter*'}
+                    >
+                      <MenuItem value='New Voter Registration'>New Voter Registration</MenuItem>
+                      <MenuItem value='Change Voter Registration'>Change Voter Registration</MenuItem>
+                    </Select>
+                  )}
+                />
+                {/* <Select
+                  {...register('voterType', {
+                    required: 'Type of Voter is required'
+                  })}
+                  labelId="voterType-label"
+                  value={personalDetails?.voterType || ''}
+                  onChange={(e) => {
+                    setValue('voterType', e.target.value); // Update the form state with the selected value
+                    clearErrors('voterType'); // Clear any validation errors related to voterType
+                  }}
+                  label={errors.voterType?.message || 'Type of Voter*'}
+                >
+                  <MenuItem value=''>Select Type</MenuItem>
+                  <MenuItem value='New Voter Registration'>New Voter Registration</MenuItem>
+                  <MenuItem value='Change Voter Registration'>Change Voter Registration</MenuItem>
+                </Select>
+                {errors.voterType && <Typography variant='body2' color='error'>{errors.voterType?.message}</Typography>} */}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant='outlined'
+                label={errors.town?.message || 'Town*'}
+                className='per-detail'
+                defaultValue={personalDetails?.town || ''}
+                {...register('town', {
+                  required: {
+                    value: true,
+                    message: 'Town is required'
+                  }
+                })}
+                error={!!errors.town}
+              />
+            </Grid>
+          </Grid>
+          <Typography variant='h5' className='per-header'>Personal Details</Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant='outlined'
                 className='per-detail'
-                defaultValue={PersonalDetails?.firstName || ''}
+                label='Prefix'
+                defaultValue={personalDetails?.prefix || ''}
+                {...register('prefix')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant='outlined'
+                className='per-detail'
+                defaultValue={personalDetails?.firstName || ''}
                 label={errors.firstName?.message || 'First Name*'}
                 {...register('firstName', {
                   required: {
@@ -88,7 +154,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 variant='outlined'
                 className='per-detail'
-                defaultValue={PersonalDetails?.lastName || ''}
+                defaultValue={personalDetails?.lastName || ''}
                 label={errors.lastName?.message || 'Last Name*'}
                 {...register('lastName', {
                   required: {
@@ -100,11 +166,29 @@ const PersonalDetails: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <TextField
+                variant='outlined'
+                className='per-detail'
+                label='Middle Name'
+                defaultValue={personalDetails?.middleName || ''}
+                {...register('middleName')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant='outlined'
+                className='per-detail'
+                label='Suffix'
+                defaultValue={personalDetails?.suffix || ''}
+                {...register('suffix')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Controller
                   name='dob'
                   control={control}
-                  defaultValue={PersonalDetails?.dob ? dayjs(PersonalDetails.dob) : null}
+                  defaultValue={personalDetails?.dob ? dayjs(personalDetails.dob) : null}
                   rules={{ required: 'Date is required' }}
                   render={({ field }) => (
                     <DatePicker
@@ -129,7 +213,7 @@ const PersonalDetails: React.FC = () => {
                 label={errors.dl?.message || 'Driving License*'}
                 variant='outlined'
                 className='per-detail'
-                defaultValue={PersonalDetails?.dl || ''}
+                defaultValue={personalDetails?.dl || ''}
                 {...register('dl', {
                   required: {
                     value: true,
@@ -142,8 +226,8 @@ const PersonalDetails: React.FC = () => {
                 })}
                 error={!!errors.dl || !!licenseError}
                 helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
-                inputProps={{ 
-                  inputMode: 'numeric', 
+                inputProps={{
+                  inputMode: 'numeric',
                   pattern: '[0-9]*',
                   onKeyPress: handleLicenseKeyPress
                 }}
@@ -154,7 +238,7 @@ const PersonalDetails: React.FC = () => {
                 label={errors.ssn?.message || 'SSN'}
                 variant='outlined'
                 className='per-detail'
-                defaultValue={PersonalDetails?.ssn || ''}
+                defaultValue={personalDetails?.ssn || ''}
                 {...register('ssn', {
                   pattern: {
                     value: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,

@@ -1,7 +1,38 @@
-.per-form{
-    margin-top: 30px;
-}
+/* .per-form{
+    margin-top: 10px;
+} */
 
 .per-detail{
+    width: 75% !important;
+}
+
+.per-town-box{
+    display: flex;
+    flex-direction: row;
+    margin-left: 6% !important;
+}
+
+.per-header{
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    width: 95%;
+    text-align: start;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    margin-left: 2% !important;
+    margin-bottom: 15px !important;
+    margin-top: 10px !important;
+}
+
+.changeType-grid{
+    width: 75% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.per-detail-changeType{
+    align-self: center;
     width: 75% !important;
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormGroup, TextField, Grid } from '@mui/material';
+import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useStore from '../Store/Store';
@@ -15,7 +15,9 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const setAddress = useStore((state) => state.setAddress);
   const address = useStore((state) => state.address);
   const [streetNumberError, setStreetNumberError] = useState('');
+  const [mStreetNumberError, setMStreetNumberError] = useState('');
   const [zipError, setZipError] = useState('');
+  const [mZipError, setMZipError] = useState('');
   const navigate = useNavigate();
   const { errors } = formState;
 
@@ -38,6 +40,15 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
     }
   };
 
+  const handleMStreetNumberKeyPress = (e: any) => {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+      setMStreetNumberError('Only numbers are allowed');
+    } else {
+      setMStreetNumberError('');
+    }
+  };
+
   const handleZipKeyPress = (e: any) => {
     if (!/[0-9-]/.test(e.key)) {
       e.preventDefault();
@@ -47,7 +58,17 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
     }
   };
 
+  const handleMZipKeyPress = (e: any) => {
+    if (!/[0-9-]/.test(e.key)) {
+      e.preventDefault();
+      setMZipError('Only numbers and "-" character are allowed');
+    } else {
+      setMZipError('');
+    }
+  };
+
   const onSubmit = (data: any) => {
+    console.log(data);
     setAddress(data);
     handleNextAddress();
   };
@@ -56,6 +77,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
     <form onSubmit={handleSubmit(onSubmit)} className="add-form">
       <FormControl>
         <FormGroup>
+          <Typography variant="h5" className='addr-res-heading'>Residential Address</Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -159,6 +181,97 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                 inputProps={{
                   inputMode: 'numeric',
                   onKeyPress: handleZipKeyPress,
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Box mt={1} className='addr-note'>
+            <Checkbox {...register('military')}/>
+            <Typography variant="body1" className='addr-note-text'>I am a member of the miliary</Typography>
+          </Box>
+          <Box className='addr-mail-heading'>
+            <Typography variant="h5" >Mailing Address</Typography>
+            <Typography variant="body1" className='addr-note-text-heading'>(Please provide your mailing address if different from residential address)</Typography>
+          </Box>
+          <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+              <TextField
+                className="add-detail"
+                variant="outlined"
+                label='Street Number'
+                defaultValue={address?.mStreetNumber}
+                {...register('mStreetNumber')}
+                error={!!mStreetNumberError}
+                helperText={mStreetNumberError}
+                inputProps={{
+                  inputMode: 'numeric',
+                  pattern: '[0-9]*',
+                  onKeyPress: handleMStreetNumberKeyPress,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className="add-detail"
+                variant="outlined"
+                label='Street Name'
+                defaultValue={address?.mStreetName}
+                {...register('mStreetName')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className="add-detail"
+                variant="outlined"
+                label='Apartment/Unit'
+                defaultValue={address?.mApartUnit}
+                {...register('mApartUnit')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className='add-detail'
+                variant="outlined"
+                label='Town'
+                defaultValue={address?.mTown}
+                {...register('mTown')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className='add-detail'
+                variant="outlined"
+                label='State'
+                defaultValue={address?.mState}
+                {...register('mState')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className='add-detail'
+                variant="outlined"
+                label='Country'
+                defaultValue={address?.mCountry}
+                {...register('mCountry')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                className="add-detail"
+                variant="outlined"
+                label={typeof errors.mZip?.message === 'string' ? errors.mZip.message : 'Zip Code'}
+                defaultValue={address?.mZip}
+                {...register('mZip', {
+                  pattern: {
+                    value: /^[0-9]{5}(-[0-9]{4})?$/,
+                    message: 'Invalid Zip Code',
+                  },
+                })}
+                error={!!errors.mZip || !!mZipError}
+                helperText={mZipError || (errors.mZip && 'Zip code should be in ##### or #####-#### format')}
+                inputProps={{
+                  inputMode: 'numeric',
+                  onKeyPress: handleMZipKeyPress,
                 }}
               />
             </Grid>

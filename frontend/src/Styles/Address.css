@@ -1,7 +1,48 @@
 .add-form{
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .add-detail{
     width: 75% !important;
+}
+
+.addr-res-heading{
+    align-self: flex-start;
+    width: 95%;
+    text-align: start;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    margin-left: 2% !important;
+    margin-bottom: 15px !important;
+}
+
+.addr-note{
+    display: flex;
+    flex-direction: row;
+    margin-left: 2% !important;
+}
+
+.addr-note-text{
+    align-self: center;
+}
+
+.addr-note-yes{
+    margin-left: 5px !important;
+}
+
+.addr-mail-heading{
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    width: 95%;
+    text-align: start;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    margin-left: 2% !important;
+    margin-bottom: 15px !important;
+}
+
+.addr-note-text-heading{
+    color: black;
+    align-self: center;
 }

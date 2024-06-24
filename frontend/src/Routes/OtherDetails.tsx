@@ -83,8 +83,8 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
                 className='other-details'
                 variant='outlined'
                 defaultValue={otherDetails?.email || ''}
-                label={typeof errors.email?.message === 'string' ? errors.email.message : 'Email*'}
-                {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })}
+                label={typeof errors.email?.message === 'string' ? errors.email.message : 'Email'}
+                {...register('email', { pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })}
                 error={!!errors.email}
                 fullWidth
               />
@@ -94,14 +94,14 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
                 className='other-details'
                 variant='outlined'
                 defaultValue={otherDetails?.mobile || ''}
-                label={typeof errors.mobile?.message === 'string' ? errors.mobile.message : 'Mobile Number*'}
-                {...register('mobile', { required: 'Mobile number is required', pattern: { value: /^[0-9]{10}$/, message: 'Invalid mobile number' } })}
+                label={typeof errors.mobile?.message === 'string' ? errors.mobile.message : 'Mobile Number'}
+                {...register('mobile', { pattern: { value: /^[0-9]{10}$/, message: 'Invalid mobile number' } })}
                 error={!!errors.mobile}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} className='other-gender'>
-              <Typography variant="body1">Gender</Typography>
+              <Typography variant="body1">Gender:*</Typography>
               <RadioGroup
                 row
                 defaultValue={otherDetails?.gender || ''}

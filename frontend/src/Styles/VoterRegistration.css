@@ -1,7 +1,7 @@
 .registration-container {
-  margin-top: 3%;
+  margin-top: 1%;
   background-color: #ffffff;
-  max-height: 550px;
+  max-height: 610px;
   min-height: 350px;
   overflow-y: auto;
   border-radius: 10px;
@@ -9,7 +9,7 @@
   margin-left: auto !important;
   margin-right: auto !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
 }
 
 .MuiStepper-root {

@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import axios from 'axios';
 import '../Styles/PersonalDetails.css';
 
 const PersonalDetails: React.FC = () => {
@@ -16,8 +17,18 @@ const PersonalDetails: React.FC = () => {
   const navigate = useNavigate();
   const setPersonalDetails = useStore(state => state.setPersonalDetails);
   const personalDetails = useStore(state => state.personalDetails);
-
   const [licenseError, setLicenseError] = useState('');
+
+  const checkDrivingLisense = async (drivingLisense: number) => {
+    try {
+      const { data } = await axios.get(`http://localhost:8080/api/checkDrivingLisense/${drivingLisense}`);
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 
   const handleBackPersonalDetails = () => {
     navigate('/');
@@ -27,9 +38,9 @@ const PersonalDetails: React.FC = () => {
     navigate('/consent');
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (personalData: PersonalDetailsData) => {
     const today = dayjs();
-    const birthDate = dayjs(data.dob);
+    const birthDate = dayjs(personalData.dob);
 
     if (birthDate.isAfter(today)) {
       setError('dob', {
@@ -49,10 +60,17 @@ const PersonalDetails: React.FC = () => {
     } else {
       clearErrors('dob');
       const formattedDate = birthDate.format('MM/DD/YYYY');
-      data.dob = formattedDate;
-      console.log(data);
-      setPersonalDetails(data);
-      handleNextPersonalDetails();
+      personalData.dob = formattedDate;
+      setPersonalDetails(personalData);
+      const data = await checkDrivingLisense(personalData.dl);
+      if (data === 'Yes') {
+        handleNextPersonalDetails();
+      }
+      else if (data === 'No') {
+        console.log('Invalid Driving License');
+      } else {
+        console.log('Error');
+      }
     }
   };
 

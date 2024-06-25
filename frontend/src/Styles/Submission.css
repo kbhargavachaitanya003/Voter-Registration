@@ -65,3 +65,13 @@
 .conf-buttons{
     margin-bottom: 20px !important; 
 }
+
+@media (max-width: 450px) {
+    .conf-container{
+        max-width: 100% !important;
+    }
+
+    .conf-detail-header{
+        min-width: 150px !important;
+    }
+}

@@ -19,12 +19,22 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
   const navigate = useNavigate();
   const [partyRadioValue, setPartyRadioValue] = React.useState('');
   const [isNextClicked, setIsNextClicked] = React.useState(false);
+  const [phoneError, setPhoneError] = React.useState('');
   const setOtherDetails = useStore(state => state.setOtherDetails);
   const otherDetails = useStore(state => state.otherDetails);
 
   const handlePartyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPartyRadioValue(event.target.value);
     if (isNextClicked) setIsNextClicked(false);
+  };
+
+  const handlePhoneKeyPress = (e: any) => {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+      setPhoneError('Only numbers are allowed');
+    } else {
+      setPhoneError('');
+    }
   };
 
   const handleBackOtherDetails = () => {
@@ -96,8 +106,13 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
                 defaultValue={otherDetails?.mobile || ''}
                 label={typeof errors.mobile?.message === 'string' ? errors.mobile.message : 'Mobile Number'}
                 {...register('mobile', { pattern: { value: /^[0-9]{10}$/, message: 'Invalid mobile number' } })}
-                error={!!errors.mobile}
-                fullWidth
+                error={!!errors.mobile || !!phoneError}
+                helperText={errors.mobile ? 'Mobile number must be 10 digit Number' : phoneError}
+                inputProps={{
+                  inputMode: 'numeric',
+                  pattern: '[0-9]*',
+                  onKeyPress: handlePhoneKeyPress,
+                }}
               />
             </Grid>
             <Grid item xs={12} className='other-gender'>

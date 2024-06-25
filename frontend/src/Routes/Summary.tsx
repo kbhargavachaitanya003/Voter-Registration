@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Button, Grid, List, ListItem, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import useStore from '../Store/Store'
+import dayjs from 'dayjs'
 import '../Styles/Summary.css'
 
 interface SummaryProps {
@@ -13,10 +14,16 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const personalDetails = useStore(state => state.personalDetails)
   const address = useStore(state => state.address)
   const otherDetails = useStore(state => state.otherDetails)
-  const navigate = useNavigate()
-
+  const setSubmittedDate = useStore(state => state.setSubmittedDate)
+  const setSubmittedTime = useStore(state => state.setSubmittedTime)
+  const navigate = useNavigate();
 
   const handleNextSummary = () => {
+    const today = dayjs().format('MM/DD/YYYY');
+    const time = dayjs().format('hh:mm:ss A');
+    console.log(time);
+    setSubmittedDate(today);
+    setSubmittedTime(time);
     navigate('/submitted');
     handleNext();
   }
@@ -38,7 +45,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
         <Grid item xs={12} sm={6} className='pre-detail'>
           <Typography variant='body1' className='detail-header'>Residence Address</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
-          <Typography variant='body1' className='pre-detail-text'>{address?.streetNumber} {address?.streetName}, {address?.city} {address?.state}-{address?.zip}</Typography>
+          <Typography variant='body1' className='pre-detail-text'>{address?.streetNumber} {address?.streetName}, {address?.city} {address?.state}-{address?.zip}, US</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
           <Typography variant='body1' className='detail-header'>Date of Birth</Typography>
@@ -48,7 +55,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
         <Grid item xs={12} sm={6} className='pre-detail'>
           <Typography variant='body1' className='detail-header'>Mailing Address</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
-          <Typography variant='body1' className='pre-detail-text'>{address?.mStreetNumber} {address?.mStreetName}, {address?.mTown} {address?.mState}-{address?.mZip}</Typography>
+          <Typography variant='body1' className='pre-detail-text'>{address?.mStreetNumber} {address?.mStreetName}, {address?.mTown} {address?.mState}-{address?.mZip}, {address?.mCountry}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
           <Typography variant='body1' className='detail-header'>Party</Typography>

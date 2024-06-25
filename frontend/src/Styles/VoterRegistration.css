@@ -61,3 +61,11 @@
 .MuiButton-root:hover {
   background-color: #154165 !important;
 }
+
+/* @media (max-width: 500px) {
+  .registration-container {
+    max-width: 100% !important;
+    max-height: 650px !important;
+    margin-top: 0px !important;
+  }
+} */

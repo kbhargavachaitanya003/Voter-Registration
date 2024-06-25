@@ -89,35 +89,18 @@ const PersonalDetails: React.FC = () => {
                     </Select>
                   )}
                 />
-                {/* <Select
-                  {...register('voterType', {
-                    required: 'Type of Voter is required'
-                  })}
-                  labelId="voterType-label"
-                  value={personalDetails?.voterType || ''}
-                  onChange={(e) => {
-                    setValue('voterType', e.target.value); // Update the form state with the selected value
-                    clearErrors('voterType'); // Clear any validation errors related to voterType
-                  }}
-                  label={errors.voterType?.message || 'Type of Voter*'}
-                >
-                  <MenuItem value=''>Select Type</MenuItem>
-                  <MenuItem value='New Voter Registration'>New Voter Registration</MenuItem>
-                  <MenuItem value='Change Voter Registration'>Change Voter Registration</MenuItem>
-                </Select>
-                {errors.voterType && <Typography variant='body2' color='error'>{errors.voterType?.message}</Typography>} */}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant='outlined'
-                label={errors.town?.message || 'Town*'}
+                label={errors.town?.message || 'Current Town of Residence*'}
                 className='per-detail'
                 defaultValue={personalDetails?.town || ''}
                 {...register('town', {
                   required: {
                     value: true,
-                    message: 'Town is required'
+                    message: 'Current Town of Residence is required'
                   }
                 })}
                 error={!!errors.town}

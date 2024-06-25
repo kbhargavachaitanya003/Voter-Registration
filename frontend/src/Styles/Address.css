@@ -6,6 +6,16 @@
     width: 75% !important;
 }
 
+.add-detail-country{
+    width: 75% !important;
+    align-self: center;
+    margin-left: 12% !important;
+}
+
+.css-13cymwt-control{
+    height: 50px;
+}
+
 .addr-res-heading{
     align-self: flex-start;
     width: 95%;
@@ -45,4 +55,10 @@
 .addr-note-text-heading{
     color: black;
     align-self: center;
+}
+
+@media (max-width: 870px) {
+    .addr-mail-heading{
+        flex-direction: column;
+    }
 }

@@ -2,16 +2,15 @@ import React from 'react'
 import { Box, Button, Container, Typography, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import useStore from '../Store/Store'
-import dayjs from 'dayjs'
 import '../Styles/Submission.css'
 
 const Submission = () => {
   const personalDetails = useStore(state => state.personalDetails)
   const address = useStore(state => state.address)
   const otherDetails = useStore(state => state.otherDetails)
+  const submittedDate = useStore(state => state.submittedDate)
+  const submittedTime = useStore(state => state.submittedTime)
   const navigate = useNavigate();
-
-  const today = dayjs().format('DD/MM/YYYY');
 
   const handleClose = () => {
     navigate('/');
@@ -32,7 +31,7 @@ const Submission = () => {
         <Grid item xs={12} sm={6} className='conf-detail'>
           <Typography variant='body1' className='conf-detail-header'>Application Submitted on</Typography>
           <Typography variant='body1' className='conf-detail-colon'> :</Typography> 
-          <Typography variant='body1' className='conf-detail-text'> {today}</Typography>
+          <Typography variant='body1' className='conf-detail-text'>{submittedDate}, {submittedTime}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='conf-detail'>
           <Typography variant='body1' className='conf-detail-header'>Name</Typography>
@@ -42,7 +41,7 @@ const Submission = () => {
         <Grid item xs={12} sm={6} className='conf-detail'>
           <Typography variant='body1' className='conf-detail-header'>Residence Address</Typography>
           <Typography variant='body1' className='conf-detail-colon'>: </Typography> 
-          <Typography variant='body1' className='conf-detail-text'>{address?.streetNumber} {address?.streetName}, {address?.city} {address?.state}-{address?.zip}</Typography>
+          <Typography variant='body1' className='conf-detail-text'>{address?.streetNumber} {address?.streetName}, {address?.city} {address?.state}-{address?.zip}, US</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='conf-detail'>
           <Typography variant='body1' className='conf-detail-header'>Date of Birth</Typography>
@@ -52,7 +51,7 @@ const Submission = () => {
         <Grid item xs={12} sm={6} className='conf-detail'>
           <Typography variant='body1' className='conf-detail-header'>Mailing Address</Typography>
           <Typography variant='body1' className='conf-detail-colon'>: </Typography> 
-          <Typography variant='body1' className='conf-detail-text'>{address?.mStreetNumber} {address?.mStreetName}, {address?.mTown} {address?.mState}-{address?.mZip}</Typography>
+          <Typography variant='body1' className='conf-detail-text'>{address?.mStreetNumber} {address?.mStreetName}, {address?.mTown} {address?.mState}-{address?.mZip}, {address?.mCountry}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='conf-detail'>
           <Typography variant='body1' className='conf-detail-header'>Party</Typography>

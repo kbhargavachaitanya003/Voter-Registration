@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useStore from '../Store/Store';
+import Select, { SingleValue } from 'react-select';
 import '../Styles/Address.css';
 
 interface AddressProps {
   handleNext: () => void;
   handleBack: () => void;
+}
+
+interface CountryOption {
+  label: string;
+  value: string;
 }
 
 const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
@@ -18,8 +24,21 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const [mStreetNumberError, setMStreetNumberError] = useState('');
   const [zipError, setZipError] = useState('');
   const [mZipError, setMZipError] = useState('');
+  const [countries, setCountries] = useState<CountryOption[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<SingleValue<CountryOption>>(null);
   const navigate = useNavigate();
   const { errors } = formState;
+
+  useEffect(() => {
+    fetch(
+      "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setCountries(data.countries);
+        // setSelectedCountry(data.userSelectValue);
+      });
+  }, []);
 
   const handleBackAddress = () => {
     navigate('/consent');
@@ -68,6 +87,18 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   };
 
   const onSubmit = (data: any) => {
+    console.log(selectedCountry);
+    data.mCountry = selectedCountry?.value || '';
+    if (data.mStreetNumber === '' && data.mStreetName === '' && data.mApartUnit === '' && data.mTown === '' && data.mState === '' && data.mZip === '' && data.mCountry === '') {
+      data.mStreetNumber = data.streetNumber;
+      data.mStreetName = data.streetName;
+      data.mApartUnit = data.apartUnit;
+      data.mTown = data.city;
+      data.mState = data.state;
+      data.mZip = data.zip;
+      data.mCountry = 'US';
+    }
+
     console.log(data);
     setAddress(data);
     handleNextAddress();
@@ -186,15 +217,15 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
             </Grid>
           </Grid>
           <Box mt={1} className='addr-note'>
-            <Checkbox {...register('military')}/>
-            <Typography variant="body1" className='addr-note-text'>I am a member of the miliary</Typography>
+            <Checkbox {...register('military')} />
+            <Typography variant="body1" className='addr-note-text'>I am a member of the military</Typography>
           </Box>
           <Box className='addr-mail-heading'>
             <Typography variant="h5" >Mailing Address</Typography>
             <Typography variant="body1" className='addr-note-text-heading'>(Please provide your mailing address if different from residential address)</Typography>
           </Box>
           <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
@@ -230,16 +261,16 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                className='add-detail'
+                className="add-detail"
                 variant="outlined"
-                label='Town'
+                label='City'
                 defaultValue={address?.mTown}
                 {...register('mTown')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                className='add-detail'
+                className="add-detail"
                 variant="outlined"
                 label='State'
                 defaultValue={address?.mState}
@@ -248,39 +279,32 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                className='add-detail'
-                variant="outlined"
-                label='Country'
-                defaultValue={address?.mCountry}
-                {...register('mCountry')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.mZip?.message === 'string' ? errors.mZip.message : 'Zip Code'}
+                label='Zip Code'
                 defaultValue={address?.mZip}
-                {...register('mZip', {
-                  pattern: {
-                    value: /^[0-9]{5}(-[0-9]{4})?$/,
-                    message: 'Invalid Zip Code',
-                  },
-                })}
-                error={!!errors.mZip || !!mZipError}
-                helperText={mZipError || (errors.mZip && 'Zip code should be in ##### or #####-#### format')}
+                {...register('mZip')}
+                error={!!mZipError}
+                helperText={mZipError}
                 inputProps={{
                   inputMode: 'numeric',
                   onKeyPress: handleMZipKeyPress,
                 }}
               />
             </Grid>
+            <Grid item xs={12} sm={6}>
+              <Select
+                placeholder="Country"
+                options={countries}
+                defaultValue={selectedCountry}
+                onChange={setSelectedCountry}
+                className="add-detail-country"
+              />
+            </Grid>
           </Grid>
           <Box mt={2}>
-            <Button onClick={handleBackAddress}>Back</Button>
-            <Button variant="contained" color="primary" type="submit">
-              Next
-            </Button>
+            <Button variant="contained" onClick={handleBackAddress} className="back-button">Back</Button>
+            <Button variant="contained" color="primary" type="submit">Next</Button>
           </Box>
         </FormGroup>
       </FormControl>

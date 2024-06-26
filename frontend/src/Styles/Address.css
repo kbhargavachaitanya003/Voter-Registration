@@ -9,7 +9,7 @@
 .add-detail-country{
     width: 75% !important;
     align-self: center;
-    margin-left: 12% !important;
+    margin-left: 12.5% !important;
 }
 
 .css-13cymwt-control{
@@ -30,6 +30,13 @@
     display: flex;
     flex-direction: row;
     margin-left: 2% !important;
+}
+
+.addr-same-note{
+    display: flex;
+    flex-direction: row;
+    margin-left: 2% !important;
+    margin-top: 0px !important;
 }
 
 .addr-note-text{
@@ -54,6 +61,10 @@
 
 .addr-note-text-heading{
     color: black;
+    align-self: center;
+}
+
+.addr-error{
     align-self: center;
 }
 

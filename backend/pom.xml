@@ -22,7 +22,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
-        <mysql.connector.version>8.0.28</mysql.connector.version> <!-- Specify MySQL Connector version -->
+        <mysql.connector.version>8.0.30</mysql.connector.version> <!-- Specify MySQL Connector version -->
+        <protobuf.java.version>3.21.7</protobuf.java.version> <!-- Specify protobuf-java version -->
     </properties>
 
     <dependencies>
@@ -51,6 +52,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.java.version}</version> <!-- Use the specified version -->
         </dependency>
 
         <!-- Spring Boot Starter Test (for testing) -->

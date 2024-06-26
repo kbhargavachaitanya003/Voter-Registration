@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import '../Styles/Consent.css';
+import axios from 'axios';
+
 
 interface ConsentProps {
   handleNext: () => void;
@@ -15,7 +17,18 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
     mode: 'onBlur'
   });
   const setConsent = useStore(state => state.setConsent);
-  const consent = useStore(state => state.consent);
+  const personalDetails = useStore(state => state.personalDetails);
+  const setDLimage = useStore(state => state.setDLImage);
+
+  const getSignature = async (drivingLisense: number) => {
+    try {
+      const { data } = await axios.get(`http://localhost:8080/api/getDrivingLisense/${drivingLisense}`);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 
   const consentCheck = watch('consent');
 
@@ -28,9 +41,17 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
     handleNext();
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    if(data.consent === 'consent' && personalDetails?.dl) {
+      const signature = await getSignature(personalDetails.dl);
+      if (signature) {
+        setDLimage(signature);
+      }
+      handleNextConsent();
+    } else {
+      console.log('Consent declined');
+    }
     setConsent(data);
-    handleNextConsent();
   };
 
   React.useEffect(() => {

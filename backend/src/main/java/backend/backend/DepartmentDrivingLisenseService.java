@@ -12,4 +12,9 @@ public class DepartmentDrivingLisenseService {
     public boolean checkDrivingLisenseExists(int drivingLisense) {
         return lisenseRepository.existsByDrivingLisense(drivingLisense);
     }
+
+    public String getSignatureByDrivingLisense(int drivingLisense) {
+        DrivingLisenseDetails details = lisenseRepository.findByDrivingLisense(drivingLisense);
+        return details != null ? details.getSignature() : null;
+    }
 }

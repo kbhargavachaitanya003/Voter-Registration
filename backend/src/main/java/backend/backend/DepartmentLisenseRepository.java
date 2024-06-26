@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface DepartmentLisenseRepository extends JpaRepository<DrivingLisenseDetails, Integer> {
 
     boolean existsByDrivingLisense(int drivingLisense);
+
+    DrivingLisenseDetails findByDrivingLisense(int drivingLisense);
 }

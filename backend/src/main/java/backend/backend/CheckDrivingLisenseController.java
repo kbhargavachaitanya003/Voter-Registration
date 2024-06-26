@@ -20,4 +20,11 @@ public class CheckDrivingLisenseController {
         boolean exists = departmentService.checkDrivingLisenseExists(drivingLisense);
         return exists ? "Yes" : "No";
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getDrivingLisense/{drivingLisense}")
+    public String getSignatureByDrivingLisense(@PathVariable int drivingLisense) {
+        String signature = departmentService.getSignatureByDrivingLisense(drivingLisense);
+        return signature != null ? signature : "No";
+    }
 }

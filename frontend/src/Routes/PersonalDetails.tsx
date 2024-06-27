@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, FormControl, FormGroup, Grid, Typography, Select, MenuItem, InputLabel } from '@mui/material';
+import { Box, Button, TextField, FormControl, FormGroup, Grid, Typography, Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { PersonalDetailsData } from '../Components/types';
+import { PersonalDetailsData, AddressData } from '../Components/types';
 import useStore from '../Store/Store';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -17,7 +17,9 @@ const PersonalDetails: React.FC = () => {
   const navigate = useNavigate();
   const setPersonalDetails = useStore(state => state.setPersonalDetails);
   const personalDetails = useStore(state => state.personalDetails);
+  const setAddress = useStore(state => state.setAddress);
   const [licenseError, setLicenseError] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
   const checkDrivingLisense = async (drivingLisense: number) => {
     try {
@@ -28,7 +30,7 @@ const PersonalDetails: React.FC = () => {
       console.error(error);
       return null;
     }
-  }
+  };
 
   const handleBackPersonalDetails = () => {
     navigate('/');
@@ -64,10 +66,13 @@ const PersonalDetails: React.FC = () => {
       setPersonalDetails(personalData);
       const data = await checkDrivingLisense(personalData.dl);
       if (data === 'Yes') {
+        const address: Partial<AddressData> = {
+          city: personalData.town,
+        };
+        setAddress(address as AddressData);
         handleNextPersonalDetails();
-      }
-      else if (data === 'No') {
-        console.log('Invalid Driving License');
+      } else if (data === 'No') {
+        setOpenDialog(true);
       } else {
         console.log('Error');
       }
@@ -83,183 +88,208 @@ const PersonalDetails: React.FC = () => {
     }
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className='per-form'>
-      <FormControl fullWidth>
-        <FormGroup>
-          <Typography variant='h5' className='per-header'>Type of Change</Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} className='changeType-grid'>
-              <FormControl variant='outlined' fullWidth error={!!errors.voterType} className='per-detail-changeType'>
-                <InputLabel id="voterType-label">{errors.voterType?.message || 'Type of Voter*'}</InputLabel>
-                <Controller
-                  name='voterType'
-                  control={control}
-                  rules={{ required: 'Type of Voter is required' }}
-                  defaultValue={personalDetails?.voterType || ''}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      label={errors.voterType?.message || 'Type of Voter*'}
-                    >
-                      <MenuItem value='New Voter Registration'>New Voter Registration</MenuItem>
-                      <MenuItem value='Change Voter Registration'>Change Voter Registration</MenuItem>
-                    </Select>
-                  )}
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className='per-form'>
+        <FormControl fullWidth>
+          <FormGroup>
+            <Typography variant='h5' className='per-header'>Type of Change</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} className='changeType-grid'>
+                <FormControl variant='outlined' fullWidth error={!!errors.voterType} className='per-detail-changeType'>
+                  <InputLabel id="voterType-label">{errors.voterType?.message || 'Type of Voter*'}</InputLabel>
+                  <Controller
+                    name='voterType'
+                    control={control}
+                    rules={{ required: 'Type of Voter is required' }}
+                    defaultValue={personalDetails?.voterType || ''}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        label={errors.voterType?.message || 'Type of Voter*'}
+                      >
+                        <MenuItem value='New Voter Registration'>New Voter Registration</MenuItem>
+                        <MenuItem value='Change Voter Registration'>Change Voter Registration</MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='outlined'
+                  label={errors.town?.message || 'Current Town of Residence*'}
+                  className='per-detail'
+                  defaultValue={personalDetails?.town || ''}
+                  {...register('town', {
+                    required: {
+                      value: true,
+                      message: 'Current Town of Residence is required'
+                    }
+                  })}
+                  error={!!errors.town}
                 />
-              </FormControl>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                label={errors.town?.message || 'Current Town of Residence*'}
-                className='per-detail'
-                defaultValue={personalDetails?.town || ''}
-                {...register('town', {
-                  required: {
-                    value: true,
-                    message: 'Current Town of Residence is required'
-                  }
-                })}
-                error={!!errors.town}
-              />
-            </Grid>
-          </Grid>
-          <Typography variant='h5' className='per-header'>Personal Details</Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                className='per-detail'
-                label='Prefix'
-                defaultValue={personalDetails?.prefix || ''}
-                {...register('prefix')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                className='per-detail'
-                defaultValue={personalDetails?.firstName || ''}
-                label={errors.firstName?.message || 'First Name*'}
-                {...register('firstName', {
-                  required: {
-                    value: true,
-                    message: 'First Name is required'
-                  }
-                })}
-                error={!!errors.firstName}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                className='per-detail'
-                defaultValue={personalDetails?.lastName || ''}
-                label={errors.lastName?.message || 'Last Name*'}
-                {...register('lastName', {
-                  required: {
-                    value: true,
-                    message: 'Last Name is required'
-                  }
-                })}
-                error={!!errors.lastName}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                className='per-detail'
-                label='Middle Name'
-                defaultValue={personalDetails?.middleName || ''}
-                {...register('middleName')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                className='per-detail'
-                label='Suffix'
-                defaultValue={personalDetails?.suffix || ''}
-                {...register('suffix')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Controller
-                  name='dob'
-                  control={control}
-                  defaultValue={personalDetails?.dob ? dayjs(personalDetails.dob) : null}
-                  rules={{ required: 'Date is required' }}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      label={typeof errors.dob?.message === 'string' ? errors.dob.message : 'Date of Birth*'}
-                      value={field.value || null}
-                      onChange={(date) => field.onChange(date)}
-                      slotProps={{
-                        textField: {
-                          className: 'per-detail',
-                          error: !!errors.dob,
-                          helperText: errors.dob?.message === 'You are not eligible' ? 'Your age must be 18 years and above' : (errors.dob?.message === 'Invalid Date' ? 'Date of Birth cannot be in the future' : '')
-                        }
-                      }}
-                    />
-                  )}
+            <Typography variant='h5' className='per-header'>Personal Details</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='outlined'
+                  className='per-detail'
+                  label='Prefix'
+                  defaultValue={personalDetails?.prefix || ''}
+                  {...register('prefix')}
                 />
-              </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='outlined'
+                  className='per-detail'
+                  defaultValue={personalDetails?.firstName || ''}
+                  label={errors.firstName?.message || 'First Name*'}
+                  {...register('firstName', {
+                    required: {
+                      value: true,
+                      message: 'First Name is required'
+                    }
+                  })}
+                  error={!!errors.firstName}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='outlined'
+                  className='per-detail'
+                  defaultValue={personalDetails?.lastName || ''}
+                  label={errors.lastName?.message || 'Last Name*'}
+                  {...register('lastName', {
+                    required: {
+                      value: true,
+                      message: 'Last Name is required'
+                    }
+                  })}
+                  error={!!errors.lastName}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='outlined'
+                  className='per-detail'
+                  label='Middle Name'
+                  defaultValue={personalDetails?.middleName || ''}
+                  {...register('middleName')}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant='outlined'
+                  className='per-detail'
+                  label='Suffix'
+                  defaultValue={personalDetails?.suffix || ''}
+                  {...register('suffix')}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <Controller
+                    name='dob'
+                    control={control}
+                    defaultValue={personalDetails?.dob ? dayjs(personalDetails.dob) : null}
+                    rules={{ required: 'Date is required' }}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        label={typeof errors.dob?.message === 'string' ? errors.dob.message : 'Date of Birth*'}
+                        value={field.value || null}
+                        onChange={(date) => field.onChange(date)}
+                        slotProps={{
+                          textField: {
+                            className: 'per-detail',
+                            error: !!errors.dob,
+                            helperText: errors.dob?.message === 'You are not eligible' ? 'Your age must be 18 years and above' : (errors.dob?.message === 'Invalid Date' ? 'Date of Birth cannot be in the future' : '')
+                          }
+                        }}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label={errors.dl?.message || 'Driving License*'}
+                  variant='outlined'
+                  className='per-detail'
+                  defaultValue={personalDetails?.dl || ''}
+                  {...register('dl', {
+                    required: {
+                      value: true,
+                      message: 'Driving License is required'
+                    },
+                    pattern: {
+                      value: /^[0-9]{9}$/,
+                      message: 'Invalid Driving License'
+                    }
+                  })}
+                  error={!!errors.dl || !!licenseError}
+                  helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*',
+                    onKeyPress: handleLicenseKeyPress
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label={errors.ssn?.message || 'SSN'}
+                  variant='outlined'
+                  className='per-detail'
+                  defaultValue={personalDetails?.ssn || ''}
+                  {...register('ssn', {
+                    pattern: {
+                      value: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
+                      message: 'Invalid SSN'
+                    }
+                  })}
+                  error={!!errors.ssn}
+                  helperText={errors.ssn ? 'SSN Should be in the format xxx-xxx-xxxx (all numbers)' : ''}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label={errors.dl?.message || 'Driving License*'}
-                variant='outlined'
-                className='per-detail'
-                defaultValue={personalDetails?.dl || ''}
-                {...register('dl', {
-                  required: {
-                    value: true,
-                    message: 'Driving License is required'
-                  },
-                  pattern: {
-                    value: /^[0-9]{9}$/,
-                    message: 'Invalid Driving License'
-                  }
-                })}
-                error={!!errors.dl || !!licenseError}
-                helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
-                inputProps={{
-                  inputMode: 'numeric',
-                  pattern: '[0-9]*',
-                  onKeyPress: handleLicenseKeyPress
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label={errors.ssn?.message || 'SSN'}
-                variant='outlined'
-                className='per-detail'
-                defaultValue={personalDetails?.ssn || ''}
-                {...register('ssn', {
-                  pattern: {
-                    value: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
-                    message: 'Invalid SSN'
-                  }
-                })}
-                error={!!errors.ssn}
-                helperText={errors.ssn ? 'SSN Should be in the format xxx-xxx-xxxx (all numbers)' : ''}
-              />
-            </Grid>
-          </Grid>
-          <Box mt={2}>
-            <Button onClick={handleBackPersonalDetails}>Back</Button>
-            <Button variant='contained' color='primary' type='submit'>
-              Next
-            </Button>
-          </Box>
-        </FormGroup>
-      </FormControl>
-    </form>
+            <Box mt={2}>
+              <Button onClick={handleBackPersonalDetails}>Back</Button>
+              <Button variant='contained' color='primary' type='submit'>
+                Next
+              </Button>
+            </Box>
+          </FormGroup>
+        </FormControl>
+      </form>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Invalid Driving License</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This driving license is invalid. For voter registration, please reach out to the nearest registration office.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

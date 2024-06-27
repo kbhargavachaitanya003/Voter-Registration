@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { PersonalDetailsData } from '../Components/types';
 import useStore from '../Store/Store';
 import '../Styles/Address.css';
 
@@ -19,13 +20,14 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const { register, handleSubmit, formState, control } = useForm();
   const setAddress = useStore((state) => state.setAddress);
   const address = useStore((state) => state.address);
+  const setPersonalDetails = useStore((state) => state.setPersonalDetails);
   const [streetNumberError, setStreetNumberError] = useState('');
   const [mStreetNumberError, setMStreetNumberError] = useState('');
   const [zipError, setZipError] = useState('');
   const [mZipError, setMZipError] = useState('');
   const [countries, setCountries] = useState<CountryOption[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const [sameAddress, setSameAddress] = useState<boolean | null>(null); // State to track if mailing address is the same
+  const [sameAddress, setSameAddress] = useState<boolean | null>(null);
   const [display, setDisplay] = useState<boolean>(false);
   const navigate = useNavigate();
   const { errors } = formState;
@@ -105,6 +107,10 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
 
       console.log(data);
       setAddress(data);
+      const personal: Partial<PersonalDetailsData> = {
+        town: data.city,
+      };
+      setPersonalDetails(personal as PersonalDetailsData);
       handleNextAddress();
     }
   };

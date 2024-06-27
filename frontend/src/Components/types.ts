@@ -8,7 +8,7 @@ export interface PersonalDetailsData {
     suffix: string;
     dob: any;
     dl: number;
-    ssn: number;
+    ssn: string;
 }
 
 export interface AddressData {

@@ -11,6 +11,7 @@ interface RegistrationState {
     otherDetails: OtherDetailsData | null;
     submittedDate: string | null;
     submittedTime: string | null;
+    referenceNumber: number | null;
     setPersonalDetails: (personalDetails: PersonalDetailsData) => void;
     setDLImage: (dlimage: string) => void;
     setConsent: (consent: string) => void;
@@ -18,6 +19,7 @@ interface RegistrationState {
     setOtherDetails: (otherDetails: OtherDetailsData) => void;
     setSubmittedDate: (submittedDate: string) => void;
     setSubmittedTime: (submittedTime: string) => void;
+    setReferenceNumber: (referenceNumber: number) => void;
 }
 
 const useStore = create<RegistrationState>((set) => ({
@@ -28,13 +30,15 @@ const useStore = create<RegistrationState>((set) => ({
     otherDetails: null,
     submittedDate: null,
     submittedTime: null,
+    referenceNumber: null,
     setPersonalDetails: (personalDetails) => set({ personalDetails }),
     setDLImage: (dlimage) => set({ dlimage }),
     setConsent: (consent) => set({ consent }),
     setAddress: (address) => set({ address }),
     setOtherDetails: (otherDetails) => set({ otherDetails }),
     setSubmittedDate: (submittedDate) => set({ submittedDate }),
-    setSubmittedTime: (submittedTime) => set({ submittedTime })
+    setSubmittedTime: (submittedTime) => set({ submittedTime }),
+    setReferenceNumber: (referenceNumber) => set({ referenceNumber }),
 }));
 
 export default useStore;

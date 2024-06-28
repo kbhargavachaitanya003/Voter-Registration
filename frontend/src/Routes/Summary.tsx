@@ -15,6 +15,8 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const personalDetails = useStore(state => state.personalDetails)
   const address = useStore(state => state.address)
   const otherDetails = useStore(state => state.otherDetails)
+  const referenceNumber = useStore(state => state.referenceNumber)
+  const dlimage = useStore(state => state.dlimage)
   const setSubmittedDate = useStore(state => state.setSubmittedDate)
   const setSubmittedTime = useStore(state => state.setSubmittedTime)
   const navigate = useNavigate();
@@ -29,6 +31,36 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
     }
   }
 
+  const saveResidenceAddress = async (postingResidenceAddress: any) => {
+    try {
+      const { data } = await axios.post('http://localhost:8080/api/saveResidenceAddress', postingResidenceAddress);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  const saveMailingAddress = async (postingMailingAddress: any) => {
+    try {
+      const { data } = await axios.post('http://localhost:8080/api/saveMailingAddress', postingMailingAddress);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  const saveSignatureDetails = async (postingSignatureDetails: any) => {
+    try {
+      const { data } = await axios.post('http://localhost:8080/api/saveSignatureDetails', postingSignatureDetails);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   const handleNextSummary = () => {
     const today = dayjs().format('MM/DD/YYYY');
     const time = dayjs().format('hh:mm:ss A');
@@ -36,6 +68,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
     setSubmittedDate(today);
     setSubmittedTime(time);
     const postingPersonalDetails = {
+      referenceNumber: referenceNumber,
       registrationDate: today,
       drivingLicense: personalDetails?.dl,
       ssn: personalDetails?.ssn,
@@ -50,7 +83,38 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       moblieNumber: otherDetails?.mobile,
       party: otherDetails?.partyName
     }
-    const response = savePersonalDetails(postingPersonalDetails);
+    const postingResidenceAddress = {
+      referenceNumber: referenceNumber,
+      streetNumber: address?.streetNumber,
+      streetName: address?.streetName,
+      apartmentOrUnit: address?.apartUnit,
+      cityOrTown: address?.city,
+      state: address?.state,
+      zip: address?.zip,
+      country: 'US',
+      inMilitary: address?.military
+    }
+    const postingMailingAddress = {
+      referenceNumber: referenceNumber,
+      streetNumber: address?.mStreetNumber,
+      streetName: address?.mStreetName,
+      apartmentOrUnit: address?.mApartUnit,
+      cityOrTown: address?.mTown,
+      state: address?.mState,
+      zip: address?.mZip,
+      country: address?.mCountry,
+      inMilitary: address?.military
+    }
+    const postingSignatureDetails = {
+      referenceNumber: referenceNumber,
+      drivingLicense: personalDetails?.dl,
+      signature: dlimage
+    }
+    const response =  savePersonalDetails(postingPersonalDetails);
+    const response2 = saveResidenceAddress(postingResidenceAddress);
+    const response3 = saveMailingAddress(postingMailingAddress);
+    const response4 = saveSignatureDetails(postingSignatureDetails);
+    console.log("response")
     console.log(response);
     navigate('/submitted');
     handleNext();

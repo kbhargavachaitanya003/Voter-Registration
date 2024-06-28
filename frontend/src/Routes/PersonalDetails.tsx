@@ -19,6 +19,7 @@ const PersonalDetails: React.FC = () => {
   const personalDetails = useStore(state => state.personalDetails);
   const address = useStore(state => state.address);
   const setAddress = useStore(state => state.setAddress);
+  const setReferenceNumber = useStore(state => state.setReferenceNumber);
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
@@ -41,6 +42,10 @@ const PersonalDetails: React.FC = () => {
   const handleNextPersonalDetails = () => {
     navigate('/consent');
   };
+
+  const generateTenDigitNumber = () => {
+    return Math.floor(1000000000 + Math.random() * 9000000000);
+  }
 
   const onSubmit = async (personalData: PersonalDetailsData) => {
     const today = dayjs();
@@ -66,14 +71,13 @@ const PersonalDetails: React.FC = () => {
       const formattedDate = birthDate.format('MM/DD/YYYY');
       personalData.dob = formattedDate;
       setPersonalDetails(personalData);
+      const rNumber = generateTenDigitNumber();
+    console.log(rNumber);
+    setReferenceNumber(rNumber);
   
       if (personalData.dl !== undefined) {
         const data = await checkDrivingLisense(personalData.dl);
         if (data === 'Yes') {
-          // const address: Partial<AddressData> = {
-          //   city: personalData.town,
-          // };
-          // setAddress(address as AddressData);
           const updatedAddress = {
             ...address,
             city: personalData.town

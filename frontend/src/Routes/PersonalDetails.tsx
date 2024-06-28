@@ -17,8 +17,10 @@ const PersonalDetails: React.FC = () => {
   const navigate = useNavigate();
   const setPersonalDetails = useStore(state => state.setPersonalDetails);
   const personalDetails = useStore(state => state.personalDetails);
+  const address = useStore(state => state.address);
   const setAddress = useStore(state => state.setAddress);
   const [licenseError, setLicenseError] = useState('');
+  const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
 
   const checkDrivingLisense = async (drivingLisense: number) => {
@@ -43,7 +45,7 @@ const PersonalDetails: React.FC = () => {
   const onSubmit = async (personalData: PersonalDetailsData) => {
     const today = dayjs();
     const birthDate = dayjs(personalData.dob);
-
+  
     if (birthDate.isAfter(today)) {
       setError('dob', {
         type: 'manual',
@@ -51,10 +53,10 @@ const PersonalDetails: React.FC = () => {
       });
       return;
     }
-
+  
     const age = today.diff(birthDate, 'year');
-
-    if (age < 18) {
+  
+    if (age < 17) {
       setError('dob', {
         type: 'manual',
         message: 'You are not eligible'
@@ -64,27 +66,46 @@ const PersonalDetails: React.FC = () => {
       const formattedDate = birthDate.format('MM/DD/YYYY');
       personalData.dob = formattedDate;
       setPersonalDetails(personalData);
-      const data = await checkDrivingLisense(personalData.dl);
-      if (data === 'Yes') {
-        const address: Partial<AddressData> = {
-          city: personalData.town,
-        };
-        setAddress(address as AddressData);
-        handleNextPersonalDetails();
-      } else if (data === 'No') {
-        setOpenDialog(true);
+  
+      if (personalData.dl !== undefined) {
+        const data = await checkDrivingLisense(personalData.dl);
+        if (data === 'Yes') {
+          // const address: Partial<AddressData> = {
+          //   city: personalData.town,
+          // };
+          // setAddress(address as AddressData);
+          const updatedAddress = {
+            ...address,
+            city: personalData.town
+          }
+          setAddress(updatedAddress);
+          handleNextPersonalDetails();
+        } else if (data === 'No') {
+          setOpenDialog(true);
+        } else {
+          console.log('Error');
+        }
       } else {
-        console.log('Error');
+        console.log('Driving License is undefined');
       }
     }
   };
-
+  
   const handleLicenseKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
       setLicenseError('Only numbers are allowed');
     } else {
       setLicenseError('');
+    }
+  };
+
+  const handlessnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+      setSsnError('Only numbers are allowed');
+    } else {
+      setSsnError('');
     }
   };
 
@@ -252,16 +273,21 @@ const PersonalDetails: React.FC = () => {
                   defaultValue={personalDetails?.ssn || ''}
                   {...register('ssn', {
                     pattern: {
-                      value: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
+                      value: /^[0-9]{4}$/,
                       message: 'Invalid SSN'
                     }
                   })}
-                  error={!!errors.ssn}
-                  helperText={errors.ssn ? 'SSN Should be in the format xxx-xxx-xxxx (all numbers)' : ''}
+                  error={!!errors.ssn || !!ssnError}
+                  helperText={ssnError || (errors.ssn ? 'SSN Should be a 4-digit number' : 'Please enter last 4-digits of your SSN')}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*',
+                    onKeyPress: handlessnKeyPress
+                  }}
                 />
               </Grid>
             </Grid>
-            <Box mt={2}>
+            <Box mt={2} className='person-button-box'>
               <Button onClick={handleBackPersonalDetails}>Back</Button>
               <Button variant='contained' color='primary' type='submit'>
                 Next

@@ -1,4 +1,4 @@
-package backend.backend;
+package backend.backend.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +13,7 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "driving_lisense_details", schema = "Department_Of_Vehicles")
+@Table(name = "driving_lisense_details", schema = "VoterRegistration")
 @Getter
 @Setter
 @NoArgsConstructor

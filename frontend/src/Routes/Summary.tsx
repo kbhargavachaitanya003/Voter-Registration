@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import useStore from '../Store/Store'
 import dayjs from 'dayjs'
 import '../Styles/Summary.css'
+import axios from 'axios'
 
 interface SummaryProps {
   handleNext: () => void
@@ -18,12 +19,39 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const setSubmittedTime = useStore(state => state.setSubmittedTime)
   const navigate = useNavigate();
 
+  const savePersonalDetails = async (postingPersonalDetails: any) => {
+    try {
+      const { data } = await axios.post('http://localhost:8080/api/savePersonalDetails', postingPersonalDetails);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   const handleNextSummary = () => {
     const today = dayjs().format('MM/DD/YYYY');
     const time = dayjs().format('hh:mm:ss A');
     console.log(time);
     setSubmittedDate(today);
     setSubmittedTime(time);
+    const postingPersonalDetails = {
+      registrationDate: today,
+      drivingLicense: personalDetails?.dl,
+      ssn: personalDetails?.ssn,
+      prefix: personalDetails?.prefix,
+      lastName: personalDetails?.lastName,
+      firstName: personalDetails?.firstName,
+      middleName: personalDetails?.middleName,
+      suffix: personalDetails?.suffix,
+      dateOfBirth: personalDetails?.dob,
+      gender: otherDetails?.gender,
+      email: otherDetails?.email,
+      moblieNumber: otherDetails?.mobile,
+      party: otherDetails?.partyName
+    }
+    const response = savePersonalDetails(postingPersonalDetails);
+    console.log(response);
     navigate('/submitted');
     handleNext();
   }

@@ -42,18 +42,19 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
     handleNext();
   };
 
-  const onSubmit = async (data: any) => {
-    if (data.consent === 'consent' && personalDetails?.dl) {
+  const onSubmit = async (consentData: any) => {
+    console.log(personalDetails);
+    if (consentData.consent === 'consent' && personalDetails?.dl) {
       const signature = await getSignature(personalDetails.dl);
-      if (signature) {
+      if (signature !== 'No' && signature) {
         setDLimage(signature);
+        handleNextConsent();
       }
-      handleNextConsent();
     } else {
       console.log('Consent declined');
       setDialogOpen(true);
     }
-    setConsent(data);
+    setConsent(consentData);
   };
 
   React.useEffect(() => {

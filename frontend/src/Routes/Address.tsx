@@ -20,6 +20,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const { register, handleSubmit, formState, control } = useForm();
   const setAddress = useStore((state) => state.setAddress);
   const address = useStore((state) => state.address);
+  const personalDetails = useStore((state) => state.personalDetails);
   const setPersonalDetails = useStore((state) => state.setPersonalDetails);
   const [streetNumberError, setStreetNumberError] = useState('');
   const [mStreetNumberError, setMStreetNumberError] = useState('');
@@ -107,10 +108,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
 
       console.log(data);
       setAddress(data);
-      const personal: Partial<PersonalDetailsData> = {
+      const updatedPersonalDetails = {
+        ...personalDetails,
         town: data.city,
       };
-      setPersonalDetails(personal as PersonalDetailsData);
+  
+      setPersonalDetails(updatedPersonalDetails);
       handleNextAddress();
     }
   };
@@ -161,15 +164,9 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.apartUnit?.message === 'string' ? errors.apartUnit.message : 'Apartment/Unit*'}
+                label='Apartment/Unit'
                 defaultValue={address?.apartUnit}
-                {...register('apartUnit', {
-                  required: {
-                    value: true,
-                    message: 'Apartment/Unit is required',
-                  },
-                })}
-                error={!!errors.apartUnit}
+                {...register('apartUnit')}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -293,15 +290,9 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mApartUnit?.message === 'string' ? errors.mApartUnit.message : 'Apartment/Unit*'}
+                    label='Apartment/Unit'
                     defaultValue={address?.mApartUnit}
-                    {...register('mApartUnit', {
-                      required: {
-                        value: true,
-                        message: 'Apartment/Unit is required',
-                      },
-                    })}
-                    error={!!errors.mApartUnit}
+                    {...register('mApartUnit')}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

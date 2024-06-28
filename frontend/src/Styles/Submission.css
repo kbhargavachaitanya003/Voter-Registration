@@ -3,10 +3,10 @@
     flex-direction: column;
     margin-top: 20px;
     background-color: #ffffff;
-    max-height: 550px;
+    /* max-height: 550px; */
     overflow-y: auto;
     border-radius: 10px;
-    max-width: 90% !important;
+    /* max-width: 90% !important; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -64,6 +64,12 @@
 
 .conf-buttons{
     margin-bottom: 20px !important; 
+}
+
+@media (max-width: 800px){
+    .conf-detail-header{
+        min-width: 135px !important;
+    }
 }
 
 @media (max-width: 450px) {

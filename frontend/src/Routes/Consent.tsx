@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormGroup, Typography, RadioGroup, FormControlLabel, Radio, FormHelperText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import '../Styles/Consent.css';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-
 
 interface ConsentProps {
   handleNext: () => void;
@@ -22,14 +22,16 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const getSignature = async (drivingLicense: number) => {
-    try {
-      const { data } = await axios.get(`http://localhost:8080/api/getDrivingLicense/${drivingLicense}`);
-      return data;
-    } catch (error) {
+    const { data } = await axios.get(`http://localhost:8080/api/getDrivingLicense/${drivingLicense}`);
+    return data;
+  };
+
+  const mutationGetSignature = useMutation({
+    mutationFn: getSignature, 
+    onError: (error) => {
       console.error(error);
-      return null;
     }
-  }
+  });
 
   const consentCheck = watch('consent');
 
@@ -45,7 +47,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   const onSubmit = async (consentData: any) => {
     console.log(personalDetails);
     if (consentData.consent === 'consent' && personalDetails?.dl) {
-      const signature = await getSignature(personalDetails.dl);
+      const signature = await mutationGetSignature.mutateAsync(personalDetails.dl);
       if (signature !== 'No' && signature) {
         setDLimage(signature);
         handleNextConsent();
@@ -57,7 +59,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
     setConsent(consentData);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     register('consent', {
       required: 'Please select your consent option'
     });
@@ -116,7 +118,6 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
         </DialogActions>
       </Dialog>
     </>
-
   );
 };
 

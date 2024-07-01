@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Button, Grid, List, ListItem, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
 import useStore from '../Store/Store'
 import dayjs from 'dayjs'
 import '../Styles/Summary.css'
@@ -22,41 +23,31 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const navigate = useNavigate();
 
   const savePersonalDetails = async (postingPersonalDetails: any) => {
-    try {
-      const { data } = await axios.post('http://localhost:8080/api/savePersonalDetails', postingPersonalDetails);
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    const { data } = await axios.post('http://localhost:8080/api/savePersonalDetails', postingPersonalDetails);
+    return data;
   }
 
   const saveAddress = async (postingAddress: any) => {
-    try {
-      const { data } = await axios.post('http://localhost:8080/api/saveAddress', postingAddress);
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    const { data } = await axios.post('http://localhost:8080/api/saveAddress', postingAddress);
+    return data;
   }
 
   const saveSignatureDetails = async (postingSignatureDetails: any) => {
-    try {
-      const { data } = await axios.post('http://localhost:8080/api/saveSignatureDetails', postingSignatureDetails);
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    const { data } = await axios.post('http://localhost:8080/api/saveSignatureDetails', postingSignatureDetails);
+    return data;
   }
 
-  const handleNextSummary = () => {
+  const mutationPersonalDetails = useMutation({
+    mutationFn: savePersonalDetails});
+  const mutationAddress = useMutation({mutationFn: saveAddress});
+  const mutationSignatureDetails = useMutation({mutationFn: saveSignatureDetails});
+
+  const handleNextSummary = async () => {
     const today = dayjs().format('MM/DD/YYYY');
     const time = dayjs().format('hh:mm:ss A');
-    console.log(time);
     setSubmittedDate(today);
     setSubmittedTime(time);
+
     const postingPersonalDetails = {
       referenceNumber: referenceNumber,
       registrationDate: today,
@@ -73,7 +64,8 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       email: otherDetails?.email,
       mobileNumber: otherDetails?.mobile,
       party: otherDetails?.partyName
-    }
+    };
+
     const postingAddress = {
       referenceNumber: referenceNumber,
       streetNumber: address?.streetNumber,
@@ -91,23 +83,27 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       mailingZip: address?.mZip,
       mailingCountry: address?.mCountry,
       inMilitary: address?.military
-    }
+    };
+
     const postingSignatureDetails = {
       referenceNumber: referenceNumber,
       drivingLicense: personalDetails?.dl,
       signature: dlimage
-    }
-    savePersonalDetails(postingPersonalDetails);
-    saveAddress(postingAddress);
-    saveSignatureDetails(postingSignatureDetails);
+    };
+
+    await mutationPersonalDetails.mutateAsync(postingPersonalDetails);
+    await mutationAddress.mutateAsync(postingAddress);
+    await mutationSignatureDetails.mutateAsync(postingSignatureDetails);
+
     navigate('/submitted');
     handleNext();
-  }
+  };
 
   const handleBackSummary = () => {
     navigate('/step/2');
     handleBack();
-  }
+  };
+
   return (
     <div>
       <Typography variant="h4" className='pre-header'>Pre-View</Typography>

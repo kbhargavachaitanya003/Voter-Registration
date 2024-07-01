@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import '../Styles/PersonalDetails.css';
 
@@ -25,15 +26,16 @@ const PersonalDetails: React.FC = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const checkDrivingLicense = async (drivingLicense: number) => {
-    try {
-      const { data } = await axios.get(`http://localhost:8080/api/checkDrivingLicense/${drivingLicense}`);
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    const { data } = await axios.get(`http://localhost:8080/api/checkDrivingLicense/${drivingLicense}`);
+    return data;
   };
+
+  const mutationCheckDrivingLicense = useMutation({
+    mutationFn: checkDrivingLicense, 
+    onError: (error) => {
+      console.error(error);
+    }
+  });
 
   const handleBackPersonalDetails = () => {
     navigate('/');
@@ -50,7 +52,7 @@ const PersonalDetails: React.FC = () => {
   const onSubmit = async (personalData: PersonalDetailsData) => {
     const today = dayjs();
     const birthDate = dayjs(personalData.dob);
-  
+
     if (birthDate.isAfter(today)) {
       setError('dob', {
         type: 'manual',
@@ -58,9 +60,9 @@ const PersonalDetails: React.FC = () => {
       });
       return;
     }
-  
+
     const age = today.diff(birthDate, 'year');
-  
+
     if (age < 17) {
       setError('dob', {
         type: 'manual',
@@ -72,11 +74,11 @@ const PersonalDetails: React.FC = () => {
       personalData.dob = formattedDate;
       setPersonalDetails(personalData);
       const rNumber = generateTenDigitNumber();
-    console.log(rNumber);
-    setReferenceNumber(rNumber);
-  
+      console.log(rNumber);
+      setReferenceNumber(rNumber);
+
       if (personalData.dl !== undefined) {
-        const data = await checkDrivingLicense(personalData.dl);
+        const data = await mutationCheckDrivingLicense.mutateAsync(personalData.dl);
         if (data === 'Yes') {
           const updatedAddress = {
             ...address,
@@ -94,7 +96,7 @@ const PersonalDetails: React.FC = () => {
       }
     }
   };
-  
+
   const handleLicenseKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();

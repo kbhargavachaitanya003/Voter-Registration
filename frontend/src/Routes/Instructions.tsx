@@ -20,7 +20,7 @@ const Instructions = () => {
         </Typography>
         <List className='inst-list'>
           <ListItem className='inst-listitem'>
-            <ListItemText primary="1. To Register online you must have the valid driving lisense."/>
+            <ListItemText primary="1. To Register online you must have the valid driving license."/>
             <ListItemText primary="2. You must be a citizen of United States of America to register to vote." />
             <ListItemText primary="3. You must be a resident of the state you are registering in." />
             <ListItemText primary="4. You must be at least 18 years old on or before election date to register to vote." />

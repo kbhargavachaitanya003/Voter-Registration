@@ -21,9 +21,9 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   const setDLimage = useStore(state => state.setDLImage);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const getSignature = async (drivingLisense: number) => {
+  const getSignature = async (drivingLicense: number) => {
     try {
-      const { data } = await axios.get(`http://localhost:8080/api/getDrivingLisense/${drivingLisense}`);
+      const { data } = await axios.get(`http://localhost:8080/api/getDrivingLicense/${drivingLicense}`);
       return data;
     } catch (error) {
       console.error(error);

@@ -13,12 +13,12 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "driving_lisense_details", schema = "VoterRegistration")
+@Table(name = "driving_license_details", schema = "VoterRegistration")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DrivingLisenseDetails {
+public class DrivingLicenseDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,8 @@ public class DrivingLisenseDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "driving_lisense")
-    private int drivingLisense;
+    @Column(name = "driving_license")
+    private int drivingLicense;
 
     @Column(name = "signature")
     private String signature;

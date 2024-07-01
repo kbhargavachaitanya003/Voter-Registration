@@ -7,26 +7,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.backend.services.DepartmentDrivingLisenseService;
+import backend.backend.services.DrivingLicenseDetailsService;
 
 @RestController
 @RequestMapping("/api")
-public class CheckDrivingLisenseController {
+public class DrivingLicenseDetailsController {
 
     @Autowired
-    private DepartmentDrivingLisenseService departmentService;
+    private DrivingLicenseDetailsService departmentService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/checkDrivingLisense/{drivingLisense}")
-    public String checkDrivingLisenseExists(@PathVariable int drivingLisense) {
-        boolean exists = departmentService.checkDrivingLisenseExists(drivingLisense);
+    @GetMapping("/checkDrivingLicense/{drivingLicense}")
+    public String checkDrivingLicenseExists(@PathVariable int drivingLicense) {
+        boolean exists = departmentService.checkDrivinglicenseExists(drivingLicense);
         return exists ? "Yes" : "No";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getDrivingLisense/{drivingLisense}")
-    public String getSignatureByDrivingLisense(@PathVariable int drivingLisense) {
-        String signature = departmentService.getSignatureByDrivingLisense(drivingLisense);
+    @GetMapping("/getDrivingLicense/{drivingLicense}")
+    public String getSignatureByDrivingLicense(@PathVariable int drivingLicense) {
+        String signature = departmentService.getSignatureByDrivinglicense(drivingLicense);
         return signature != null ? signature : "No";
     }
 }

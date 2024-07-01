@@ -31,6 +31,9 @@ public class PersonalDetails {
     @Column(name = "registration_date")
     private String registrationDate;
 
+    @Column(name = "type_of_registration")
+    private String typeOfRegistration;
+
     @Column(name = "driving_license")
     private int drivingLicense;
 

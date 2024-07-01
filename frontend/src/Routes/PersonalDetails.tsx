@@ -24,9 +24,9 @@ const PersonalDetails: React.FC = () => {
   const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
 
-  const checkDrivingLisense = async (drivingLisense: number) => {
+  const checkDrivingLicense = async (drivingLicense: number) => {
     try {
-      const { data } = await axios.get(`http://localhost:8080/api/checkDrivingLisense/${drivingLisense}`);
+      const { data } = await axios.get(`http://localhost:8080/api/checkDrivingLicense/${drivingLicense}`);
       console.log(data);
       return data;
     } catch (error) {
@@ -76,7 +76,7 @@ const PersonalDetails: React.FC = () => {
     setReferenceNumber(rNumber);
   
       if (personalData.dl !== undefined) {
-        const data = await checkDrivingLisense(personalData.dl);
+        const data = await checkDrivingLicense(personalData.dl);
         if (data === 'Yes') {
           const updatedAddress = {
             ...address,

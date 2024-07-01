@@ -31,19 +31,9 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
     }
   }
 
-  const saveResidenceAddress = async (postingResidenceAddress: any) => {
+  const saveAddress = async (postingAddress: any) => {
     try {
-      const { data } = await axios.post('http://localhost:8080/api/saveResidenceAddress', postingResidenceAddress);
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  const saveMailingAddress = async (postingMailingAddress: any) => {
-    try {
-      const { data } = await axios.post('http://localhost:8080/api/saveMailingAddress', postingMailingAddress);
+      const { data } = await axios.post('http://localhost:8080/api/saveAddress', postingAddress);
       return data;
     } catch (error) {
       console.error(error);
@@ -70,6 +60,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
     const postingPersonalDetails = {
       referenceNumber: referenceNumber,
       registrationDate: today,
+      typeOfRegistration: personalDetails?.voterType,
       drivingLicense: personalDetails?.dl,
       ssn: personalDetails?.ssn,
       prefix: personalDetails?.prefix,
@@ -80,10 +71,10 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       dateOfBirth: personalDetails?.dob,
       gender: otherDetails?.gender,
       email: otherDetails?.email,
-      moblieNumber: otherDetails?.mobile,
+      mobileNumber: otherDetails?.mobile,
       party: otherDetails?.partyName
     }
-    const postingResidenceAddress = {
+    const postingAddress = {
       referenceNumber: referenceNumber,
       streetNumber: address?.streetNumber,
       streetName: address?.streetName,
@@ -92,17 +83,13 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       state: address?.state,
       zip: address?.zip,
       country: 'US',
-      inMilitary: address?.military
-    }
-    const postingMailingAddress = {
-      referenceNumber: referenceNumber,
-      streetNumber: address?.mStreetNumber,
-      streetName: address?.mStreetName,
-      apartmentOrUnit: address?.mApartUnit,
-      cityOrTown: address?.mTown,
-      state: address?.mState,
-      zip: address?.mZip,
-      country: address?.mCountry,
+      mailingStreetNumber: address?.mStreetNumber,
+      mailingStreetName: address?.mStreetName,
+      mailingApartmentOrUnit: address?.mApartUnit,
+      mailingCityOrTown: address?.mTown,
+      mailingState: address?.mState,
+      mailingZip: address?.mZip,
+      mailingCountry: address?.mCountry,
       inMilitary: address?.military
     }
     const postingSignatureDetails = {
@@ -110,12 +97,9 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       drivingLicense: personalDetails?.dl,
       signature: dlimage
     }
-    const response =  savePersonalDetails(postingPersonalDetails);
-    const response2 = saveResidenceAddress(postingResidenceAddress);
-    const response3 = saveMailingAddress(postingMailingAddress);
-    const response4 = saveSignatureDetails(postingSignatureDetails);
-    console.log("response")
-    console.log(response);
+    savePersonalDetails(postingPersonalDetails);
+    saveAddress(postingAddress);
+    saveSignatureDetails(postingSignatureDetails);
     navigate('/submitted');
     handleNext();
   }

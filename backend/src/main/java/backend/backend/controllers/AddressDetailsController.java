@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.backend.entities.ResidenceAddress;
-import backend.backend.services.ResidenceAddressService;
+import backend.backend.entities.AddressDetails;
+import backend.backend.services.AddressDetailsService;
 
 @RestController
 @RequestMapping("/api")
-public class ResidenceAddressController {
+public class AddressDetailsController {
 
     @Autowired
-    private ResidenceAddressService residenceAddressService;
+    private AddressDetailsService residenceAddressService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/saveResidenceAddress")
-    public ResidenceAddress saveResidenceAddress(@RequestBody ResidenceAddress residenceAddress) {
+    @PostMapping("/saveAddress")
+    public AddressDetails saveResidenceAddress(@RequestBody AddressDetails residenceAddress) {
         return residenceAddressService.saveResidenceAddress(residenceAddress);
     }
 }

@@ -13,16 +13,16 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "residence_address", schema = "VoterRegistration")
+@Table(name = "address_details", schema = "VoterRegistration")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResidenceAddress {
+public class AddressDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "residence_address_id")
+    @Column(name = "address_id")
     private int residenceAddressId;
 
     @Column(name = "reference_number")
@@ -48,6 +48,27 @@ public class ResidenceAddress {
 
     @Column(name = "country")
     private String country;
+
+    @Column(name = "mailing_street_number")
+    private int mailingStreetNumber;
+
+    @Column(name = "mailing_street_name")
+    private String mailingStreetName;
+
+    @Column(name = "mailing_apartment_or_unit")
+    private String mailingApartmentOrUnit;
+
+    @Column(name = "mailing_city_or_town")
+    private String mailingCityOrTown;
+
+    @Column(name = "mailing_state")
+    private String mailingState;
+
+    @Column(name = "mailing_zip_Code")
+    private String mailingZip;
+
+    @Column(name = "mailing_country")
+    private String mailingCountry;
 
     @Column(name = "in_military")
     private String inMilitary;

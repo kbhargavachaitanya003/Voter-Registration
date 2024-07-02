@@ -22,7 +22,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
-        <mysql.connector.version>8.0.30</mysql.connector.version> <!-- Specify MySQL Connector version -->
         <protobuf.java.version>3.21.7</protobuf.java.version> <!-- Specify protobuf-java version -->
     </properties>
 
@@ -43,7 +42,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.connector.version}</version> <!-- Use the specified version -->
+            <version>8.0.30</version> <!-- Use the specified version -->
             <scope>runtime</scope>
         </dependency>
 
@@ -67,6 +66,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

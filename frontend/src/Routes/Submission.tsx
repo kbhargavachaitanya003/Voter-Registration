@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, Button, Container, Typography, Grid, CircularProgress, Snackbar, Alert } from '@mui/material';
+import { Box, Button, Container, Typography, Grid, CircularProgress, Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import ReactToPrint from 'react-to-print';
@@ -26,6 +26,7 @@ const Submission: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [isLoading, setIsLoading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const mutation = useMutation({
     mutationFn: sendEmail,
@@ -44,6 +45,11 @@ const Submission: React.FC = () => {
   });
 
   const handleEmail = () => {
+    if (!otherDetails?.email) {
+      setOpenDialog(true);
+      return;
+    }
+
     const EmailContent = `
       <h2>Confirmation</h2>
       <h4>Information</h4>
@@ -78,6 +84,10 @@ const Submission: React.FC = () => {
       return;
     }
     setOpenSnackbar(false);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
   };
 
   return (
@@ -168,6 +178,24 @@ const Submission: React.FC = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Email Not Provided"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You haven't provided your email details. So, we cannot send the email.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary" autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

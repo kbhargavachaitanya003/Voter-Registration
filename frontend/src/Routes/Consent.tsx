@@ -108,7 +108,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
         <DialogTitle id="alert-dialog-title">{"Consent Declined"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            To Register Online you need to select Consent option or you may visit nearest registration office. 
+            To Register Online you need to select option "consent" or you may visit nearest registration office. 
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -63,7 +63,7 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
       <FormControl className='other-formcontrol'>
         <FormGroup>
           <Typography variant="h5" className='other-party-header'>Party Enrollment</Typography>
-          <Typography variant="body1" className='other-party-text'>Do you want to join any political party? If yes, please fill the party name below.</Typography>
+          <Typography variant="body1" className='other-party-text'>Do you want to join any political party?<span style={{ color: 'Red' }}>*</span> If yes, please fill the party name below.</Typography>
           <RadioGroup
             className='other-radio-group'
             aria-labelledby="demo-controlled-radio-buttons-group"
@@ -77,7 +77,12 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
               disabled={partyRadioValue !== 'yes'}
               className='other-party-name'
               variant='outlined'
-              label={errors.partyName ? 'Party Name is required' : 'Party Name*'}
+              label={errors.partyName ? 'Party Name is required' : (
+                <span>
+                  Party Name
+                  {partyRadioValue === 'yes' && <span style={{ color: 'Red' }}>*</span>}
+                </span>
+              )}              
               {...register('partyName', { required: partyRadioValue === 'yes' })}
               error={!!errors.partyName}
             />
@@ -116,7 +121,7 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
               />
             </Grid>
             <Grid item xs={12} className='other-gender'>
-              <Typography variant="body1">Gender:*</Typography>
+              <Typography variant="body1">Gender<span style={{ color: 'Red' }}>*</span>:</Typography>
               <RadioGroup
                 row
                 defaultValue={otherDetails?.gender || ''}

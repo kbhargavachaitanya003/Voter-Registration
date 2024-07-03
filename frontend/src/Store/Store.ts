@@ -2,8 +2,11 @@ import { create } from "zustand";
 import { PersonalDetailsData } from "../Components/types";
 import { AddressData } from "../Components/types";
 import { OtherDetailsData } from "../Components/types";
+import { EligibilityAndTypeData } from "../Components/types";
 
 interface RegistrationState {
+    eligibilityAndType: EligibilityAndTypeData | null;
+    // typeOfRegistration: string | null;
     personalDetails: PersonalDetailsData | null;
     dlimage: string | null;
     consent: string | null;
@@ -12,6 +15,8 @@ interface RegistrationState {
     submittedDate: string | null;
     submittedTime: string | null;
     referenceNumber: number | null;
+    setEligibilityAndType: (eligibilityAndType: EligibilityAndTypeData) => void
+    // setTypeOfRegistration: (typeOfRegistration: string) => void;
     setPersonalDetails: (personalDetails: PersonalDetailsData) => void;
     setDLImage: (dlimage: string) => void;
     setConsent: (consent: string) => void;
@@ -23,6 +28,7 @@ interface RegistrationState {
 }
 
 const useStore = create<RegistrationState>((set) => ({
+    eligibilityAndType: null,
     personalDetails: null,
     dlimage: null,
     consent: null,
@@ -31,6 +37,7 @@ const useStore = create<RegistrationState>((set) => ({
     submittedDate: null,
     submittedTime: null,
     referenceNumber: null,
+    setEligibilityAndType: (eligibilityAndType) => set({ eligibilityAndType }),
     setPersonalDetails: (personalDetails) => set({ personalDetails }),
     setDLImage: (dlimage) => set({ dlimage }),
     setConsent: (consent) => set({ consent }),

@@ -26,7 +26,6 @@ const Submission: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [isLoading, setIsLoading] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
 
   const mutation = useMutation({
     mutationFn: sendEmail,
@@ -46,7 +45,6 @@ const Submission: React.FC = () => {
 
   const handleEmail = () => {
     if (!otherDetails?.email) {
-      setOpenDialog(true);
       return;
     }
 
@@ -84,10 +82,6 @@ const Submission: React.FC = () => {
       return;
     }
     setOpenSnackbar(false);
-  };
-
-  const handleDialogClose = () => {
-    setOpenDialog(false);
   };
 
   return (
@@ -154,7 +148,7 @@ const Submission: React.FC = () => {
           <Typography variant="body1" className='conf-note'>Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.</Typography>
         </div>
         <Box mt={2} className='conf-buttons'>
-          <Button variant='contained' color='primary' onClick={handleEmail} disabled={isLoading}>
+          <Button variant='contained' color='primary' onClick={handleEmail} disabled={isLoading || !otherDetails?.email}>
             {isLoading ? <CircularProgress size={24} /> : 'Email'}
           </Button>
           <ReactToPrint
@@ -178,24 +172,6 @@ const Submission: React.FC = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-      <Dialog
-        open={openDialog}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Email Not Provided"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            You haven't provided your email details. So, we cannot send the email.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary" autoFocus>
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };

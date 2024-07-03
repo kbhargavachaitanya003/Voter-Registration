@@ -1,0 +1,96 @@
+.type-container {
+    display: flex !important;
+    flex-direction: column;
+    align-self: center;
+    width: 90%;
+    margin-top: 2%;
+    background-color: #ffffff;
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: 10px;
+    max-width: 90% !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inst-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.type-header {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    width: 100%;
+    text-align: start;
+    color: #1a3e72;
+    border-bottom: 2px solid #1a3e72;
+    /* margin-left: 2% !important; */
+    /* margin-bottom: 15px !important; */
+    /* margin-top: 10px !important; */
+}
+
+.type-formcontrol {
+    width: 90%;
+}
+
+.eligibility-box {
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+}
+
+.type-subheader {
+    font-weight: bold !important;
+    align-self: flex-start !important;
+    margin-top: 10px !important;
+    text-align: left;
+    margin-bottom: 0 !important;
+}
+
+.eligibility-helper {
+    align-self: center;
+    margin-top: 0px !important;
+    margin-left: 50px;
+    /* font-size: 16px !important; */
+}
+
+.eligibility-text {
+    text-align: start;
+    align-self: flex-start;
+}
+
+.type-text {
+    text-align: start;
+    align-self: flex-start;
+}
+
+.eligibility-checkbox {
+    align-self: start;
+}
+
+.type-helper {
+    /* align-self: center; */
+    margin-top: 0px !important;
+    margin-left: 50px !important;
+    font-size: 16px !important;
+}
+
+.type-radio {
+    /* margin-top: 20px; */
+    margin-left: 20px;
+}
+
+.required {
+    color: red;
+}
+
+@media(max-width: 940px){
+    .eligibility-box{
+        flex-direction: column;
+    }
+
+    .eligibility-helper{
+        align-self: flex-start;
+    }
+}

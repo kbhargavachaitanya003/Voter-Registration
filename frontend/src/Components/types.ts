@@ -1,3 +1,11 @@
+export interface EligibilityAndTypeData {
+    isCitizen: boolean;
+    isAge: boolean;
+    isResident: boolean;
+    isFelony: boolean;
+    typeOfRegistration: string;
+}
+
 export interface PersonalDetailsData {
     voterType?: string;
     town: string;

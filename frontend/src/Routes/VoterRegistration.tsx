@@ -37,7 +37,7 @@ const VoterRegistration = () => {
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <PersonalDetails />;
+        return <PersonalDetails handleNext={handleNext}/>;
       case 1:
         return <Address handleBack={handleBack} handleNext={handleNext} />;
       case 2:

@@ -12,7 +12,11 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import '../Styles/PersonalDetails.css';
 
-const PersonalDetails: React.FC = () => {
+interface PersonalDetailsProps {
+  handleNext: () => void;
+}
+
+const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const { register, handleSubmit, formState, control, setError, clearErrors } = useForm<PersonalDetailsData>();
   const { errors } = formState;
   const navigate = useNavigate();
@@ -21,6 +25,8 @@ const PersonalDetails: React.FC = () => {
   const address = useStore(state => state.address);
   const setAddress = useStore(state => state.setAddress);
   const setReferenceNumber = useStore(state => state.setReferenceNumber);
+  // const typeOfRegistration = useStore(state => state.typeOfRegistration);
+  const eligibilityAndType = useStore(state => state.eligibilityAndType);
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
@@ -31,19 +37,24 @@ const PersonalDetails: React.FC = () => {
   };
 
   const mutationCheckDrivingLicense = useMutation({
-    mutationFn: checkDrivingLicense, 
+    mutationFn: checkDrivingLicense,
     onError: (error) => {
       console.error(error);
     }
   });
 
   const handleBackPersonalDetails = () => {
-    navigate('/');
+    navigate('/type');
   };
 
   const handleNextPersonalDetails = () => {
     navigate('/consent');
   };
+
+  const handleNextPersonalDetailsSsn = () => {
+    navigate('/step/1');
+    handleNext();
+  }
 
   const generateTenDigitNumber = () => {
     return Math.floor(1000000000 + Math.random() * 9000000000);
@@ -52,6 +63,7 @@ const PersonalDetails: React.FC = () => {
   const onSubmit = async (personalData: PersonalDetailsData) => {
     const today = dayjs();
     const birthDate = dayjs(personalData.dob);
+    console.log(eligibilityAndType);
 
     if (birthDate.isAfter(today)) {
       setError('dob', {
@@ -77,7 +89,7 @@ const PersonalDetails: React.FC = () => {
       console.log(rNumber);
       setReferenceNumber(rNumber);
 
-      if (personalData.dl !== undefined) {
+      if (personalData.dl !== undefined && eligibilityAndType?.typeOfRegistration === 'driving license') {
         const data = await mutationCheckDrivingLicense.mutateAsync(personalData.dl);
         if (data === 'Yes') {
           const updatedAddress = {
@@ -86,13 +98,20 @@ const PersonalDetails: React.FC = () => {
           }
           setAddress(updatedAddress);
           handleNextPersonalDetails();
+          console.log('api call success')
         } else if (data === 'No') {
           setOpenDialog(true);
         } else {
           console.log('Error');
         }
-      } else {
-        console.log('Driving License is undefined');
+      } else if(eligibilityAndType?.typeOfRegistration === 'ssn') {
+        const updatedAddress = {
+          ...address,
+          city: personalData.town
+        }
+        setAddress(updatedAddress);
+        handleNextPersonalDetailsSsn();
+        console.log('no api call');
       }
     }
   };
@@ -128,7 +147,7 @@ const PersonalDetails: React.FC = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} className='changeType-grid'>
                 <FormControl variant='outlined' fullWidth error={!!errors.voterType} className='per-detail-changeType'>
-                  <InputLabel id="voterType-label">{errors.voterType?.message || 'Type of Voter*'}</InputLabel>
+                  <InputLabel id="voterType-label">{errors.voterType?.message || <span>Type of Voter<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
                   <Controller
                     name='voterType'
                     control={control}
@@ -149,7 +168,7 @@ const PersonalDetails: React.FC = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant='outlined'
-                  label={errors.town?.message || 'Current Town of Residence*'}
+                  label={errors.town?.message || <span>Current Town of Residence<span style={{ color: 'Red' }}>*</span></span>}
                   className='per-detail'
                   defaultValue={personalDetails?.town || ''}
                   {...register('town', {
@@ -178,7 +197,7 @@ const PersonalDetails: React.FC = () => {
                   variant='outlined'
                   className='per-detail'
                   defaultValue={personalDetails?.firstName || ''}
-                  label={errors.firstName?.message || 'First Name*'}
+                  label={errors.firstName?.message || <span>First Name<span style={{ color: 'Red' }}>*</span></span>}
                   {...register('firstName', {
                     required: {
                       value: true,
@@ -193,7 +212,7 @@ const PersonalDetails: React.FC = () => {
                   variant='outlined'
                   className='per-detail'
                   defaultValue={personalDetails?.lastName || ''}
-                  label={errors.lastName?.message || 'Last Name*'}
+                  label={errors.lastName?.message || <span>Last Name<span style={{ color: 'Red' }}>*</span></span>}
                   {...register('lastName', {
                     required: {
                       value: true,
@@ -231,7 +250,7 @@ const PersonalDetails: React.FC = () => {
                     render={({ field }) => (
                       <DatePicker
                         {...field}
-                        label={typeof errors.dob?.message === 'string' ? errors.dob.message : 'Date of Birth*'}
+                        label={typeof errors.dob?.message === 'string' ? errors.dob.message : <span>Date of Birth<span style={{ color: 'Red' }}>*</span></span>}
                         value={field.value || null}
                         onChange={(date) => field.onChange(date)}
                         slotProps={{
@@ -246,52 +265,61 @@ const PersonalDetails: React.FC = () => {
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label={errors.dl?.message || 'Driving License*'}
-                  variant='outlined'
-                  className='per-detail'
-                  defaultValue={personalDetails?.dl || ''}
-                  {...register('dl', {
-                    required: {
-                      value: true,
-                      message: 'Driving License is required'
-                    },
-                    pattern: {
-                      value: /^[0-9]{9}$/,
-                      message: 'Invalid Driving License'
-                    }
-                  })}
-                  error={!!errors.dl || !!licenseError}
-                  helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*',
-                    onKeyPress: handleLicenseKeyPress
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label={errors.ssn?.message || 'SSN'}
-                  variant='outlined'
-                  className='per-detail'
-                  defaultValue={personalDetails?.ssn || ''}
-                  {...register('ssn', {
-                    pattern: {
-                      value: /^[0-9]{4}$/,
-                      message: 'Invalid SSN'
-                    }
-                  })}
-                  error={!!errors.ssn || !!ssnError}
-                  helperText={ssnError || (errors.ssn ? 'SSN Should be a 4-digit number' : 'Please enter last 4-digits of your SSN')}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*',
-                    onKeyPress: handlessnKeyPress
-                  }}
-                />
-              </Grid>
+              {eligibilityAndType?.typeOfRegistration === 'driving license' && (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label={errors.dl?.message || <span>Driving License<span style={{ color: 'Red' }}>*</span></span>}
+                    variant='outlined'
+                    className='per-detail'
+                    defaultValue={personalDetails?.dl || ''}
+                    {...register('dl', {
+                      required: {
+                        value: true,
+                        message: 'Driving License is required'
+                      },
+                      pattern: {
+                        value: /^[0-9]{9}$/,
+                        message: 'Invalid Driving License'
+                      }
+                    })}
+                    error={!!errors.dl || !!licenseError}
+                    helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
+                    inputProps={{
+                      inputMode: 'numeric',
+                      pattern: '[0-9]*',
+                      onKeyPress: handleLicenseKeyPress
+                    }}
+                  />
+                </Grid>
+              )}
+              {eligibilityAndType?.typeOfRegistration === 'ssn' && (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label={errors.ssn?.message || <span>SSN<span style={{ color: 'Red' }}>*</span></span>}
+                    variant='outlined'
+                    className='per-detail'
+                    defaultValue={personalDetails?.ssn || ''}
+                    {...register('ssn', {
+                      required: {
+                        value: true,
+                        message: 'SSN is required'
+                      },
+                      pattern: {
+                        value: /^[0-9]{4}$/,
+                        message: 'Invalid SSN'
+                      }
+                    })}
+                    error={!!errors.ssn || !!ssnError}
+                    helperText={ssnError || (errors.ssn?.message === 'InValid SSN' ? 'SSN Should be a 4-digit number' : 'Please enter last 4-digits of your SSN')}
+                    inputProps={{
+                      inputMode: 'numeric',
+                      pattern: '[0-9]*',
+                      onKeyPress: handlessnKeyPress
+                    }}
+                  />
+                </Grid>
+              )}
+
             </Grid>
             <Box mt={2} className='person-button-box'>
               <Button onClick={handleBackPersonalDetails}>Back</Button>

@@ -21,6 +21,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const setAddress = useStore((state) => state.setAddress);
   const address = useStore((state) => state.address);
   const personalDetails = useStore((state) => state.personalDetails);
+  const eligibilityAndType = useStore((state) => state.eligibilityAndType);
   const setPersonalDetails = useStore((state) => state.setPersonalDetails);
   const [streetNumberError, setStreetNumberError] = useState('');
   const [mStreetNumberError, setMStreetNumberError] = useState('');
@@ -44,7 +45,11 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   }, []);
 
   const handleBackAddress = () => {
-    navigate('/consent');
+    if (eligibilityAndType?.typeOfRegistration === 'driving license') {
+      navigate('/consent');
+    } else if (eligibilityAndType?.typeOfRegistration === 'ssn') {
+      navigate('/step/0');
+    }
     handleBack();
   };
 
@@ -112,7 +117,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
         ...personalDetails,
         town: data.city,
       };
-  
+
       setPersonalDetails(updatedPersonalDetails);
       handleNextAddress();
     }
@@ -128,7 +133,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.streetNumber?.message === 'string' ? errors.streetNumber.message : 'Street Number*'}
+                label={typeof errors.streetNumber?.message === 'string' ? errors.streetNumber.message : <span>Street Number<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.streetNumber}
                 {...register('streetNumber', {
                   required: {
@@ -149,7 +154,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.streetName?.message === 'string' ? errors.streetName.message : 'Street Name*'}
+                label={typeof errors.streetName?.message === 'string' ? errors.streetName.message : <span>Street Name<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.streetName}
                 {...register('streetName', {
                   required: {
@@ -173,7 +178,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.city?.message === 'string' ? errors.city.message : 'City*'}
+                label={typeof errors.city?.message === 'string' ? errors.city.message : <span>City/Town<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.city}
                 {...register('city', {
                   required: {
@@ -188,7 +193,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.state?.message === 'string' ? errors.state.message : 'State*'}
+                label={typeof errors.state?.message === 'string' ? errors.state.message : <span>State<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.state}
                 {...register('state', {
                   required: {
@@ -203,7 +208,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.zip?.message === 'string' ? errors.zip.message : 'Zip Code*'}
+                label={typeof errors.zip?.message === 'string' ? errors.zip.message : <span>Zip Code<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.zip}
                 {...register('zip', {
                   required: {
@@ -229,7 +234,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
             <Typography variant="body1" className='addr-note-text'>I am a member of the military</Typography>
           </Box>
           <Box mt={1} className='addr-same-note'>
-            <Typography variant="body1" className='addr-note-text'>Is your Mailing Address same as Residential Address?</Typography>
+            <Typography variant="body1" className='addr-note-text'>Is your Mailing Address same as Residential Address?<span style={{ color: 'Red' }}>*</span></Typography>
             <Checkbox
               checked={sameAddress === true}
               onChange={() => setSameAddress(true)}
@@ -254,7 +259,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mStreetNumber?.message === 'string' ? errors.mStreetNumber.message : 'Street Number*'}
+                    label={typeof errors.mStreetNumber?.message === 'string' ? errors.mStreetNumber.message : <span>Street Number<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mStreetNumber}
                     {...register('mStreetNumber', {
                       required: {
@@ -275,7 +280,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mStreetName?.message === 'string' ? errors.mStreetName.message : 'Street Name*'}
+                    label={typeof errors.mStreetName?.message === 'string' ? errors.mStreetName.message : <span>Street Name<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mStreetName}
                     {...register('mStreetName', {
                       required: {
@@ -299,7 +304,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mTown?.message === 'string' ? errors.mTown.message : 'City*'}
+                    label={typeof errors.mTown?.message === 'string' ? errors.mTown.message : <span>City/Town<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mTown}
                     {...register('mTown', {
                       required: {
@@ -314,7 +319,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mState?.message === 'string' ? errors.mState.message : 'State*'}
+                    label={typeof errors.mState?.message === 'string' ? errors.mState.message : <span>State<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mState}
                     {...register('mState', {
                       required: {
@@ -329,7 +334,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mZip?.message === 'string' ? errors.mZip.message : 'Zip Code*'}
+                    label={typeof errors.mZip?.message === 'string' ? errors.mZip.message : <span>Zip Code<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mZip}
                     {...register('mZip', {
                       required: {
@@ -352,7 +357,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
 
                 <Grid item xs={12} sm={6}>
                   <FormControl variant='outlined' fullWidth error={!!errors.mCountry} className='add-detail'>
-                    <InputLabel id="mCountry-label">{errors.mCountry ? 'Country is Required' : 'Country*'}</InputLabel>
+                    <InputLabel id="mCountry-label">{errors.mCountry ? 'Country is Required' : <span>Country<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
                     <Controller
                       name='mCountry'
                       control={control}
@@ -361,7 +366,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          label={typeof errors.mCountry?.message === 'string' ? errors.mCountry.message : 'Country*'}
+                          label={typeof errors.mCountry?.message === 'string' ? errors.mCountry.message : <span>Country<span style={{ color: 'Red' }}>*</span></span>}
                           value={selectedCountry}
                           onChange={(e) => {
                             setSelectedCountry(e.target.value);

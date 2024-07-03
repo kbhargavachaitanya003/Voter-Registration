@@ -4,6 +4,7 @@ import './App.css';
 import VoterRegistration from './Routes/VoterRegistration';
 import { Typography } from '@mui/material';
 import Instructions from './Routes/Instructions';
+import RegistrationType from './Routes/EligibilityAndType';
 import Submission from './Routes/Submission';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Instructions />} />
           <Route path='/submitted' element={<Submission />} />
+          <Route path='/type' element={<RegistrationType />} />
           <Route path="/*" element={<VoterRegistration />} />
         </Routes>
       </Router>

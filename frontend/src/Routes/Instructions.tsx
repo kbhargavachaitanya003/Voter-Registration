@@ -7,7 +7,7 @@ const Instructions = () => {
   const navigate = useNavigate();
 
   const handleNext = () => {
-    navigate('/step/0');
+    navigate('/type');
   }
   return (
     <Container className='inst-container'>

@@ -75,7 +75,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
         <FormControl error={!!errors.consent}>
           <FormGroup>
             <Typography variant="h5" className='cons-text'>
-              To register we are going to use the digital signature that you have in the driving license. Please select below for your consent.
+              To register we are going to use the digital signature that you have in the driving license. Please select below for your consent<span style={{ color: 'Red' }}>*</span>.
             </Typography>
             <RadioGroup
               row

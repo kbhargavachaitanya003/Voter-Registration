@@ -40,3 +40,7 @@
 .person-button-box{
     margin-top: 10px !important;
 }
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input  {
+    text-align: start;
+}

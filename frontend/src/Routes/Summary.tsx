@@ -18,6 +18,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const otherDetails = useStore(state => state.otherDetails)
   const referenceNumber = useStore(state => state.referenceNumber)
   const dlimage = useStore(state => state.dlimage)
+  const eligibilityAndType = useStore(state => state.eligibilityAndType)
   const setSubmittedDate = useStore(state => state.setSubmittedDate)
   const setSubmittedTime = useStore(state => state.setSubmittedTime)
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
     const postingPersonalDetails = {
       referenceNumber: referenceNumber,
       registrationDate: today,
+      registrationTime: time,
       typeOfRegistration: personalDetails?.voterType,
       drivingLicense: personalDetails?.dl,
       ssn: personalDetails?.ssn,
@@ -63,7 +65,11 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       gender: otherDetails?.gender,
       email: otherDetails?.email,
       mobileNumber: otherDetails?.mobile,
-      party: otherDetails?.partyName
+      party: otherDetails?.partyName,
+      isCitizen: eligibilityAndType?.isCitizen,
+      isAge: eligibilityAndType?.isAge,
+      isResident: eligibilityAndType?.isResident,
+      isFelony: eligibilityAndType?.isFelony
     };
 
     const postingAddress = {

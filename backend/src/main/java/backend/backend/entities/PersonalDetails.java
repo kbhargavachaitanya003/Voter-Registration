@@ -31,6 +31,9 @@ public class PersonalDetails {
     @Column(name = "registration_date")
     private String registrationDate;
 
+    @Column(name = "registration_time")
+    private String registrationTime;
+
     @Column(name = "type_of_registration")
     private String typeOfRegistration;
 
@@ -69,4 +72,16 @@ public class PersonalDetails {
 
     @Column(name = "party")
     private String party;
+
+    @Column(name = "citizen_of_us")
+    private Boolean isCitizen;
+
+    @Column(name = "eligible_age")
+    private Boolean isAge;
+
+    @Column(name = "resident_of_us")
+    private Boolean isResident;
+
+    @Column(name = "not_convicted_felon")
+    private Boolean isFelony;
 }

@@ -183,14 +183,27 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
             </Grid>
             <Typography variant='h5' className='per-header'>Personal Details</Typography>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant='outlined'
-                  className='per-detail'
-                  label='Prefix'
-                  defaultValue={personalDetails?.prefix || ''}
-                  {...register('prefix')}
-                />
+              <Grid item xs={12} sm={6} className='changeType-grid'>
+                <FormControl variant='outlined' fullWidth  className='per-detail-changeType'>
+                  <InputLabel id="prefix-label">Prefix</InputLabel>
+                  <Controller
+                    name='prefix'
+                    control={control}
+                    defaultValue={personalDetails?.prefix || ''}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        label='Prefix'
+                      >
+                        <MenuItem value='Mr'>Mr</MenuItem>
+                        <MenuItem value='Mrs'>Mrs</MenuItem>
+                        <MenuItem value='Miss'>Miss</MenuItem>
+                        <MenuItem value='Ms'>Ms</MenuItem>
+                        <MenuItem value='Dr'>Dr</MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -231,14 +244,28 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                   {...register('middleName')}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant='outlined'
-                  className='per-detail'
-                  label='Suffix'
-                  defaultValue={personalDetails?.suffix || ''}
-                  {...register('suffix')}
-                />
+              <Grid item xs={12} sm={6} className='changeType-grid'>
+                <FormControl variant='outlined' fullWidth  className='per-detail-changeType'>
+                  <InputLabel id="prefix-label">Suffix</InputLabel>
+                  <Controller
+                    name='suffix'
+                    control={control}
+                    defaultValue={personalDetails?.suffix || ''}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        label='suffix'
+                      >
+                        <MenuItem value='Sr'>Sr</MenuItem>
+                        <MenuItem value='Jr'>Jr</MenuItem>
+                        <MenuItem value='I'>I</MenuItem>
+                        <MenuItem value='II'>II</MenuItem>
+                        <MenuItem value='III'>III</MenuItem>
+                        <MenuItem value='IV'>IV</MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>

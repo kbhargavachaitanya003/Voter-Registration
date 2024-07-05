@@ -6,7 +6,6 @@ import { EligibilityAndTypeData } from "../Components/types";
 
 interface RegistrationState {
     eligibilityAndType: EligibilityAndTypeData | null;
-    // typeOfRegistration: string | null;
     personalDetails: PersonalDetailsData | null;
     dlimage: string | null;
     consent: string | null;
@@ -16,7 +15,6 @@ interface RegistrationState {
     submittedTime: string | null;
     referenceNumber: number | null;
     setEligibilityAndType: (eligibilityAndType: EligibilityAndTypeData) => void
-    // setTypeOfRegistration: (typeOfRegistration: string) => void;
     setPersonalDetails: (personalDetails: PersonalDetailsData) => void;
     setDLImage: (dlimage: string) => void;
     setConsent: (consent: string) => void;

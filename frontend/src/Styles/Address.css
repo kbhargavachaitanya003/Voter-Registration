@@ -39,6 +39,13 @@
     margin-top: 0px !important;
 }
 
+.addr-same-note-in{
+    display: flex;
+    flex-direction: row;
+    /* margin-left: 2% !important; */
+    margin-top: 0px !important;
+}
+
 .addr-note-text{
     align-self: center;
 }
@@ -70,6 +77,12 @@
 
 @media (max-width: 870px) {
     .addr-mail-heading{
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 860px) {
+    .addr-same-note{
         flex-direction: column;
     }
 }

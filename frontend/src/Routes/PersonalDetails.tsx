@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, TextField, FormControl, FormGroup, Grid, Typography, Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { PersonalDetailsData, AddressData } from '../Components/types';
+import { PersonalDetailsData } from '../Components/types';
 import useStore from '../Store/Store';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -25,7 +25,6 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const address = useStore(state => state.address);
   const setAddress = useStore(state => state.setAddress);
   const setReferenceNumber = useStore(state => state.setReferenceNumber);
-  // const typeOfRegistration = useStore(state => state.typeOfRegistration);
   const eligibilityAndType = useStore(state => state.eligibilityAndType);
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
@@ -48,7 +47,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   };
 
   const handleNextPersonalDetails = () => {
-    navigate('/consent');
+    navigate('../consent');
   };
 
   const handleNextPersonalDetailsSsn = () => {
@@ -87,6 +86,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
       setPersonalDetails(personalData);
       const rNumber = generateTenDigitNumber();
       console.log(rNumber);
+      console.log(personalData);
       setReferenceNumber(rNumber);
 
       if (personalData.dl !== undefined && eligibilityAndType?.typeOfRegistration === 'driving license') {

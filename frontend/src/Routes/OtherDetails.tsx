@@ -56,6 +56,7 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
 
   const onSubmit = (data: any) => {
     handleNextOtherDetails(data);
+    console.log(data);
   };
 
   return (

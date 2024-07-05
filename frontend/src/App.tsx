@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Instructions />} />
           <Route path='/submitted' element={<Submission />} />
           <Route path='/type' element={<RegistrationType />} />
-          <Route path="/*" element={<VoterRegistration />} />
+          <Route path="/step/*" element={<VoterRegistration />} />
         </Routes>
       </Router>
     </div>

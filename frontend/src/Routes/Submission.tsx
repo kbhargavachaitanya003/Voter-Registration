@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { Box, Button, Container, Typography, Grid, CircularProgress, Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Button, Container, Typography, Grid, CircularProgress, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import ReactToPrint from 'react-to-print';
 import '../Styles/Submission.css';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import YourApplication from '../Components/YourApplication';
 
 const sendEmail = async (emailData: any) => {
   const response = await axios.post('http://localhost:8080/api/sendMail', emailData);
@@ -14,14 +15,15 @@ const sendEmail = async (emailData: any) => {
 
 const Submission: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
+  const yourApplicationRef = useRef<HTMLDivElement>(null);
   const personalDetails = useStore(state => state.personalDetails);
   const address = useStore(state => state.address);
   const otherDetails = useStore(state => state.otherDetails);
   const submittedDate = useStore(state => state.submittedDate);
   const submittedTime = useStore(state => state.submittedTime);
   const referenceNumber = useStore(state => state.referenceNumber);
+  const eligibilityAndType = useStore(state => state.eligibilityAndType);
   const navigate = useNavigate();
-
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
@@ -144,17 +146,19 @@ const Submission: React.FC = () => {
               <Typography variant='body1' className='conf-detail-text'>{otherDetails?.email}</Typography>
             </Grid>
           </Grid>
-          <Typography variant="h5" className='conf-sub-header'>Note</Typography>
-          <Typography variant="body1" className='conf-note'>Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.</Typography>
+          <Typography variant="h6" className='conf-sub-header'>Note</Typography>
+          <Typography variant="body1" className='conf-note'>
+            {eligibilityAndType?.typeOfRegistration === "ssn" ? 'Thank you for choosing our platform for voter registration. Your application has been recorded. Please take the print out of the application and reach out to the nearest registration office for the further process of voter registration.': 'Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.' }
+          </Typography>
         </div>
         <Box mt={2} className='conf-buttons'>
-          <Button variant='contained' color='primary' onClick={handleEmail} disabled={isLoading || !otherDetails?.email}>
-            {isLoading ? <CircularProgress size={24} /> : 'Email'}
+          <Button variant="contained" color="primary" onClick={handleEmail} disabled={isLoading}>
+            {isLoading ? <CircularProgress size={24} /> : eligibilityAndType?.typeOfRegistration === "ssn"? 'Email Confirmation':'Email'}
           </Button>
           <ReactToPrint
-            trigger={() => <Button variant="contained" color="primary">Print Confirmation</Button>}
-            content={() => componentRef.current}
-            documentTitle='Voter Registration Confirmation'
+            trigger={() => <Button variant="contained" color="primary">{eligibilityAndType?.typeOfRegistration === "ssn" ? "Print Application" : "Print Confirmation"}</Button>}
+            content={() => eligibilityAndType?.typeOfRegistration === "ssn" ? yourApplicationRef.current : componentRef.current}
+            documentTitle={eligibilityAndType?.typeOfRegistration === "ssn"? 'Voter Registration Application':'Voter Registration Confirmation'}
             pageStyle="print"
           />
           <Button variant="contained" color="primary" onClick={handleClose}>
@@ -162,6 +166,9 @@ const Submission: React.FC = () => {
           </Button>
         </Box>
       </Container>
+      <div style={{ display: 'none' }}>
+        <YourApplication ref={yourApplicationRef} />
+      </div>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

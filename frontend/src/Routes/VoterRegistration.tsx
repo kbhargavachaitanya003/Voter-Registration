@@ -62,7 +62,7 @@ const VoterRegistration = () => {
             {isSmallScreen && (
               <StepContent>
                 <Routes>
-                  <Route path="/step/:stepId" element={getStepContent(activeStep)} />
+                  <Route path="/:stepId" element={getStepContent(activeStep)} />
                   <Route path="/consent" element={<Consent handleNext={handleNext} />} />
                 </Routes>
               </StepContent>
@@ -73,7 +73,7 @@ const VoterRegistration = () => {
       {!isSmallScreen && (
           <div>
             <Routes>
-              <Route path="/step/:stepId" element={getStepContent(activeStep)} />
+              <Route path="/:stepId" element={getStepContent(activeStep)} />
               <Route path="/consent" element={<Consent handleNext={handleNext} />} />
             </Routes>
           </div>

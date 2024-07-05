@@ -234,17 +234,19 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
             <Typography variant="body1" className='addr-note-text'>I am a member of the military</Typography>
           </Box>
           <Box mt={1} className='addr-same-note'>
-            <Typography variant="body1" className='addr-note-text'>Is your Mailing Address same as Residential Address?<span style={{ color: 'Red' }}>*</span></Typography>
-            <Checkbox
-              checked={sameAddress === true}
-              onChange={() => setSameAddress(true)}
-            />
-            <Typography variant="body1" className='addr-note-text'>Yes</Typography>
-            <Checkbox
-              checked={sameAddress === false}
-              onChange={() => setSameAddress(false)}
-            />
-            <Typography variant="body1" className='addr-note-text'>No</Typography>
+            <Box className='addr-same-note-in'>
+              <Typography variant="body1" className='addr-note-text'>Is your Mailing Address same as Residential Address?<span style={{ color: 'Red' }}>*</span></Typography>
+              <Checkbox
+                checked={sameAddress === true}
+                onChange={() => setSameAddress(true)}
+              />
+              <Typography variant="body1" className='addr-note-text'>Yes</Typography>
+              <Checkbox
+                checked={sameAddress === false}
+                onChange={() => setSameAddress(false)}
+              />
+              <Typography variant="body1" className='addr-note-text'>No</Typography>
+            </Box>
             {(display === true && (sameAddress === null || sameAddress === undefined)) && (
               <FormHelperText className='addr-error' error>You Must Select an Option</FormHelperText>
             )}

@@ -7,4 +7,5 @@ import backend.backend.entities.SignatureDetails;
 
 @Repository
 public interface SignatureDetailsRepository extends JpaRepository<SignatureDetails, Integer> {
+    SignatureDetails findByReferenceNumber(long referenceNumber);
 }

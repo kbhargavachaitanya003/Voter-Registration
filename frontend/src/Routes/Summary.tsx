@@ -69,7 +69,8 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       isCitizen: eligibilityAndType?.isCitizen,
       isAge: eligibilityAndType?.isAge,
       isResident: eligibilityAndType?.isResident,
-      isFelony: eligibilityAndType?.isFelony
+      isFelony: eligibilityAndType?.isFelony,
+      isStored: false
     };
 
     const postingAddress = {

@@ -84,4 +84,7 @@ public class PersonalDetails {
 
     @Column(name = "not_convicted_felon")
     private Boolean isFelony;
+
+    @Column(name = "is_stored")
+    private Boolean isStored;
 }

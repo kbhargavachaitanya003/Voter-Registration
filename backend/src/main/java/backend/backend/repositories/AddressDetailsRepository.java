@@ -7,4 +7,5 @@ import backend.backend.entities.AddressDetails;
 
 @Repository
 public interface AddressDetailsRepository extends JpaRepository<AddressDetails, Integer> {
+    AddressDetails findByReferenceNumber(long referenceNumber);
 }

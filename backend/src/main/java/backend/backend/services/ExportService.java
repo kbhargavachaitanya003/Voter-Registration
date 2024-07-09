@@ -77,8 +77,7 @@ public class ExportService {
     private String formatData(PersonalDetails personalDetails, AddressDetails addressDetails, SignatureDetails signatureDetails) {
         return String.join("|",
                 String.valueOf(personalDetails.getReferenceNumber()),
-                personalDetails.getRegistrationDate().toString(),
-                personalDetails.getRegistrationTime(),
+                personalDetails.getSubmittedOn(),
                 personalDetails.getTypeOfRegistration(),
                 String.valueOf(personalDetails.getDrivingLicense()),
                 personalDetails.getSsn(),

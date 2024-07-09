@@ -34,7 +34,7 @@ const useStore = create<RegistrationState>((set) => ({
     otherDetails: null,
     submittedDate: null,
     submittedTime: null,
-    referenceNumber: null,
+    referenceNumber: 0,
     setEligibilityAndType: (eligibilityAndType) => set({ eligibilityAndType }),
     setPersonalDetails: (personalDetails) => set({ personalDetails }),
     setDLImage: (dlimage) => set({ dlimage }),

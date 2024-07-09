@@ -28,11 +28,8 @@ public class PersonalDetails {
     @Column(name = "reference_number")
     private long referenceNumber;
 
-    @Column(name = "registration_date")
-    private String registrationDate;
-
-    @Column(name = "registration_time")
-    private String registrationTime;
+    @Column(name = "submitted_on")
+    private String submittedOn;
 
     @Column(name = "type_of_registration")
     private String typeOfRegistration;

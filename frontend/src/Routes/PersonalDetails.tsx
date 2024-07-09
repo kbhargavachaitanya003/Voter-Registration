@@ -25,6 +25,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const address = useStore(state => state.address);
   const setAddress = useStore(state => state.setAddress);
   const setReferenceNumber = useStore(state => state.setReferenceNumber);
+  const setEligibilityAndType = useStore(state => state.setEligibilityAndType);
   const eligibilityAndType = useStore(state => state.eligibilityAndType);
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
@@ -83,6 +84,9 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
       clearErrors('dob');
       const formattedDate = birthDate.format('MM/DD/YYYY');
       personalData.dob = formattedDate;
+      if(eligibilityAndType?.typeOfRegistration === 'ssn') {
+        personalData.dl = 0;
+      }
       setPersonalDetails(personalData);
       const rNumber = generateTenDigitNumber();
       console.log(rNumber);
@@ -138,6 +142,19 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
     setOpenDialog(false);
   };
 
+  const handleRegisterUsingSsn = () => {
+    const updatedTypeOfRegistration = {
+      ...eligibilityAndType,
+      typeOfRegistration: 'ssn',
+      isCitizen: true,
+      isAge: true,
+      isResident: true,
+      isFelony: true
+    }
+    setEligibilityAndType(updatedTypeOfRegistration);
+    handleCloseDialog();
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate className='per-form'>
@@ -158,8 +175,8 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                         {...field}
                         label={errors.voterType?.message || 'Type of Voter*'}
                       >
-                        <MenuItem value='New Voter Registration'>New Voter Registration</MenuItem>
-                        <MenuItem value='Change Voter Registration'>Change Voter Registration</MenuItem>
+                        <MenuItem value='N'>New Voter Registration</MenuItem>
+                        <MenuItem value='C'>Change Voter Registration</MenuItem>
                       </Select>
                     )}
                   />
@@ -371,6 +388,9 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleRegisterUsingSsn} color='primary'>
+            Register using SSN
+          </Button>
           <Button onClick={handleCloseDialog} color="primary">
             OK
           </Button>

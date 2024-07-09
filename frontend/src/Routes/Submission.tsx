@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import ReactToPrint from 'react-to-print';
 import '../Styles/Submission.css';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import YourApplication from '../Components/YourApplication';
 
@@ -12,6 +12,14 @@ const sendEmail = async (emailData: any) => {
   const response = await axios.post('http://localhost:8080/api/sendMail', emailData);
   return response.data;
 };
+
+const getFile = async (referenceNumber: number) => {
+  const { data } = await axios.get(`http://localhost:8080/generateReport?referenceNumber=${referenceNumber}`, {
+    responseType: 'blob',
+  });
+
+  return data;
+} 
 
 const Submission: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -28,6 +36,10 @@ const Submission: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data: pdfBlob, isLoading: isFetchingFile, isError, error } = useQuery({
+    queryKey: ['getFile', referenceNumber], 
+    queryFn: () => getFile(referenceNumber as number)});
 
   const mutation = useMutation({
     mutationFn: sendEmail,
@@ -75,6 +87,20 @@ const Submission: React.FC = () => {
     });
   };
 
+  const handlePrint = async () => {
+    try {
+      const url = window.URL.createObjectURL(new Blob([pdfBlob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `application_${referenceNumber}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+    } catch (error) {
+      console.error('Error fetching or saving PDF:', error);
+    }
+  };
+
   const handleClose = () => {
     navigate('/');
   };
@@ -85,6 +111,11 @@ const Submission: React.FC = () => {
     }
     setOpenSnackbar(false);
   };
+
+  if (isError) {
+    console.error('Error fetching PDF:', error);
+    return <div>Error fetching PDF: {error.message}</div>;
+  }
 
   return (
     <div>
@@ -155,12 +186,15 @@ const Submission: React.FC = () => {
           <Button variant="contained" color="primary" onClick={handleEmail} disabled={isLoading}>
             {isLoading ? <CircularProgress size={24} /> : eligibilityAndType?.typeOfRegistration === "ssn"? 'Email Confirmation':'Email'}
           </Button>
-          <ReactToPrint
+          {eligibilityAndType?.typeOfRegistration !== "ssn" && <ReactToPrint
             trigger={() => <Button variant="contained" color="primary">{eligibilityAndType?.typeOfRegistration === "ssn" ? "Print Application" : "Print Confirmation"}</Button>}
             content={() => eligibilityAndType?.typeOfRegistration === "ssn" ? yourApplicationRef.current : componentRef.current}
             documentTitle={eligibilityAndType?.typeOfRegistration === "ssn"? 'Voter Registration Application':'Voter Registration Confirmation'}
             pageStyle="print"
-          />
+          />}
+          {eligibilityAndType?.typeOfRegistration === "ssn" && <Button variant="contained" color="primary" onClick={handlePrint}>
+          {isFetchingFile ? <CircularProgress size={24} /> : 'Download Application'}
+          </Button>}
           <Button variant="contained" color="primary" onClick={handleClose}>
             Close
           </Button>

@@ -14,19 +14,19 @@ import backend.backend.services.DrivingLicenseDetailsService;
 public class DrivingLicenseDetailsController {
 
     @Autowired
-    private DrivingLicenseDetailsService departmentService;
+    private DrivingLicenseDetailsService drivingLicenseDetailsService;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/checkDrivingLicense/{drivingLicense}")
     public String checkDrivingLicenseExists(@PathVariable int drivingLicense) {
-        boolean exists = departmentService.checkDrivinglicenseExists(drivingLicense);
+        boolean exists = drivingLicenseDetailsService.checkDrivinglicenseExists(drivingLicense);
         return exists ? "Yes" : "No";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getDrivingLicense/{drivingLicense}")
     public String getSignatureByDrivingLicense(@PathVariable int drivingLicense) {
-        String signature = departmentService.getSignatureByDrivinglicense(drivingLicense);
+        String signature = drivingLicenseDetailsService.getSignatureByDrivinglicense(drivingLicense);
         return signature != null ? signature : "No";
     }
 }

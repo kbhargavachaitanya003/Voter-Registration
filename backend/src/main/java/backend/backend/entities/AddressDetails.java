@@ -23,7 +23,7 @@ public class AddressDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
-    private int residenceAddressId;
+    private int AddressId;
 
     @Column(name = "reference_number")
     private long referenceNumber;

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="confirmation_report" 
+              pageWidth="595" 
+              pageHeight="842" 
+              columnWidth="555" 
+              leftMargin="20" 
+              rightMargin="20" 
+              topMargin="20" 
+              bottomMargin="20" 
+              uuid="12345678-90ab-cdef-1234-567890abcdef">
+              
+    <!-- <parameter name="referenceNumber" class="java.lang.String"/> -->
+    <parameter name="submittedOn" class="java.lang.String"/>
+    <parameter name="name" class="java.lang.String"/>
+    <parameter name="dob" class="java.lang.String"/>
+    <parameter name="party" class="java.lang.String"/>
+    <parameter name="phoneNumber" class="java.lang.String"/>
+    <parameter name="gender" class="java.lang.String"/>
+    <parameter name="email" class="java.lang.String"/>
+
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Confirmation]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <detail>
+        <band height="400">
+            <frame>
+                <reportElement x="0" y="0" width="555" height="400" />
+                
+                <!-- Reference Number -->
+                <!-- <staticText>
+                    <reportElement x="0" y="10" width="150" height="20"/>
+                    <text><![CDATA[Reference Number:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="10" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{referenceNumber}]]></textFieldExpression>
+                </textField> -->
+
+                <!-- Application Submitted on -->
+                <staticText>
+                    <reportElement x="0" y="40" width="150" height="20"/>
+                    <text><![CDATA[Application Submitted on:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="40" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{submittedOn}]]></textFieldExpression>
+                </textField>
+
+                <!-- Name -->
+                <staticText>
+                    <reportElement x="0" y="70" width="150" height="20"/>
+                    <text><![CDATA[Name:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="70" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+                </textField>
+
+                <!-- Date of Birth -->
+                <staticText>
+                    <reportElement x="0" y="130" width="150" height="20"/>
+                    <text><![CDATA[Date of Birth:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="130" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{dob}]]></textFieldExpression>
+                </textField>
+
+                <!-- Party -->
+                <staticText>
+                    <reportElement x="0" y="190" width="150" height="20"/>
+                    <text><![CDATA[Party:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="190" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{party}]]></textFieldExpression>
+                </textField>
+
+                <!-- Phone Number -->
+                <staticText>
+                    <reportElement x="0" y="220" width="150" height="20"/>
+                    <text><![CDATA[Phone Number:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="220" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{phoneNumber}]]></textFieldExpression>
+                </textField>
+
+                <!-- Gender -->
+                <staticText>
+                    <reportElement x="0" y="250" width="150" height="20"/>
+                    <text><![CDATA[Gender:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="250" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{gender}]]></textFieldExpression>
+                </textField>
+
+                <!-- Email -->
+                <staticText>
+                    <reportElement x="0" y="280" width="150" height="20"/>
+                    <text><![CDATA[Email:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="160" y="280" width="395" height="20"/>
+                    <textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
+                </textField>
+
+                <!-- Note -->
+                <staticText>
+                    <reportElement x="0" y="320" width="555" height="20"/>
+                    <text><![CDATA[Note:]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="340" width="555" height="60"/>
+                    <text><![CDATA[Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.]]></text>
+                </staticText>
+            </frame>
+        </band>
+    </detail>
+</jasperReport>

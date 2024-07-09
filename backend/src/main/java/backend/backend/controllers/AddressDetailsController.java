@@ -15,11 +15,11 @@ import backend.backend.services.AddressDetailsService;
 public class AddressDetailsController {
 
     @Autowired
-    private AddressDetailsService residenceAddressService;
+    private AddressDetailsService addressDetailsService;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/saveAddress")
-    public AddressDetails saveResidenceAddress(@RequestBody AddressDetails residenceAddress) {
-        return residenceAddressService.saveResidenceAddress(residenceAddress);
+    public AddressDetails saveAddressDetails(@RequestBody AddressDetails addressDetails) {
+        return addressDetailsService.saveAddressDetails(addressDetails);
     }
 }

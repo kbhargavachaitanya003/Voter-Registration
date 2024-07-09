@@ -10,9 +10,9 @@ import backend.backend.repositories.AddressDetailsRepository;
 public class AddressDetailsService {
 
     @Autowired
-    private AddressDetailsRepository residenceAddressRepository;
+    private AddressDetailsRepository addressDetailsRepository;
 
-    public AddressDetails saveResidenceAddress(AddressDetails residenceAddress) {
-        return residenceAddressRepository.save(residenceAddress);
+    public AddressDetails saveAddressDetails(AddressDetails addressDetails) {
+        return addressDetailsRepository.save(addressDetails);
     }
 }

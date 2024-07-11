@@ -1,132 +1,842 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-              name="confirmation_report" 
-              pageWidth="595" 
-              pageHeight="842" 
-              columnWidth="555" 
-              leftMargin="20" 
-              rightMargin="20" 
-              topMargin="20" 
-              bottomMargin="20" 
-              uuid="12345678-90ab-cdef-1234-567890abcdef">
-              
-    <!-- <parameter name="referenceNumber" class="java.lang.String"/> -->
-    <parameter name="submittedOn" class="java.lang.String"/>
-    <parameter name="name" class="java.lang.String"/>
-    <parameter name="dob" class="java.lang.String"/>
-    <parameter name="party" class="java.lang.String"/>
-    <parameter name="phoneNumber" class="java.lang.String"/>
-    <parameter name="gender" class="java.lang.String"/>
-    <parameter name="email" class="java.lang.String"/>
-
-    <title>
-        <band height="50">
-            <staticText>
-                <reportElement x="0" y="0" width="555" height="30"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"/>
-                <text><![CDATA[Confirmation]]></text>
-            </staticText>
-        </band>
-    </title>
-
-    <detail>
-        <band height="400">
-            <frame>
-                <reportElement x="0" y="0" width="555" height="400" />
-                
-                <!-- Reference Number -->
-                <!-- <staticText>
-                    <reportElement x="0" y="10" width="150" height="20"/>
-                    <text><![CDATA[Reference Number:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="10" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{referenceNumber}]]></textFieldExpression>
-                </textField> -->
-
-                <!-- Application Submitted on -->
-                <staticText>
-                    <reportElement x="0" y="40" width="150" height="20"/>
-                    <text><![CDATA[Application Submitted on:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="40" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{submittedOn}]]></textFieldExpression>
-                </textField>
-
-                <!-- Name -->
-                <staticText>
-                    <reportElement x="0" y="70" width="150" height="20"/>
-                    <text><![CDATA[Name:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="70" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
-                </textField>
-
-                <!-- Date of Birth -->
-                <staticText>
-                    <reportElement x="0" y="130" width="150" height="20"/>
-                    <text><![CDATA[Date of Birth:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="130" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{dob}]]></textFieldExpression>
-                </textField>
-
-                <!-- Party -->
-                <staticText>
-                    <reportElement x="0" y="190" width="150" height="20"/>
-                    <text><![CDATA[Party:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="190" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{party}]]></textFieldExpression>
-                </textField>
-
-                <!-- Phone Number -->
-                <staticText>
-                    <reportElement x="0" y="220" width="150" height="20"/>
-                    <text><![CDATA[Phone Number:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="220" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{phoneNumber}]]></textFieldExpression>
-                </textField>
-
-                <!-- Gender -->
-                <staticText>
-                    <reportElement x="0" y="250" width="150" height="20"/>
-                    <text><![CDATA[Gender:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="250" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{gender}]]></textFieldExpression>
-                </textField>
-
-                <!-- Email -->
-                <staticText>
-                    <reportElement x="0" y="280" width="150" height="20"/>
-                    <text><![CDATA[Email:]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="160" y="280" width="395" height="20"/>
-                    <textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
-                </textField>
-
-                <!-- Note -->
-                <staticText>
-                    <reportElement x="0" y="320" width="555" height="20"/>
-                    <text><![CDATA[Note:]]></text>
-                </staticText>
-                <staticText>
-                    <reportElement x="0" y="340" width="555" height="60"/>
-                    <text><![CDATA[Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.]]></text>
-                </staticText>
-            </frame>
-        </band>
-    </detail>
+<!-- Created with Jaspersoft WebStudio version 3.0.0 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" pageWidth="595" pageHeight="842" name="Blank_A4" uuid="a8deb557-3c92-4da9-9157-e9988ad9b7a8" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+  <style name="Bold" isBold="true"/>
+  <parameter isForPrompting="true" name="prefix" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="firstName" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="middleName" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="lastName" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="suffix" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="dob" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="ssn" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="streetNumber" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="streetName" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="city" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="state" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="zipCode" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingStreetNumber" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingStreetName" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingCity" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingState" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingZipCode" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="apartmentUnit" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingApartmentUnit" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="phoneNumber" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="typeOfRegistration" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="mailingCountry" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="email" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="gender" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="partyName" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="partyEnroll" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="referenceNumber" class="java.lang.String"/>
+  <parameter isForPrompting="true" name="submittedOn" class="java.lang.String"/>
+  <title>
+    <band height="50">
+      <staticText>
+        <reportElement x="0" y="0" width="555" height="50" style="Bold" uuid="366373dd-e56d-426b-9af8-a529e4d6940a"/>
+        <box>
+          <pen lineWidth="2"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+          <font fontName="SansSerif" size="30" isBold="true" isItalic="false" isUnderline="false"/>
+        </textElement>
+        <text><![CDATA[Voter Registration Application]]></text>
+      </staticText>
+    </band>
+  </title>
+  <detail>
+    <band height="750">
+      <rectangle>
+        <reportElement x="0" y="0" width="555" height="750" mode="Transparent" uuid="b79c01b0-7b8d-4840-8b08-2016584b14fa"/>
+        <graphicElement>
+          <pen lineWidth="2"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="0" y="0" width="555" height="35" uuid="8d0a0a85-3a35-4582-9d5e-f86733909987"/>
+        <box leftPadding="5"/>
+        <textElement textAlignment="Left">
+          <font size="20" isBold="true"/>
+        </textElement>
+        <text><![CDATA[To Register for vote you must:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="0" y="10" width="555" height="110" uuid="e6ac3cf2-50de-4694-975e-290e70ad9099"/>
+        <box leftPadding="15">
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement>
+          <font size="13" isBold="false"/>
+        </textElement>
+        <text><![CDATA[
+1. You must be a citizen of the United States of America.
+2. You must be a resident of the state you are registering in.
+3. You must be at least 17 years old (you must turn 18 years old by the date of election).
+4. You must not be a convicted felon or declared mentally incompetent by a court of law.
+5. You must not claim the right to vote in any other state.
+]]></text>
+      </staticText>
+      <rectangle>
+        <reportElement x="0" y="120" width="555" height="35" mode="Transparent" uuid="744d6582-e8b2-4b87-964a-c91f56178974"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="10" y="125" width="120" height="25" uuid="93874c30-4311-4cf6-adf3-37fd1bb37f41"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Reference Number:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="130" y="125" width="100" height="25" uuid="90d97e4c-801c-4dac-bcfa-3c06f7646c8a"/>
+        <box/>
+        <textElement textAlignment="Left" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{referenceNumber}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="250" y="125" width="90" height="25" uuid="f5d330bb-e79d-49d2-abb6-36d6aba38298"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Submitted On:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="340" y="125" width="150" height="25" uuid="cf02bdcb-cd42-4c80-acda-357fb4c013fa"/>
+        <box/>
+        <textElement textAlignment="Left" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{submittedOn}]]></textFieldExpression>
+      </textField>
+      <rectangle>
+        <reportElement x="0" y="155" width="555" height="35" mode="Transparent" uuid="08e58da4-42d2-440e-8fa1-c82bf1e8d204"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="0" y="155" width="30" height="35" uuid="3fdb2510-18bf-4225-9e33-28bb24b626a8"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(1a)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="165" width="125" height="25" uuid="473f3c47-8b5d-4f2e-a4a2-396f75b196b2"/>
+        <box/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[select the voter type:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="185" y="165" width="125" height="20" uuid="3f7b1e89-4e5c-44d7-9918-8d5a4a5cb7d3"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="10"/>
+        </textElement>
+        <text><![CDATA[New Voter Registration]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="340" y="165" width="125" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="10"/>
+        </textElement>
+        <text><![CDATA[Change Voter Registration]]></text>
+      </staticText>
+      <image>
+        <reportElement x="165" y="165" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA[$P{typeOfRegistration}.equals("N") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="320" y="165" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA[$P{typeOfRegistration}.equals("C") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <rectangle>
+        <reportElement x="0" y="190" width="555" height="80" mode="Transparent" uuid="85980308-e1a8-4d70-9272-006972a3621c"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="0" y="190" width="40" height="80" uuid="3bc95903-4557-4370-89d0-6327b1556f69"/>
+        <box leftPadding="2"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(1b)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="40" y="195" width="135" height="20" uuid="473f3c47-8b5d-4f2e-a4a2-396f75b196b2"/>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Are you citizen of US:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="210" y="195" width="40" height="20" uuid="3f7b1e89-4e5c-44d7-9918-8d5a4a5cb7d3"/>
+        <textElement verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Yes]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="280" y="195" width="40" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[No]]></text>
+      </staticText>
+      <image>
+        <reportElement x="190" y="195" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA["checkbox_checked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="260" y="195" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA["checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <staticText>
+        <reportElement x="40" y="220" width="145" height="20" uuid="473f3c47-8b5d-4f2e-a4a2-396f75b196b2"/>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Are you Resident of US:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="220" y="220" width="40" height="20" uuid="3f7b1e89-4e5c-44d7-9918-8d5a4a5cb7d3"/>
+        <textElement verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Yes]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="290" y="220" width="40" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[No]]></text>
+      </staticText>
+      <image>
+        <reportElement x="200" y="220" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA["checkbox_checked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="270" y="220" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA["checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <staticText>
+        <reportElement x="40" y="245" width="258" height="20" uuid="473f3c47-8b5d-4f2e-a4a2-396f75b196b2"/>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Are you 18 years old on or before election:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="330" y="245" width="40" height="20" uuid="3f7b1e89-4e5c-44d7-9918-8d5a4a5cb7d3"/>
+        <textElement verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Yes]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="400" y="245" width="40" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[No]]></text>
+      </staticText>
+      <image>
+        <reportElement x="310" y="245" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA["checkbox_checked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="380" y="245" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA["checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <rectangle>
+        <reportElement x="0" y="270" width="555" height="80" mode="Transparent" uuid="f37f54f8-0dab-4a23-93b6-7594ddb29a3a"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="29" y="275" width="200" height="25" uuid="3bc95903-4557-4370-89d0-6327b1556f69"/>
+        <box/>
+        <textElement>
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Name of the Applicant:-]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="300" width="40" height="20" uuid="991611a5-27ac-497a-9f00-1b665d27c505"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Prefix:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="75" y="300" width="60" height="20" uuid="b2da2537-3f4d-4f3a-81ab-e3f83e9ea443"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{prefix}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="150" y="300" width="70" height="20" uuid="642810aa-4b34-4c5f-955a-fcda565b8b1b"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[First Name:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="225" y="300" width="110" height="20" uuid="11e400f8-d66d-4c3a-ac70-2a5ca612a112"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{firstName}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="340" y="300" width="90" height="20" uuid="52545c00-02bf-4be4-afb2-22f69d80a071"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Middle Name:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="435" y="300" width="115" height="20" uuid="f01d2188-bf44-424c-8525-bfe09c1f4a0e"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{middleName}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="30" y="320" width="70" height="20" uuid="fbb2657c-08ff-46d4-8927-dde23c4b398b"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Last Name:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="105" y="320" width="150" height="20" uuid="e9d3f4b9-c65d-4bf0-94a8-1584ff0575b2"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{lastName}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="280" y="320" width="40" height="20" uuid="32122607-2792-40c5-9fa9-e72ce074b229"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Suffix:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="325" y="320" width="150" height="20" uuid="afaa3a55-e751-4236-b536-2ea00646de2b"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{suffix}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="0" y="270" width="30" height="80" uuid="6e72522b-f055-489c-b324-b1eb8e28523c"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="20" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(2)]]></text>
+      </staticText>
+      <rectangle>
+        <reportElement x="0" y="350" width="555" height="35" mode="Transparent" uuid="744d6582-e8b2-4b87-964a-c91f56178974"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="30" y="355" width="80" height="25" uuid="93874c30-4311-4cf6-adf3-37fd1bb37f41"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Date of Birth:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="115" y="355" width="100" height="20" uuid="90d97e4c-801c-4dac-bcfa-3c06f7646c8a"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{dob}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="300" y="355" width="30" height="25" uuid="f5d330bb-e79d-49d2-abb6-36d6aba38298"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[SSN:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="335" y="355" width="100" height="20" uuid="cf02bdcb-cd42-4c80-acda-357fb4c013fa"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{ssn}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="0" y="350" width="30" height="35" uuid="3fdb2510-18bf-4225-9e33-28bb24b626a8"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(3)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="270" y="350" width="30" height="35" uuid="df3a80a6-6998-464d-a0d7-8b386fcf4a53"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(4)]]></text>
+      </staticText>
+      <rectangle>
+        <reportElement x="0" y="385" width="555" height="80" mode="Transparent" uuid="803e8616-288f-419b-941e-eda9ec828dd1"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="30" y="390" width="168" height="25" uuid="db63d46c-7784-43b6-8190-5cb7c9f10af7"/>
+        <textElement>
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Residence Address:-]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="415" width="100" height="20" uuid="1b85a5e8-b371-4b45-852d-ca35cb4a79bd"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Street Number:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="135" y="415" width="50" height="20" uuid="7d395a37-aa3a-4ab6-8fa4-039a4c1919f3"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{streetNumber}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="210" y="415" width="80" height="20" uuid="8f0495a5-d4e5-43ac-978a-f0d84f4f054d"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Street Name:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="295" y="415" width="80" height="20" uuid="6b3ef7b0-bc54-4906-a0b1-cbcb4d0439b9"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{streetName}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="385" y="415" width="95" height="20" uuid="befbf133-bf9e-48af-a6db-0b6d3e8b2054"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Apartment/Unit:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="485" y="415" width="55" height="20" uuid="0da022a5-7a62-4812-b0e6-ae1bd3c7d705"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{apartmentUnit}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="30" y="435" width="30" height="20" uuid="ad76bde0-609a-46cc-b2a1-253e704a6d0f"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[City:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="65" y="435" width="120" height="20" uuid="bc2d2567-9fca-450a-b916-da3e95f06ced"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{city}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="210" y="435" width="40" height="20" uuid="e2d70060-bc42-4594-a781-a09775a3bf54"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[State:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="255" y="435" width="110" height="20" uuid="9bd3d27b-1108-4016-bdd3-99183eccde97"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{state}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="385" y="435" width="60" height="20" uuid="a88686a8-fbb5-4509-ab73-3d8ba673b494"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Zip Code:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="450" y="435" width="80" height="20" uuid="f1ef4e5f-fffe-4f84-baf1-cfb5c1eabccc"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{zipCode}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="0" y="385" width="30" height="80" uuid="25c12d1b-f430-45c5-a20a-77fd4b92edbe"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="20" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(5)]]></text>
+      </staticText>
+      <rectangle>
+        <reportElement x="0" y="465" width="555" height="100" mode="Transparent" uuid="0bde71dc-d343-4e94-8662-9e2403c4690b"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="30" y="470" width="150" height="25" uuid="b372a7b4-679e-4976-8499-f88b347d64b0"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Mailing Address:-]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="495" width="100" height="20" uuid="f6fb18e8-6c2a-4119-9214-e592c615a842"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Street Number:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="135" y="495" width="50" height="20" uuid="342772fa-8ca0-451d-a5ed-ad45ddd0de79"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingStreetNumber}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="210" y="495" width="80" height="20" uuid="11129c90-f05e-4641-9e99-2199ea92106d"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Street Name:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="295" y="495" width="80" height="20" uuid="b756ef89-7198-40b9-8948-a6a73746878a"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingStreetName}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="385" y="495" width="95" height="20" uuid="8fcb608c-0358-4483-b0b4-374388baf618"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Apartment/Unit:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="485" y="495" width="55" height="20" uuid="ac369a00-aad2-4533-986f-1872088a629f"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingApartmentUnit}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="30" y="515" width="30" height="20" uuid="670decfc-fcae-464d-b112-aa82a8fe5418"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[City:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="65" y="515" width="120" height="20" uuid="d98465ee-b77b-4e39-906d-f41d36a8d3e0"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingCity}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="210" y="515" width="40" height="20" uuid="2ce5a71e-6ddf-4319-bd33-2566906bf1e1"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[State:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="255" y="515" width="110" height="20" uuid="447a8e70-4f2c-4c6d-9414-0ba373408b8a"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingState}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="385" y="515" width="60" height="20" uuid="bee6bd78-49c8-434b-a344-02f94bdca42d"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Zip Code:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="450" y="515" width="80" height="20" uuid="ee533161-387c-4a19-b04d-1b51c0999b70"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingZipCode}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="30" y="535" width="60" height="20" uuid="bee6bd78-49c8-434b-a344-02f94bdca42d"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Country:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="95" y="535" width="80" height="20" uuid="ee533161-387c-4a19-b04d-1b51c0999b70"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{mailingCountry}]]></textFieldExpression>
+      </textField>
+      <rectangle>
+        <reportElement x="0" y="565" width="555" height="35" mode="Transparent" uuid="76dea0ca-d40e-49ac-b8fd-39eee7e99958"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="0" y="465" width="30" height="100" uuid="dab2fbbb-e316-4911-afea-9ef55adab582"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="20" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(6)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="570" width="95" height="25" uuid="6ea4c3be-431e-4491-9e4e-1599e8b89a04"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Phone Number:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="130" y="570" width="100" height="20" uuid="e329ab98-2e00-404d-80c4-96707ebce1cd"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{phoneNumber}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="0" y="565" width="30" height="35" uuid="0e770bb5-e6e2-4315-b89b-84f7c3805509"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(7)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="250" y="565" width="30" height="35" uuid="8d0a0a85-3a35-4582-9d5e-f86733909987"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(8)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="280" y="570" width="40" height="25" uuid="6ea4c3be-431e-4491-9e4e-1599e8b89a04"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Email:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="325" y="570" width="100" height="20" uuid="e329ab98-2e00-404d-80c4-96707ebce1cd"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
+      </textField>
+      <rectangle>
+        <reportElement x="0" y="600" width="555" height="35" mode="Transparent" uuid="76dea0ca-d40e-49ac-b8fd-39eee7e99958"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="0" y="600" width="30" height="35" uuid="8d0a0a85-3a35-4582-9d5e-f86733909987"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(9)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="605" width="50" height="25" uuid="6ea4c3be-431e-4491-9e4e-1599e8b89a04"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Gender:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="110" y="610" width="40" height="20" uuid="3f7b1e89-4e5c-44d7-9918-8d5a4a5cb7d3"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Male]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="180" y="610" width="50" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Female]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="260" y="610" width="60" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Other]]></text>
+      </staticText>
+      <image>
+        <reportElement x="90" y="610" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA[$P{gender}.equals("male") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="160" y="610" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA[$P{gender}.equals("female") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="240" y="610" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA[$P{gender}.equals("other") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <rectangle>
+        <reportElement x="0" y="635" width="555" height="75" mode="Transparent" uuid="0bde71dc-d343-4e94-8662-9e2403c4690b"/>
+        <graphicElement>
+          <pen lineWidth="1"/>
+        </graphicElement>
+      </rectangle>
+      <staticText>
+        <reportElement x="0" y="635" width="30" height="75" uuid="25c12d1b-f430-45c5-a20a-77fd4b92edbe"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="15" isBold="true"/>
+        </textElement>
+        <text><![CDATA[(10)]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="30" y="640" width="525" height="25" uuid="b372a7b4-679e-4976-8499-f88b347d64b0"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="13" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Do you want to join any political party? If yes, please fill the party name below.:-]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="100" y="665" width="80" height="20" uuid="6ea4c3be-431e-4491-9e4e-1599e8b89a04"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Party Name:]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="50" y="665" width="40" height="20" uuid="3f7b1e89-4e5c-44d7-9918-8d5a4a5cb7d3"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Yes]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="210" y="665" width="70" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Republican]]></text>
+      </staticText>
+      <staticText>
+        <reportElement x="310" y="665" width="70" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[Democratic]]></text>
+      </staticText>
+      <image>
+        <reportElement x="30" y="665" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA[$P{partyEnroll}.equals("yes") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="190" y="665" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA[$P{partyEnroll}.equals("no") ? "checkbox_unchecked.png" : $P{partyName}.equals("Republican") ? "checkbox_checked.png" : "checkbox_unchecked.png" ]]></imageExpression>
+      </image>
+      <image>
+        <reportElement x="290" y="665" width="15" height="15" uuid="efc8c193-842d-4882-a8e3-2ef012aa6a7d"/>
+        <imageExpression><![CDATA[$P{partyEnroll}.equals("no") ? "checkbox_unchecked.png" : $P{partyName}.equals("Democratic") ? "checkbox_checked.png" : "checkbox_unchecked.png" ]]></imageExpression>
+      </image>
+      <staticText>
+        <reportElement x="390" y="665" width="40" height="25" uuid="6ea4c3be-431e-4491-9e4e-1599e8b89a04"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Other:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="435" y="665" width="100" height="25" uuid="e329ab98-2e00-404d-80c4-96707ebce1cd"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA[$P{partyEnroll}.equals("no") || $P{partyName}.equals("Republican") || $P{partyName}.equals("Democratic") ? " " : $P{partyName}]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement x="50" y="685" width="40" height="20" uuid="4fa39a39-0b26-4e11-bf73-0d05e5ff4992"/>
+        <textElement textAlignment="Left" verticalAlignment="Top">
+          <font size="12"/>
+        </textElement>
+        <text><![CDATA[No]]></text>
+      </staticText>
+      <image>
+        <reportElement x="30" y="685" width="15" height="15" uuid="dfc9145b-04e3-47ec-87cb-2cddc9e3ad74"/>
+        <imageExpression><![CDATA[$P{partyEnroll}.equals("no") ? "checkbox_checked.png" : "checkbox_unchecked.png"]]></imageExpression>
+      </image>
+      <staticText>
+        <reportElement x="330" y="720" width="70" height="20" uuid="6ea4c3be-431e-4491-9e4e-1599e8b89a04"/>
+        <textElement textAlignment="Left" verticalAlignment="Middle">
+          <font size="12" isBold="true"/>
+        </textElement>
+        <text><![CDATA[Signature:]]></text>
+      </staticText>
+      <textField>
+        <reportElement x="410" y="720" width="100" height="20" uuid="e329ab98-2e00-404d-80c4-96707ebce1cd"/>
+        <box>
+          <bottomPen lineWidth="1"/>
+        </box>
+        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textFieldExpression><![CDATA["  " ]]></textFieldExpression>
+      </textField>
+    </band>
+  </detail>
 </jasperReport>

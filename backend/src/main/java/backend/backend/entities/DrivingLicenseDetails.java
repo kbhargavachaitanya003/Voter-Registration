@@ -34,6 +34,6 @@ public class DrivingLicenseDetails {
     @Column(name = "driving_license")
     private int drivingLicense;
 
-    @Column(name = "signature")
+    @Column(name = "signature", length = 1000000)
     private String signature;
 }

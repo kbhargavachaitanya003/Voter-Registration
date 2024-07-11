@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import '../Styles/Consent.css';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { getSignature } from '../Components/api';
 
 interface ConsentProps {
   handleNext: () => void;
@@ -20,12 +20,6 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   const personalDetails = useStore(state => state.personalDetails);
   const setDLimage = useStore(state => state.setDLImage);
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  const getSignature = async (drivingLicense: number) => {
-    const { data } = await axios.get(`http://localhost:8080/api/getDrivingLicense/${drivingLicense}`);
-    return data;
-  };
-
   const mutationGetSignature = useMutation({
     mutationFn: getSignature, 
     onError: (error) => {

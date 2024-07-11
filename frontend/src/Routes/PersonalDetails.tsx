@@ -9,7 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { checkDrivingLicense } from '../Components/api';
 import '../Styles/PersonalDetails.css';
 
 interface PersonalDetailsProps {
@@ -30,11 +30,6 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-
-  const checkDrivingLicense = async (drivingLicense: number) => {
-    const { data } = await axios.get(`http://localhost:8080/api/checkDrivingLicense/${drivingLicense}`);
-    return data;
-  };
 
   const mutationCheckDrivingLicense = useMutation({
     mutationFn: checkDrivingLicense,
@@ -92,7 +87,6 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
       console.log(rNumber);
       console.log(personalData);
       setReferenceNumber(rNumber);
-
       if (personalData.dl !== undefined && eligibilityAndType?.typeOfRegistration === 'driving license') {
         const data = await mutationCheckDrivingLicense.mutateAsync(personalData.dl);
         if (data === 'Yes') {

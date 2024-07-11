@@ -5,21 +5,8 @@ import useStore from '../Store/Store';
 import ReactToPrint from 'react-to-print';
 import '../Styles/Submission.css';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { sendEmail, getFile } from '../Components/api';
 import YourApplication from '../Components/YourApplication';
-
-const sendEmail = async (emailData: any) => {
-  const response = await axios.post('http://localhost:8080/api/sendMail', emailData);
-  return response.data;
-};
-
-const getFile = async (referenceNumber: number) => {
-  const { data } = await axios.get(`http://localhost:8080/generateReport?referenceNumber=${referenceNumber}`, {
-    responseType: 'blob',
-  });
-
-  return data;
-} 
 
 const Submission: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);

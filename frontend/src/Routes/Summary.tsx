@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import useStore from '../Store/Store'
 import dayjs from 'dayjs'
 import '../Styles/Summary.css'
-import axios from 'axios'
+import { savePersonalDetails, saveAddress, saveSignatureDetails } from '../Components/api'
 
 interface SummaryProps {
   handleNext: () => void
@@ -23,23 +23,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const setSubmittedTime = useStore(state => state.setSubmittedTime)
   const navigate = useNavigate();
 
-  const savePersonalDetails = async (postingPersonalDetails: any) => {
-    const { data } = await axios.post('http://localhost:8080/api/savePersonalDetails', postingPersonalDetails);
-    return data;
-  }
-
-  const saveAddress = async (postingAddress: any) => {
-    const { data } = await axios.post('http://localhost:8080/api/saveAddress', postingAddress);
-    return data;
-  }
-
-  const saveSignatureDetails = async (postingSignatureDetails: any) => {
-    const { data } = await axios.post('http://localhost:8080/api/saveSignatureDetails', postingSignatureDetails);
-    return data;
-  }
-
-  const mutationPersonalDetails = useMutation({
-    mutationFn: savePersonalDetails});
+  const mutationPersonalDetails = useMutation({mutationFn: savePersonalDetails});
   const mutationAddress = useMutation({mutationFn: saveAddress});
   const mutationSignatureDetails = useMutation({mutationFn: saveSignatureDetails});
 

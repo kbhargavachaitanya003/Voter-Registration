@@ -24,9 +24,11 @@ public class EmailContoller {
         String to = body.get("to");
         String subject = body.get("subject");
         String htmlContent = body.get("htmlContent");
+        String type = body.get("type");
+        long referenceNumber = Long.parseLong(body.get("referenceNumber"));
 
         try {
-            mailService.sendEmail(to, subject, htmlContent);
+            mailService.sendEmail(to, subject, htmlContent, type, referenceNumber);
             return "Email sent successfully";
         } catch (MessagingException e) {
             e.printStackTrace();

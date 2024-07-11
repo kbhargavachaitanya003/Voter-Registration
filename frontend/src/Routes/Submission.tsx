@@ -50,6 +50,7 @@ const Submission: React.FC = () => {
     }
 
     const EmailContent = `
+      ${eligibilityAndType?.typeOfRegistration === "ssn" ? `<p>Please find the attached Voter Registration Application below.</p>` : ``}
       <h2>Confirmation</h2>
       <h4>Information</h4>
       <p>Reference Number: ${referenceNumber}</p>
@@ -70,7 +71,9 @@ const Submission: React.FC = () => {
     mutation.mutate({
       to: otherDetails?.email,
       subject: 'Online Voter Registration',
-      htmlContent: EmailContent
+      htmlContent: EmailContent,
+      type: eligibilityAndType?.typeOfRegistration,
+      referenceNumber: referenceNumber
     });
   };
 
@@ -79,7 +82,7 @@ const Submission: React.FC = () => {
       const url = window.URL.createObjectURL(new Blob([pdfBlob]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `application_${referenceNumber}.pdf`);
+      link.setAttribute('download', `Online Voter Registration.pdf`);
       document.body.appendChild(link);
       link.click();
       link.parentNode?.removeChild(link);
@@ -171,7 +174,7 @@ const Submission: React.FC = () => {
         </div>
         <Box mt={2} className='conf-buttons'>
           <Button variant="contained" color="primary" onClick={handleEmail} disabled={isLoading}>
-            {isLoading ? <CircularProgress size={24} /> : eligibilityAndType?.typeOfRegistration === "ssn"? 'Email Confirmation':'Email'}
+            {isLoading ? <CircularProgress size={24} /> : 'Email'}
           </Button>
           {eligibilityAndType?.typeOfRegistration !== "ssn" && <ReactToPrint
             trigger={() => <Button variant="contained" color="primary">{eligibilityAndType?.typeOfRegistration === "ssn" ? "Print Application" : "Print Confirmation"}</Button>}

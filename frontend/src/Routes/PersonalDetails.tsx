@@ -378,7 +378,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
         <DialogTitle id="alert-dialog-title">Invalid Driving License</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This driving license is invalid. For voter registration, please reach out to the nearest registration office.
+            This driving license is invalid. For voter registration, please reach out to the nearest registration office Or you can register using SSN.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

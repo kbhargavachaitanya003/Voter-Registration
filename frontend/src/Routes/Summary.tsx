@@ -38,7 +38,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       submittedOn: today +", " + time,
       typeOfRegistration: personalDetails?.voterType,
       drivingLicense: personalDetails?.dl,
-      ssn: personalDetails?.ssn,
+      ssn: "xxx-xxx-" + personalDetails?.ssn,
       prefix: personalDetails?.prefix,
       lastName: personalDetails?.lastName,
       firstName: personalDetails?.firstName,

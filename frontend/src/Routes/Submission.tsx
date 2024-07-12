@@ -56,13 +56,9 @@ const Submission: React.FC = () => {
       <p>Reference Number: ${referenceNumber}</p>
       <p>Application Submitted on: ${submittedDate}, ${submittedTime}</p>
       <p>Name: ${personalDetails?.prefix} ${personalDetails?.firstName} ${personalDetails?.middleName} ${personalDetails?.lastName} ${personalDetails?.suffix}</p>
-      <p>Date of Birth: ${personalDetails?.dob}</p>
       <p>Phone Number: ${otherDetails?.mobile}</p>
       <p>Gender: ${otherDetails?.gender}</p>
       <p>Email: ${otherDetails?.email}</p>
-      <p>Party: ${otherDetails?.partyName}</p>
-      <p>Residence Address: ${address?.streetNumber} ${address?.streetName}, ${address?.city} ${address?.state}-${address?.zip}, US</p>
-      <p>Mailing Address: ${address?.mStreetNumber} ${address?.mStreetName}, ${address?.mTown} ${address?.mState}-${address?.mZip}, ${address?.mCountry}</p>
       <h4>Note</h4>
       <p>Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.</p>
     `;

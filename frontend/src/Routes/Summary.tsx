@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import useStore from '../Store/Store'
 import dayjs from 'dayjs'
 import '../Styles/Summary.css'
+import { useTranslation } from 'react-i18next'
 import { savePersonalDetails, saveAddress, saveSignatureDetails } from '../Components/api'
 
 interface SummaryProps {
@@ -22,6 +23,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const setSubmittedDate = useStore(state => state.setSubmittedDate)
   const setSubmittedTime = useStore(state => state.setSubmittedTime)
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const mutationPersonalDetails = useMutation({mutationFn: savePersonalDetails});
   const mutationAddress = useMutation({mutationFn: saveAddress});
@@ -96,62 +98,62 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
 
   return (
     <div>
-      <Typography variant="h4" className='pre-header'>Pre-View</Typography>
-      <Typography variant="h5" className='pre-sub-header'>Information</Typography>
+      <Typography variant="h4" className='pre-header'>{t('summaryHeader')}</Typography>
+      <Typography variant="h5" className='pre-sub-header'>{t('summarySubHeader1')}</Typography>
       <Grid container spacing={2} className='pre-details'>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Name</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryName')}</Typography>
           <Typography variant='body1' className='detail-colon'> :</Typography> 
           <Typography variant='body1' className='pre-detail-text'> {personalDetails?.prefix} {personalDetails?.firstName} {personalDetails?.middleName} {personalDetails?.lastName} {personalDetails?.suffix}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Residence Address</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryResidenceAddress')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{address?.streetNumber} {address?.streetName}, {address?.city} {address?.state}-{address?.zip}, US</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Date of Birth</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryDateOfBirth')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{personalDetails?.dob}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Mailing Address</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryMailingAddress')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{address?.mStreetNumber} {address?.mStreetName}, {address?.mTown} {address?.mState}-{address?.mZip}, {address?.mCountry}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Party</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryParty')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{otherDetails?.partyName}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Phone Number</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryPhoneNumber')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{otherDetails?.mobile}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Gender</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryGender')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{otherDetails?.gender}</Typography>
         </Grid>
         <Grid item xs={12} sm={6} className='pre-detail'>
-          <Typography variant='body1' className='detail-header'>Email</Typography>
+          <Typography variant='body1' className='detail-header'>{t('summaryEmail')}</Typography>
           <Typography variant='body1' className='detail-colon'>: </Typography> 
           <Typography variant='body1' className='pre-detail-text'>{otherDetails?.email}</Typography>
         </Grid>
       </Grid>
-      <Typography variant="h5" className='pre-sub-header-condition'>Conditions</Typography>
+      <Typography variant="h5" className='pre-sub-header-condition'>{t('summarySubHeader2')}</Typography>
       <List sx={{ listStyleType: 'disc'}}>
-        <ListItem className='pre-condition'>-I am a US Citizen.</ListItem>
-        <ListItem className='pre-condition'>-I am a resident of the Address listed above.</ListItem>
-        <ListItem className='pre-condition'>-I am at least 18 years old.</ListItem>
-        <ListItem className='pre-condition'>-I am not a convicted felon.</ListItem>
-        <ListItem className='pre-condition'>-The Information listed above is Correct.</ListItem>
+        <ListItem className='pre-condition'>{t('summaryCondition1')}</ListItem>
+        <ListItem className='pre-condition'>{t('summaryCondition2')}</ListItem>
+        <ListItem className='pre-condition'>{t('summaryCondition3')}</ListItem>
+        <ListItem className='pre-condition'>{t('summaryCondition4')}</ListItem>
+        <ListItem className='pre-condition'>{t('summaryCondition5')}</ListItem>
       </List>
       <Box mt={2}>
-        <Button onClick={handleBackSummary}>Back</Button>
+        <Button onClick={handleBackSummary}>{t('backButton')}</Button>
         <Button variant="contained" color="primary" onClick={handleNextSummary}>
-          Submit
+          {t('summaryButton')}
         </Button>
       </Box>
     </div>

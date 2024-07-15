@@ -10,6 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { useMutation } from '@tanstack/react-query';
 import { checkDrivingLicense } from '../Components/api';
+import { useTranslation } from 'react-i18next';
 import '../Styles/PersonalDetails.css';
 
 interface PersonalDetailsProps {
@@ -30,6 +31,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
+  const { t } = useTranslation();
 
   const mutationCheckDrivingLicense = useMutation({
     mutationFn: checkDrivingLicense,
@@ -63,7 +65,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
     if (birthDate.isAfter(today)) {
       setError('dob', {
         type: 'manual',
-        message: 'Invalid Date'
+        message: t('invalidDate')
       });
       return;
     }
@@ -73,7 +75,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
     if (age < 17) {
       setError('dob', {
         type: 'manual',
-        message: 'You are not eligible'
+        message: t('invalidAge')
       });
     } else {
       clearErrors('dob');
@@ -117,7 +119,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const handleLicenseKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
-      setLicenseError('Only numbers are allowed');
+      setLicenseError(t('onlyNumbers'));
     } else {
       setLicenseError('');
     }
@@ -126,7 +128,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const handlessnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
-      setSsnError('Only numbers are allowed');
+      setSsnError(t('onlyNumbers'));
     } else {
       setSsnError('');
     }
@@ -154,20 +156,20 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
       <form onSubmit={handleSubmit(onSubmit)} noValidate className='per-form'>
         <FormControl fullWidth>
           <FormGroup>
-            <Typography variant='h5' className='per-header'>Type of Change</Typography>
+            <Typography variant='h5' className='per-header'>{t('personalDetailsHeader1')}</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} className='changeType-grid'>
                 <FormControl variant='outlined' fullWidth error={!!errors.voterType} className='per-detail-changeType'>
-                  <InputLabel id="voterType-label">{errors.voterType?.message || <span>Type of Voter<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
+                  <InputLabel id="voterType-label">{errors.voterType?.message || <span>{t('typeOfVoter')}<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
                   <Controller
                     name='voterType'
                     control={control}
-                    rules={{ required: 'Type of Voter is required' }}
+                    rules={{ required: t('typeOfVoterRequired') }}
                     defaultValue={personalDetails?.voterType || ''}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        label={errors.voterType?.message || 'Type of Voter*'}
+                        label={errors.voterType?.message || t('typeOfVoter')}
                       >
                         <MenuItem value='N'>New Voter Registration</MenuItem>
                         <MenuItem value='C'>Change Voter Registration</MenuItem>
@@ -179,24 +181,24 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant='outlined'
-                  label={errors.town?.message || <span>Current Town of Residence<span style={{ color: 'Red' }}>*</span></span>}
+                  label={errors.town?.message || <span>{t('currentTownOfResidence')}<span style={{ color: 'Red' }}>*</span></span>}
                   className='per-detail'
                   defaultValue={personalDetails?.town || ''}
                   {...register('town', {
                     required: {
                       value: true,
-                      message: 'Current Town of Residence is required'
+                      message: t('currentTownOfResidenceRequired')
                     }
                   })}
                   error={!!errors.town}
                 />
               </Grid>
             </Grid>
-            <Typography variant='h5' className='per-header'>Personal Details</Typography>
+            <Typography variant='h5' className='per-header'>{t('personalDetailsHeader2')}</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} className='changeType-grid'>
                 <FormControl variant='outlined' fullWidth  className='per-detail-changeType'>
-                  <InputLabel id="prefix-label">Prefix</InputLabel>
+                  <InputLabel id="prefix-label">{t('prefix')}</InputLabel>
                   <Controller
                     name='prefix'
                     control={control}
@@ -204,7 +206,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        label='Prefix'
+                        label='prefix'
                       >
                         <MenuItem value='Mr'>Mr</MenuItem>
                         <MenuItem value='Mrs'>Mrs</MenuItem>
@@ -221,11 +223,11 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                   variant='outlined'
                   className='per-detail'
                   defaultValue={personalDetails?.firstName || ''}
-                  label={errors.firstName?.message || <span>First Name<span style={{ color: 'Red' }}>*</span></span>}
+                  label={errors.firstName?.message || <span>{t('firstName')}<span style={{ color: 'Red' }}>*</span></span>}
                   {...register('firstName', {
                     required: {
                       value: true,
-                      message: 'First Name is required'
+                      message: t('firstNameRequired')
                     }
                   })}
                   error={!!errors.firstName}
@@ -236,11 +238,11 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                   variant='outlined'
                   className='per-detail'
                   defaultValue={personalDetails?.lastName || ''}
-                  label={errors.lastName?.message || <span>Last Name<span style={{ color: 'Red' }}>*</span></span>}
+                  label={errors.lastName?.message || <span>{t('lastName')}<span style={{ color: 'Red' }}>*</span></span>}
                   {...register('lastName', {
                     required: {
                       value: true,
-                      message: 'Last Name is required'
+                      message: t('lastNameRequired')
                     }
                   })}
                   error={!!errors.lastName}
@@ -250,14 +252,14 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                 <TextField
                   variant='outlined'
                   className='per-detail'
-                  label='Middle Name'
+                  label={t('middleName')}
                   defaultValue={personalDetails?.middleName || ''}
                   {...register('middleName')}
                 />
               </Grid>
               <Grid item xs={12} sm={6} className='changeType-grid'>
                 <FormControl variant='outlined' fullWidth  className='per-detail-changeType'>
-                  <InputLabel id="prefix-label">Suffix</InputLabel>
+                  <InputLabel id="prefix-label">{t('suffix')}</InputLabel>
                   <Controller
                     name='suffix'
                     control={control}
@@ -265,7 +267,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        label='suffix'
+                        label={t('suffix')}
                       >
                         <MenuItem value='Sr'>Sr</MenuItem>
                         <MenuItem value='Jr'>Jr</MenuItem>
@@ -284,18 +286,18 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                     name='dob'
                     control={control}
                     defaultValue={personalDetails?.dob ? dayjs(personalDetails.dob) : null}
-                    rules={{ required: 'Date is required' }}
+                    rules={{ required: t('dateOfBirthRequired') }}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
-                        label={typeof errors.dob?.message === 'string' ? errors.dob.message : <span>Date of Birth<span style={{ color: 'Red' }}>*</span></span>}
+                        label={typeof errors.dob?.message === 'string' ? errors.dob.message : <span>{t('dateOfBirth')}<span style={{ color: 'Red' }}>*</span></span>}
                         value={field.value || null}
                         onChange={(date) => field.onChange(date)}
                         slotProps={{
                           textField: {
                             className: 'per-detail',
                             error: !!errors.dob,
-                            helperText: errors.dob?.message === 'You are not eligible' ? 'Your age must be 18 years and above' : (errors.dob?.message === 'Invalid Date' ? 'Date of Birth cannot be in the future' : '')
+                            helperText: errors.dob?.message === t('invalidAge') ? t('invalidAgeHelpertext') : (errors.dob?.message === t('invalidDate') ? t('invalidDateHelpertext') : '')
                           }
                         }}
                       />
@@ -306,22 +308,22 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
               {eligibilityAndType?.typeOfRegistration === 'driving license' && (
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    label={errors.dl?.message || <span>Driving License<span style={{ color: 'Red' }}>*</span></span>}
+                    label={errors.dl?.message || <span>{t('drivingLicense')}<span style={{ color: 'Red' }}>*</span></span>}
                     variant='outlined'
                     className='per-detail'
                     defaultValue={personalDetails?.dl || ''}
                     {...register('dl', {
                       required: {
                         value: true,
-                        message: 'Driving License is required'
+                        message: t('drivingLicenseRequired')
                       },
                       pattern: {
                         value: /^[0-9]{9}$/,
-                        message: 'Invalid Driving License'
+                        message: t('invalidDrivingLicense')
                       }
                     })}
                     error={!!errors.dl || !!licenseError}
-                    helperText={licenseError || (errors.dl?.message === 'Invalid Driving License' ? 'Driving License Should be a 9-digit number' : '')}
+                    helperText={licenseError || (errors.dl?.message === t('invalidDrivingLicense') ? t('invalidDrivingLicenseHelpertext') : '')}
                     inputProps={{
                       inputMode: 'numeric',
                       pattern: '[0-9]*',
@@ -333,22 +335,22 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
               {eligibilityAndType?.typeOfRegistration === 'ssn' && (
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    label={errors.ssn?.message || <span>SSN<span style={{ color: 'Red' }}>*</span></span>}
+                    label={errors.ssn?.message || <span>{t('ssn')}<span style={{ color: 'Red' }}>*</span></span>}
                     variant='outlined'
                     className='per-detail'
                     defaultValue={personalDetails?.ssn || ''}
                     {...register('ssn', {
                       required: {
                         value: true,
-                        message: 'SSN is required'
+                        message: t('ssnRequired')
                       },
                       pattern: {
                         value: /^[0-9]{4}$/,
-                        message: 'Invalid SSN'
+                        message: t('invalidSSN')
                       }
                     })}
                     error={!!errors.ssn || !!ssnError}
-                    helperText={ssnError || (errors.ssn?.message === 'InValid SSN' ? 'SSN Should be a 4-digit number' : 'Please enter last 4-digits of your SSN')}
+                    helperText={ssnError || (errors.ssn?.message === t('invalidSSN') ? t('invalidSSNHelpertext') : t('ssnHelpertext'))}
                     inputProps={{
                       inputMode: 'numeric',
                       pattern: '[0-9]*',
@@ -357,41 +359,30 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                   />
                 </Grid>
               )}
-
             </Grid>
             <Box mt={2} className='person-button-box'>
-              <Button onClick={handleBackPersonalDetails}>Back</Button>
-              <Button variant='contained' color='primary' type='submit'>
-                Next
-              </Button>
+              <Button onClick={handleBackPersonalDetails}>{t('backButton')}</Button>
+              <Button variant='contained' color='primary' type='submit'>{t('nextButton')}</Button>
             </Box>
           </FormGroup>
         </FormControl>
       </form>
-
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Invalid Driving License</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('personalDetailsDialogHeading')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            This driving license is invalid. For voter registration, please reach out to the nearest registration office Or you can register using SSN.
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">{t('personalDetailsDialogText')}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleRegisterUsingSsn} color='primary'>
-            Register using SSN
-          </Button>
-          <Button onClick={handleCloseDialog} color="primary">
-            OK
-          </Button>
+          <Button onClick={handleRegisterUsingSsn} color='primary'>{t('personalDetailsDialogButton')}</Button>
+          <Button onClick={handleCloseDialog} color="primary">{t('okButton')}</Button>
         </DialogActions>
       </Dialog>
     </>
   );
 };
-
 export default PersonalDetails;

@@ -7,6 +7,7 @@ import '../Styles/Submission.css';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { sendEmail, getFile } from '../Components/api';
 import YourApplication from '../Components/YourApplication';
+import { useTranslation } from 'react-i18next';
 
 const Submission: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -23,6 +24,7 @@ const Submission: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const { data: pdfBlob, isLoading: isFetchingFile, isError, error } = useQuery({
     queryKey: ['getFile', referenceNumber], 
@@ -32,13 +34,13 @@ const Submission: React.FC = () => {
     mutationFn: sendEmail,
     onSuccess: () => {
       setIsLoading(false);
-      setSnackbarMessage('Email sent successfully');
+      setSnackbarMessage(t('emailSuccess'));
       setSnackbarSeverity('success');
       setOpenSnackbar(true);
     },
     onError: () => {
       setIsLoading(false);
-      setSnackbarMessage('Error sending email');
+      setSnackbarMessage(t('emailError'));
       setSnackbarSeverity('error');
       setOpenSnackbar(true);
     }
@@ -107,83 +109,79 @@ const Submission: React.FC = () => {
     <div>
       <Container className='conf-container'>
         <div ref={componentRef}>
-          <Typography variant="h4" gutterBottom className='conf-header'>
-            Confirmation
-          </Typography>
-          <Typography variant="h5" className='conf-sub-header'>Information</Typography>
+          <Typography variant="h4" gutterBottom className='conf-header'>{t('submissionHeader')}</Typography>
+          <Typography variant="h5" className='conf-sub-header'>{t('submissionSubHeader')}</Typography>
           <Grid container spacing={2} className='conf-details'>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Reference Number</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionReferenceNumber')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'> :</Typography>
               <Typography variant='body1' className='conf-detail-text'>{referenceNumber}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Application Submitted on</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionSubmittedOn')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'> :</Typography>
               <Typography variant='body1' className='conf-detail-text'>{submittedDate}, {submittedTime}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Name</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionName')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'> :</Typography>
               <Typography variant='body1' className='conf-detail-text'>{personalDetails?.prefix} {personalDetails?.firstName} {personalDetails?.middleName} {personalDetails?.lastName} {personalDetails?.suffix}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Residence Address</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionResidenceAddress')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{address?.streetNumber} {address?.streetName}, {address?.city} {address?.state}-{address?.zip}, US</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Date of Birth</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionDateOfBirth')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{personalDetails?.dob}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Mailing Address</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionMailingAddress')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{address?.mStreetNumber} {address?.mStreetName}, {address?.mTown} {address?.mState}-{address?.mZip}, {address?.mCountry}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Party</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionParty')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{otherDetails?.partyName}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Phone Number</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionPhoneNumber')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{otherDetails?.mobile}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Gender</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionGender')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{otherDetails?.gender}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} className='conf-detail'>
-              <Typography variant='body1' className='conf-detail-header'>Email</Typography>
+              <Typography variant='body1' className='conf-detail-header'>{t('submissionEmail')}</Typography>
               <Typography variant='body1' className='conf-detail-colon'>: </Typography>
               <Typography variant='body1' className='conf-detail-text'>{otherDetails?.email}</Typography>
             </Grid>
           </Grid>
-          <Typography variant="h6" className='conf-sub-header'>Note</Typography>
+          <Typography variant="h6" className='conf-sub-header'>{t('noteHeading')}</Typography>
           <Typography variant="body1" className='conf-note'>
-            {eligibilityAndType?.typeOfRegistration === "ssn" ? 'Thank you for choosing our platform for voter registration. Your application has been recorded. Please take the print out of the application and reach out to the nearest registration office for the further process of voter registration.': 'Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.' }
+            {eligibilityAndType?.typeOfRegistration === "ssn" ? t('noteTextDl'): t('noteTextSsn') }
           </Typography>
         </div>
         <Box mt={2} className='conf-buttons'>
           <Button variant="contained" color="primary" onClick={handleEmail} disabled={isLoading}>
-            {isLoading ? <CircularProgress size={24} /> : 'Email'}
+            {isLoading ? <CircularProgress size={24} /> : t('emailButton')}
           </Button>
           {eligibilityAndType?.typeOfRegistration !== "ssn" && <ReactToPrint
-            trigger={() => <Button variant="contained" color="primary">{eligibilityAndType?.typeOfRegistration === "ssn" ? "Print Application" : "Print Confirmation"}</Button>}
+            trigger={() => <Button variant="contained" color="primary">{eligibilityAndType?.typeOfRegistration === "ssn" ? t('printApplicationButton') : t('printConfirmationButton')}</Button>}
             content={() => eligibilityAndType?.typeOfRegistration === "ssn" ? yourApplicationRef.current : componentRef.current}
             documentTitle={eligibilityAndType?.typeOfRegistration === "ssn"? 'Voter Registration Application':'Voter Registration Confirmation'}
             pageStyle="print"
           />}
           {eligibilityAndType?.typeOfRegistration === "ssn" && <Button variant="contained" color="primary" onClick={handlePrint}>
-          {isFetchingFile ? <CircularProgress size={24} /> : 'Download Application'}
+          {isFetchingFile ? <CircularProgress size={24} /> : t('downloadApplicationButton')}
           </Button>}
-          <Button variant="contained" color="primary" onClick={handleClose}>
-            Close
-          </Button>
+          <Button variant="contained" color="primary" onClick={handleClose}>{t('closeButton')}</Button>
         </Box>
       </Container>
       <div style={{ display: 'none' }}>

@@ -11,15 +11,12 @@ const Instructions = () => {
   const handleNext = () => {
     navigate('/type');
   }
+  
   return (
     <Container className='inst-container'>
       <Box my={4} className='inst-box'>
-        <Typography variant="h4" gutterBottom className='inst-header'>
-          {t('instructionsHeadering')}
-        </Typography>
-        <Typography variant="body1" gutterBottom className='inst-subheader'>
-          {t('instructionsSubheading1')}
-        </Typography>
+        <Typography variant="h4" gutterBottom className='inst-header'>{t('instructionsHeadering')}</Typography>
+        <Typography variant="body1" gutterBottom className='inst-subheader'>{t('instructionsSubheading1')}</Typography>
         <List className='inst-list'>
           <ListItem className='inst-listitem'>
             <ListItemText primary={t('instructionsPoint1')}/>
@@ -32,13 +29,9 @@ const Instructions = () => {
             <ListItemText primary={t('instructionsPoint8')} />
           </ListItem>
         </List>
-        <Typography variant="body1" gutterBottom className='inst-subheader'>
-          {t('instructionsSubheading2')}
-        </Typography>
+        <Typography variant="body1" gutterBottom className='inst-subheader'>{t('instructionsSubheading2')}</Typography>
         <Box mt={2}>
-          <Button variant="contained" color="primary" onClick={handleNext}>
-            {t('instructionsButton')}
-          </Button>
+          <Button variant="contained" color="primary" onClick={handleNext}>{t('instructionsButton')}</Button>
         </Box>
       </Box>
     </Container>

@@ -6,6 +6,7 @@ import useStore from '../Store/Store';
 import '../Styles/Consent.css';
 import { useMutation } from '@tanstack/react-query';
 import { getSignature } from '../Components/api';
+import { useTranslation } from 'react-i18next';
 
 interface ConsentProps {
   handleNext: () => void;
@@ -20,6 +21,8 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   const personalDetails = useStore(state => state.personalDetails);
   const setDLimage = useStore(state => state.setDLImage);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { t } = useTranslation();
+
   const mutationGetSignature = useMutation({
     mutationFn: getSignature, 
     onError: (error) => {
@@ -55,7 +58,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
 
   useEffect(() => {
     register('consent', {
-      required: 'Please select your consent option'
+      required: 'Please select an option',
     });
   }, [register]);
 
@@ -69,7 +72,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
         <FormControl error={!!errors.consent}>
           <FormGroup>
             <Typography variant="h5" className='cons-text'>
-              To register we are going to use the digital signature that you have in the driving license. Please select below for your consent<span style={{ color: 'Red' }}>*</span>.
+              {t('consentPageText')}<span style={{ color: 'Red' }}>*</span>.
             </Typography>
             <RadioGroup
               row
@@ -78,17 +81,15 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
               value={consentCheck || ''}
               onChange={e => setValue('consent', e.target.value)}
             >
-              <FormControlLabel value="consent" control={<Radio />} label="Consent" />
-              <FormControlLabel value="decline" control={<Radio />} label="Decline" />
+              <FormControlLabel value="consent" control={<Radio />} label={t('consent')} />
+              <FormControlLabel value="decline" control={<Radio />} label={t('decline')} />
             </RadioGroup>
             {errors.consent && (
               <FormHelperText className='cons-helper'>{String(errors.consent.message)}</FormHelperText>
             )}
             <Box mt={2}>
-              <Button onClick={handleBackConsent}>Back</Button>
-              <Button variant="contained" color="primary" type="submit">
-                Next
-              </Button>
+              <Button onClick={handleBackConsent}>{t('backButton')}</Button>
+              <Button variant="contained" color="primary" type="submit">{t('nextButton')}</Button>
             </Box>
           </FormGroup>
         </FormControl>
@@ -99,16 +100,12 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Consent Declined"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('consentDialogHeading')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            To Register Online you need to select option "consent" or you may visit nearest registration office. 
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">{t('consentDialogText')}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Ok
-          </Button>
+          <Button onClick={handleCloseDialog} color="primary">{t('okButton')}</Button>
         </DialogActions>
       </Dialog>
     </>

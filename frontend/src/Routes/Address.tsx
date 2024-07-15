@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { PersonalDetailsData } from '../Components/types';
 import useStore from '../Store/Store';
+import { useTranslation } from 'react-i18next';
 import '../Styles/Address.css';
 
 interface AddressProps {
@@ -33,6 +33,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const [display, setDisplay] = useState<boolean>(false);
   const navigate = useNavigate();
   const { errors } = formState;
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetch(
@@ -46,7 +47,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
 
   const handleBackAddress = () => {
     if (eligibilityAndType?.typeOfRegistration === 'driving license') {
-      navigate('/consent');
+      navigate('/step/consent');
     } else if (eligibilityAndType?.typeOfRegistration === 'ssn') {
       navigate('/step/0');
     }
@@ -61,7 +62,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const handleStreetNumberKeyPress = (e: any) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
-      setStreetNumberError('Only numbers are allowed');
+      setStreetNumberError(t('onlyNumbers'));
     } else {
       setStreetNumberError('');
     }
@@ -70,7 +71,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const handleMStreetNumberKeyPress = (e: any) => {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
-      setMStreetNumberError('Only numbers are allowed');
+      setMStreetNumberError(t('onlyNumbers'));
     } else {
       setMStreetNumberError('');
     }
@@ -79,7 +80,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const handleZipKeyPress = (e: any) => {
     if (!/[0-9-]/.test(e.key)) {
       e.preventDefault();
-      setZipError('Only numbers and "-" character are allowed');
+      setZipError(t('zipCodeCharacters'));
     } else {
       setZipError('');
     }
@@ -88,7 +89,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const handleMZipKeyPress = (e: any) => {
     if (!/[0-9-]/.test(e.key)) {
       e.preventDefault();
-      setMZipError('Only numbers and "-" character are allowed');
+      setMZipError(t('zipCodeCharacters'));
     } else {
       setMZipError('');
     }
@@ -127,18 +128,18 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
     <form onSubmit={handleSubmit(onSubmit)} className="add-form">
       <FormControl>
         <FormGroup>
-          <Typography variant="h5" className='addr-res-heading'>Residential Address</Typography>
+          <Typography variant="h5" className='addr-res-heading'>{t('addressDetailsHeader1')}</Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.streetNumber?.message === 'string' ? errors.streetNumber.message : <span>Street Number<span style={{ color: 'Red' }}>*</span></span>}
+                label={typeof errors.streetNumber?.message === 'string' ? errors.streetNumber.message : <span>{t('streetNumber')}<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.streetNumber}
                 {...register('streetNumber', {
                   required: {
                     value: true,
-                    message: 'Street Number is required',
+                    message: t('streetNumberRequired'),
                   },
                 })}
                 error={!!errors.streetNumber || !!streetNumberError}
@@ -154,12 +155,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.streetName?.message === 'string' ? errors.streetName.message : <span>Street Name<span style={{ color: 'Red' }}>*</span></span>}
+                label={typeof errors.streetName?.message === 'string' ? errors.streetName.message : <span>{t('streetName')}<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.streetName}
                 {...register('streetName', {
                   required: {
                     value: true,
-                    message: 'Street Name is required',
+                    message: t('streetNameRequired'),
                   },
                 })}
                 error={!!errors.streetName}
@@ -169,7 +170,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label='Apartment/Unit'
+                label={t('apartmentUnit')}
                 defaultValue={address?.apartUnit}
                 {...register('apartUnit')}
               />
@@ -178,12 +179,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.city?.message === 'string' ? errors.city.message : <span>City/Town<span style={{ color: 'Red' }}>*</span></span>}
+                label={typeof errors.city?.message === 'string' ? errors.city.message : <span>{t('city')}<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.city}
                 {...register('city', {
                   required: {
                     value: true,
-                    message: 'City is required',
+                    message: t('cityRequired'),
                   },
                 })}
                 error={!!errors.city}
@@ -193,12 +194,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.state?.message === 'string' ? errors.state.message : <span>State<span style={{ color: 'Red' }}>*</span></span>}
+                label={typeof errors.state?.message === 'string' ? errors.state.message : <span>{t('state')}<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.state}
                 {...register('state', {
                   required: {
                     value: true,
-                    message: 'State is required',
+                    message: t('stateRequired'),
                   },
                 })}
                 error={!!errors.state}
@@ -208,20 +209,20 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <TextField
                 className="add-detail"
                 variant="outlined"
-                label={typeof errors.zip?.message === 'string' ? errors.zip.message : <span>Zip Code<span style={{ color: 'Red' }}>*</span></span>}
+                label={typeof errors.zip?.message === 'string' ? errors.zip.message : <span>{t('zipCode')}<span style={{ color: 'Red' }}>*</span></span>}
                 defaultValue={address?.zip}
                 {...register('zip', {
                   required: {
                     value: true,
-                    message: 'Zip Code is required',
+                    message: t('zipCodeRequired'),
                   },
                   pattern: {
                     value: /^[0-9]{5}(-[0-9]{4})?$/,
-                    message: 'Invalid Zip Code',
+                    message: t('invalidZipCode'),
                   },
                 })}
                 error={!!errors.zip || !!zipError}
-                helperText={zipError || (errors.zip?.message === 'Invalid Zip Code' ? 'Zip code should be in ##### or #####-#### format' : '')}
+                helperText={zipError || (errors.zip?.message === t('invalidZipCode') ? t('invalidZipCodeHelpertext') : '')}
                 inputProps={{
                   inputMode: 'numeric',
                   onKeyPress: handleZipKeyPress,
@@ -231,42 +232,42 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
           </Grid>
           <Box mt={1} className='addr-note'>
             <Checkbox {...register('military')} />
-            <Typography variant="body1" className='addr-note-text'>I am a member of the military</Typography>
+            <Typography variant="body1" className='addr-note-text'>{t('isMilitary')}</Typography>
           </Box>
           <Box mt={1} className='addr-same-note'>
             <Box className='addr-same-note-in'>
-              <Typography variant="body1" className='addr-note-text'>Is your Mailing Address same as Residential Address?<span style={{ color: 'Red' }}>*</span></Typography>
+              <Typography variant="body1" className='addr-note-text'>{t('isSameAsResidential')}<span style={{ color: 'Red' }}>*</span></Typography>
               <Checkbox
                 checked={sameAddress === true}
                 onChange={() => setSameAddress(true)}
               />
-              <Typography variant="body1" className='addr-note-text'>Yes</Typography>
+              <Typography variant="body1" className='addr-note-text'>{t('yesLabel')}</Typography>
               <Checkbox
                 checked={sameAddress === false}
                 onChange={() => setSameAddress(false)}
               />
-              <Typography variant="body1" className='addr-note-text'>No</Typography>
+              <Typography variant="body1" className='addr-note-text'>{t('noLabel')}</Typography>
             </Box>
             {(display === true && (sameAddress === null || sameAddress === undefined)) && (
-              <FormHelperText className='addr-error' error>You Must Select an Option</FormHelperText>
+              <FormHelperText className='addr-error' error>{t('isSameAsResidentialHelpertext')}</FormHelperText>
             )}
           </Box>
           {sameAddress === false && (
             <React.Fragment>
               <Box className='addr-mail-heading'>
-                <Typography variant="h5" className='addr-mail-heading-text'>Mailing Address</Typography>
+                <Typography variant="h5" className='addr-mail-heading-text'>{t('addressDetailsHeader2')}</Typography>
               </Box>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mStreetNumber?.message === 'string' ? errors.mStreetNumber.message : <span>Street Number<span style={{ color: 'Red' }}>*</span></span>}
+                    label={typeof errors.mStreetNumber?.message === 'string' ? errors.mStreetNumber.message : <span>{t('streetNumber')}<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mStreetNumber}
                     {...register('mStreetNumber', {
                       required: {
                         value: true,
-                        message: 'Street Number is required',
+                        message: t('streetNumberRequired'),
                       },
                     })}
                     error={!!errors.mStreetNumber || !!mStreetNumberError}
@@ -282,12 +283,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mStreetName?.message === 'string' ? errors.mStreetName.message : <span>Street Name<span style={{ color: 'Red' }}>*</span></span>}
+                    label={typeof errors.mStreetName?.message === 'string' ? errors.mStreetName.message : <span>{t('streetName')}<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mStreetName}
                     {...register('mStreetName', {
                       required: {
                         value: true,
-                        message: 'Street Name is required',
+                        message: t('streetNameRequired'),
                       },
                     })}
                     error={!!errors.mStreetName}
@@ -297,7 +298,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label='Apartment/Unit'
+                    label={t('apartmentUnit')}
                     defaultValue={address?.mApartUnit}
                     {...register('mApartUnit')}
                   />
@@ -306,12 +307,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mTown?.message === 'string' ? errors.mTown.message : <span>City/Town<span style={{ color: 'Red' }}>*</span></span>}
+                    label={typeof errors.mTown?.message === 'string' ? errors.mTown.message : <span>{t('city')}<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mTown}
                     {...register('mTown', {
                       required: {
                         value: true,
-                        message: 'City is required',
+                        message: t('cityRequired'),
                       },
                     })}
                     error={!!errors.mTown}
@@ -321,12 +322,12 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mState?.message === 'string' ? errors.mState.message : <span>State<span style={{ color: 'Red' }}>*</span></span>}
+                    label={typeof errors.mState?.message === 'string' ? errors.mState.message : <span>{t('state')}<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mState}
                     {...register('mState', {
                       required: {
                         value: true,
-                        message: 'State is required',
+                        message: t('stateRequired'),
                       },
                     })}
                     error={!!errors.mState}
@@ -336,20 +337,20 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                   <TextField
                     className="add-detail"
                     variant="outlined"
-                    label={typeof errors.mZip?.message === 'string' ? errors.mZip.message : <span>Zip Code<span style={{ color: 'Red' }}>*</span></span>}
+                    label={typeof errors.mZip?.message === 'string' ? errors.mZip.message : <span>{t('zipCode')}<span style={{ color: 'Red' }}>*</span></span>}
                     defaultValue={address?.mZip}
                     {...register('mZip', {
                       required: {
                         value: true,
-                        message: 'Zip Code is required',
+                        message: t('zipCodeRequired'),
                       },
                       pattern: {
                         value: /^[0-9]{5}(-[0-9]{4})?$/,
-                        message: 'Invalid Zip Code',
+                        message: t('invalidZipCode'),
                       },
                     })}
                     error={!!errors.mZip || !!mZipError}
-                    helperText={mZipError || (errors.mZip?.message === 'Invalid Zip Code' ? 'Zip code should be in ##### or #####-#### format' : '')}
+                    helperText={mZipError || (errors.mZip?.message === t('invalidZipCode') ? t('invalidZipCodeHelpertext') : '')}
                     inputProps={{
                       inputMode: 'numeric',
                       onKeyPress: handleMZipKeyPress,
@@ -359,16 +360,16 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
 
                 <Grid item xs={12} sm={6}>
                   <FormControl variant='outlined' fullWidth error={!!errors.mCountry} className='add-detail'>
-                    <InputLabel id="mCountry-label">{errors.mCountry ? 'Country is Required' : <span>Country<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
+                    <InputLabel id="mCountry-label">{errors.mCountry ? t('countryRequired') : <span>{t('country')}<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
                     <Controller
                       name='mCountry'
                       control={control}
-                      rules={{ required: 'Country is required' }}
+                      rules={{ required: t('countryRequired') }}
                       defaultValue={address?.mCountry}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          label={typeof errors.mCountry?.message === 'string' ? errors.mCountry.message : <span>Country<span style={{ color: 'Red' }}>*</span></span>}
+                          label={typeof errors.mCountry?.message === 'string' ? errors.mCountry.message : <span>{t('country')}<span style={{ color: 'Red' }}>*</span></span>}
                           value={selectedCountry}
                           onChange={(e) => {
                             setSelectedCountry(e.target.value);
@@ -383,7 +384,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                         </Select>
                       )}
                     />
-                    {errors.mCountry && <FormHelperText error>Country is Required</FormHelperText>}
+                    {errors.mCountry && <FormHelperText error>{t('countryRequired')}</FormHelperText>}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -391,8 +392,8 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
           )}
         </FormGroup>
         <Box mt={2}>
-          <Button variant="contained" onClick={handleBackAddress} className="back-button">Back</Button>
-          <Button variant="contained" color="primary" type="submit" >Next</Button>
+          <Button variant="contained" onClick={handleBackAddress} className="back-button">{t('backButton')}</Button>
+          <Button variant="contained" color="primary" type="submit" >{t('nextButton')}</Button>
         </Box>
       </FormControl>
     </form>

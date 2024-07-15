@@ -3,6 +3,7 @@ import { Box, Button, FormControl, FormGroup, RadioGroup, Typography, Radio, For
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import useStore from '../Store/Store'
+import { useTranslation } from 'react-i18next'
 import '../Styles/EligibilityAndType.css'
 
 const EligibilityAndType = () => {
@@ -12,6 +13,7 @@ const EligibilityAndType = () => {
     const setEligibilityAndType = useStore(state => state.setEligibilityAndType);
     const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState(false);
+    const { t } = useTranslation();
 
     const checkType = watch('typeOfRegistration');
     watch('isCitizen');
@@ -28,7 +30,10 @@ const EligibilityAndType = () => {
 
     useEffect(() => {
         register('typeOfRegistration', {
-            required: 'Please select any one of the options.'
+            required: {
+                value: true,
+                message: t('registrationTypeRequiredMessage')
+            }
         });
         register('isCitizen');
         register('isAge');
@@ -58,32 +63,32 @@ const EligibilityAndType = () => {
                 <Box my={4} className='type-box'>
                     <FormControl error={!!errors.typeOfRegistration} className='type-formcontrol'>
                         <FormGroup>
-                            <Typography variant='h5' className='type-header'>Eligibilities</Typography>
+                            <Typography variant='h5' className='type-header'>{t('eligibilitiesHeader')}</Typography>
 
                             <FormControlLabel
                                 control={<Checkbox {...register('isCitizen')} />}
                                 className='eligibility-text'
-                                label={<span>I am a citizen of the US<span className='required'>*</span>.</span>}
+                                label={<span>{t('eligibility1')}<span className='required'>*</span>.</span>}
                             />
                             <FormControlLabel
                                 control={<Checkbox {...register('isAge')} />}
                                 className='eligibility-text'
-                                label={<span>I am 18 years old or above by the date of election<span className='required'>*</span>.</span>}
+                                label={<span>{t('eligibility2')}<span className='required'>*</span>.</span>}
 
                             />
                             <FormControlLabel
                                 control={<Checkbox {...register('isResident')} className='eligibility-checkbox' />}
                                 className='eligibility-text'
-                                label={<span>I am a resident of the US<span className='required'>*</span>.</span>}
+                                label={<span>{t('eligibility3')}<span className='required'>*</span>.</span>}
                             />
                             <FormControlLabel
                                 control={<Checkbox {...register('isFelony')} />}
                                 className='eligibility-text'
-                                label={<span>I am not a convicted felon by the court of law<span className='required'>*</span>.</span>}
+                                label={<span>{t('eligibility4')}<span className='required'>*</span>.</span>}
                             />
-                            <Typography variant='h5' className='type-header'>Type of Registration</Typography>
+                            <Typography variant='h5' className='type-header'>{t('registrationTypeHeader')}</Typography>
                             <Typography variant="body1" gutterBottom className='type-subheader'>
-                                Please select the type of registration you want to proceed with in this online voter registration process<span className='required'>*</span>:
+                                {t('registrationTypeText')}<span className='required'>*</span>:
                             </Typography>
                             <RadioGroup
                                 className='type-radio'
@@ -91,16 +96,16 @@ const EligibilityAndType = () => {
                                 value={checkType || ''}
                                 onChange={(e) => setValue('typeOfRegistration', e.target.value)}
                             >
-                                <FormControlLabel value='driving license' control={<Radio {...register('typeOfRegistration')} />} label="Registration through Driving License." className='type-text' />
-                                <FormControlLabel value='ssn' control={<Radio {...register('typeOfRegistration')} />} label="Registration through Social Security Number(SSN)." className='type-text' />
+                                <FormControlLabel value='driving license' control={<Radio {...register('typeOfRegistration')} />} label={t('registrationType1')} className='type-text' />
+                                <FormControlLabel value='ssn' control={<Radio {...register('typeOfRegistration')} />} label={t('registrationType2')} className='type-text' />
                             </RadioGroup>
                             {errors.typeOfRegistration && (
                                 <FormHelperText className='type-helper'>{String(errors.typeOfRegistration.message)}</FormHelperText>
                             )}
                             <Box mt={2} className='person-button-box'>
-                                <Button onClick={handleBackRegistrationType}>Back</Button>
+                                <Button onClick={handleBackRegistrationType}>{t('backButton')}</Button>
                                 <Button variant='contained' color='primary' type='submit'>
-                                    Next
+                                    {t('nextButton')}
                                 </Button>
                             </Box>
                         </FormGroup>
@@ -113,20 +118,20 @@ const EligibilityAndType = () => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">You are not eligible to vote</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{t('eligibilityDialogHeading')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <Typography variant='body1' className='dialog-text'><b>Eligibility Criteria:</b></Typography>
-                        <Typography variant='body1' className='dialog-text'>1.I am a citizen of the US</Typography>
-                        <Typography variant='body1' className='dialog-text'>2.I am a resident of the US</Typography>
-                        <Typography variant='body1' className='dialog-text'>3.I am 18 years old or above by the date of election</Typography>
-                        <Typography variant='body1' className='dialog-text'>4.I am not a convicted felon by the court of law</Typography>
+                        <Typography variant='body1' className='dialog-text'><b>{t('eligibilityDialogText')}</b></Typography>
+                        <Typography variant='body1' className='dialog-text'>1.{t('eligibility1')}</Typography>
+                        <Typography variant='body1' className='dialog-text'>2.{t('eligibility2')}</Typography>
+                        <Typography variant='body1' className='dialog-text'>3.{t('eligibility3')}</Typography>
+                        <Typography variant='body1' className='dialog-text'>4.{t('eligibility4')}</Typography>
 
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">
-                        OK
+                        {t('okButton')}
                     </Button>
                 </DialogActions>
             </Dialog>

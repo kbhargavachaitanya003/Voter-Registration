@@ -6,21 +6,24 @@ import Address from './Address';
 import OtherDetails from './OtherDetails';
 import Summary from './Summary';
 import Consent from './Consent';
-import '../Styles/VoterRegistration.css'
-
-const steps = [
-  'Personal Details',
-  'Address',
-  'Other Details',
-  'Submission'
-];
-
+import { useTranslation } from 'react-i18next';
+import '../Styles/VoterRegistration.css';
 
 const VoterRegistration = () => {
   const [activeStep, setActiveStep] = useState(0);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+
+  const { t } = useTranslation();
+
+  const steps = [
+    t('step0'),
+    t('step1'),
+    t('step2'),
+    t('step3')
+  ];
 
   const handleNext = () => {
     if (activeStep < steps.length) {
@@ -37,7 +40,7 @@ const VoterRegistration = () => {
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <PersonalDetails handleNext={handleNext}/>;
+        return <PersonalDetails handleNext={handleNext} />;
       case 1:
         return <Address handleBack={handleBack} handleNext={handleNext} />;
       case 2:
@@ -71,13 +74,13 @@ const VoterRegistration = () => {
         ))}
       </Stepper>
       {!isSmallScreen && (
-          <div>
-            <Routes>
-              <Route path="/:stepId" element={getStepContent(activeStep)} />
-              <Route path="/consent" element={<Consent handleNext={handleNext} />} />
-            </Routes>
-          </div>
-        )}
+        <div>
+          <Routes>
+            <Route path="/:stepId" element={getStepContent(activeStep)} />
+            <Route path="/consent" element={<Consent handleNext={handleNext} />} />
+          </Routes>
+        </div>
+      )}
     </Container>
   );
 };

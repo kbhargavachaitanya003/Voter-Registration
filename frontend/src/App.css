@@ -12,7 +12,9 @@ html {
 .header-container {
   background-color: #1A3E72;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
   padding: 20px 0;
@@ -22,8 +24,17 @@ html {
   margin-left: 10px !important;
   font-weight: bold !important;
   align-self: flex-start;
-  font-size: x-large !important;
+  font-size: xx-large !important;
   color: white !important;
+}
+
+.language-select{
+  width: 120px !important;
+  border-radius: 5px !important;
+  float: right;
+  margin-right: 20px;
+  height: 30px !important;
+  background-color: white !important;
 }
 
 @media (max-width: 600px) {

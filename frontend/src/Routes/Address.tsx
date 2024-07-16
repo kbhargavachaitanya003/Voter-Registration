@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, Button, FormControl, FormGroup, TextField, Grid, Typography, Checkbox, FormHelperText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import useStore from '../Store/Store';
 import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
 import '../Styles/Address.css';
 
 interface AddressProps {
@@ -11,13 +13,8 @@ interface AddressProps {
   handleBack: () => void;
 }
 
-interface CountryOption {
-  label: string;
-  value: string;
-}
-
 const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
-  const { register, handleSubmit, formState, control } = useForm();
+  const { register, handleSubmit, formState, control, setValue } = useForm();
   const setAddress = useStore((state) => state.setAddress);
   const address = useStore((state) => state.address);
   const personalDetails = useStore((state) => state.personalDetails);
@@ -27,7 +24,6 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const [mStreetNumberError, setMStreetNumberError] = useState('');
   const [zipError, setZipError] = useState('');
   const [mZipError, setMZipError] = useState('');
-  const [countries, setCountries] = useState<CountryOption[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [sameAddress, setSameAddress] = useState<boolean | null>(null);
   const [display, setDisplay] = useState<boolean>(false);
@@ -35,15 +31,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   const { errors } = formState;
   const { t } = useTranslation();
 
-  useEffect(() => {
-    fetch(
-      "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setCountries(data.countries);
-      });
-  }, []);
+  const countries = countryList().getData();
 
   const handleBackAddress = () => {
     if (eligibilityAndType?.typeOfRegistration === 'driving license') {
@@ -96,7 +84,6 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
   };
 
   const onSubmit = (data: any) => {
-    console.log(selectedCountry);
     data.mCountry = selectedCountry || '';
     if (sameAddress === null || sameAddress === undefined || (sameAddress === false && data.mCountry === '')) {
       setDisplay(true);
@@ -123,6 +110,10 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
       handleNextAddress();
     }
   };
+
+  useEffect(() => {
+    setValue('mCountry', selectedCountry);
+  }, [selectedCountry, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="add-form">
@@ -239,24 +230,23 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
               <Typography variant="body1" className='addr-note-text'>{t('isSameAsResidential')}<span style={{ color: 'Red' }}>*</span></Typography>
               <Checkbox
                 checked={sameAddress === true}
+                {...register('sameAddress', { required: true })}
                 onChange={() => setSameAddress(true)}
               />
               <Typography variant="body1" className='addr-note-text'>{t('yesLabel')}</Typography>
               <Checkbox
                 checked={sameAddress === false}
+                {...register('sameAddress', { required: true })}
                 onChange={() => setSameAddress(false)}
               />
               <Typography variant="body1" className='addr-note-text'>{t('noLabel')}</Typography>
             </Box>
-            {(display === true && (sameAddress === null || sameAddress === undefined)) && (
-              <FormHelperText className='addr-error' error>{t('isSameAsResidentialHelpertext')}</FormHelperText>
-            )}
+            {display && <FormHelperText error>{t('sameAddressError')}</FormHelperText>}
           </Box>
+
           {sameAddress === false && (
-            <React.Fragment>
-              <Box className='addr-mail-heading'>
-                <Typography variant="h5" className='addr-mail-heading-text'>{t('addressDetailsHeader2')}</Typography>
-              </Box>
+            <>
+              <Typography variant="h5" className='addr-mail-heading'>{t('mailingAddressHeader')}</Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -357,44 +347,43 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
                     }}
                   />
                 </Grid>
-
                 <Grid item xs={12} sm={6}>
-                  <FormControl variant='outlined' fullWidth error={!!errors.mCountry} className='add-detail'>
-                    <InputLabel id="mCountry-label">{errors.mCountry ? t('countryRequired') : <span>{t('country')}<span style={{ color: 'Red' }}>*</span></span>}</InputLabel>
-                    <Controller
-                      name='mCountry'
-                      control={control}
-                      rules={{ required: t('countryRequired') }}
-                      defaultValue={address?.mCountry}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          label={typeof errors.mCountry?.message === 'string' ? errors.mCountry.message : <span>{t('country')}<span style={{ color: 'Red' }}>*</span></span>}
-                          value={selectedCountry}
-                          onChange={(e) => {
-                            setSelectedCountry(e.target.value);
-                            field.onChange(e.target.value);
-                          }}
-                        >
-                          {countries.map((country) => (
-                            <MenuItem key={country.value} value={country.value}>
-                              {country.label}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      )}
-                    />
-                    {errors.mCountry && <FormHelperText error>{t('countryRequired')}</FormHelperText>}
-                  </FormControl>
+                  <Controller
+                    name="mCountry"
+                    control={control}
+                    defaultValue={selectedCountry}
+                    rules={{
+                      required: {
+                        value: !sameAddress,
+                        message: t('countryRequired'),
+                      },
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        placeholder={t('country')}
+                        className="add-detail-country"
+                        options={countries}
+                        value={countries.find((country) => country.value === selectedCountry)}
+                        onChange={(option) => {
+                          setSelectedCountry(option?.value || '');
+                          field.onChange(option?.value || '');
+                        }}
+                      />
+                    )}
+                  />
+                  {errors.mCountry && typeof errors.mCountry.message === 'string' && (
+                    <FormHelperText error className='country-helpertext'>{errors.mCountry.message}</FormHelperText>
+                  )}
                 </Grid>
               </Grid>
-            </React.Fragment>
+            </>
           )}
+          <Box mt={2}>
+            <Button variant="contained" color="secondary" onClick={handleBackAddress}>{t('back')}</Button>
+            <Button variant="contained" color="primary" type="submit">{t('next')}</Button>
+          </Box>
         </FormGroup>
-        <Box mt={2}>
-          <Button variant="contained" onClick={handleBackAddress} className="back-button">{t('backButton')}</Button>
-          <Button variant="contained" color="primary" type="submit" >{t('nextButton')}</Button>
-        </Box>
       </FormControl>
     </form>
   );

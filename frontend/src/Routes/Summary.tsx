@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Button, Grid, List, ListItem, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Button, Grid, List, ListItem, Typography, CircularProgress } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import useStore from '../Store/Store'
@@ -22,6 +22,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const eligibilityAndType = useStore(state => state.eligibilityAndType)
   const setSubmittedDate = useStore(state => state.setSubmittedDate)
   const setSubmittedTime = useStore(state => state.setSubmittedTime)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -30,6 +31,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
   const mutationSignatureDetails = useMutation({mutationFn: saveSignatureDetails});
 
   const handleNextSummary = async () => {
+    setIsSubmitting(true);
     const today = dayjs().format('MM/DD/YYYY');
     const time = dayjs().format('hh:mm:ss A');
     setSubmittedDate(today);
@@ -86,7 +88,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
     await mutationPersonalDetails.mutateAsync(postingPersonalDetails);
     await mutationAddress.mutateAsync(postingAddress);
     await mutationSignatureDetails.mutateAsync(postingSignatureDetails);
-
+    setIsSubmitting(false);
     navigate('/submitted');
     handleNext();
   };
@@ -153,7 +155,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       <Box mt={2}>
         <Button onClick={handleBackSummary}>{t('backButton')}</Button>
         <Button variant="contained" color="primary" onClick={handleNextSummary}>
-          {t('summaryButton')}
+          {isSubmitting ? <CircularProgress size={24} /> : t('nextButton')}
         </Button>
       </Box>
     </div>

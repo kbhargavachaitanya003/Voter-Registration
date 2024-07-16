@@ -64,7 +64,7 @@
     "personalDetailsDialogText": "Este permiso de conducir no es válido. Para registrarse como votante, comuníquese con la oficina de registro más cercana. O puede registrarse utilizando el SSN.",
     "personalDetailsDialogButton": "Regístrese usando SSN",
     "consentRequired": "Por favor seleccione su opción de consentimiento",
-    "consentPageText": "Para registrarnos vamos a utilizar la firma digital que tienes en el permiso de conducir. Por favor seleccione a continuación para su consentimiento",
+    "consentPageText": "Para registrarnos vamos a utilizar la firma digital que tienes en el permiso de conducir. Seleccione a continuación para indicar su consentimiento.",
     "consent": "Consentir",
     "decline": "Rechazar",
     "consentDialogHeading": "Consentimiento rechazado",

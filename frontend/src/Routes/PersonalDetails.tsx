@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, FormControl, FormGroup, Grid, Typography, Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Button, TextField, FormControl, FormGroup, Grid, Typography, Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { PersonalDetailsData } from '../Components/types';
@@ -17,7 +17,7 @@ interface PersonalDetailsProps {
   handleNext: () => void;
 }
 
-const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
+const PersonalDetails: React.FC<PersonalDetailsProps> = ({ handleNext }) => {
   const { register, handleSubmit, formState, control, setError, clearErrors } = useForm<PersonalDetailsData>();
   const { errors } = formState;
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   const [licenseError, setLicenseError] = useState('');
   const [ssnError, setSsnError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useTranslation();
 
   const mutationCheckDrivingLicense = useMutation({
@@ -58,6 +59,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
   }
 
   const onSubmit = async (personalData: PersonalDetailsData) => {
+    setIsSubmitting(true);
     const today = dayjs();
     const birthDate = dayjs(personalData.dob);
     console.log(eligibilityAndType);
@@ -67,6 +69,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
         type: 'manual',
         message: t('invalidDate')
       });
+      setIsSubmitting(false);
       return;
     }
 
@@ -77,11 +80,12 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
         type: 'manual',
         message: t('invalidAge')
       });
+      setIsSubmitting(false);
     } else {
       clearErrors('dob');
       const formattedDate = birthDate.format('MM/DD/YYYY');
       personalData.dob = formattedDate;
-      if(eligibilityAndType?.typeOfRegistration === 'ssn') {
+      if (eligibilityAndType?.typeOfRegistration === 'ssn') {
         personalData.dl = 0;
       }
       setPersonalDetails(personalData);
@@ -97,14 +101,18 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
             city: personalData.town
           }
           setAddress(updatedAddress);
+          setIsSubmitting(false);
           handleNextPersonalDetails();
           console.log('api call success')
         } else if (data === 'No') {
+          setIsSubmitting(false);
           setOpenDialog(true);
         } else {
+          setIsSubmitting(false);
           console.log('Error');
         }
-      } else if(eligibilityAndType?.typeOfRegistration === 'ssn') {
+      } else if (eligibilityAndType?.typeOfRegistration === 'ssn') {
+        setIsSubmitting(false);
         const updatedAddress = {
           ...address,
           city: personalData.town
@@ -197,7 +205,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
             <Typography variant='h5' className='per-header'>{t('personalDetailsHeader2')}</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} className='changeType-grid'>
-                <FormControl variant='outlined' fullWidth  className='per-detail-changeType'>
+                <FormControl variant='outlined' fullWidth className='per-detail-changeType'>
                   <InputLabel id="prefix-label">{t('prefix')}</InputLabel>
                   <Controller
                     name='prefix'
@@ -258,7 +266,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
                 />
               </Grid>
               <Grid item xs={12} sm={6} className='changeType-grid'>
-                <FormControl variant='outlined' fullWidth  className='per-detail-changeType'>
+                <FormControl variant='outlined' fullWidth className='per-detail-changeType'>
                   <InputLabel id="prefix-label">{t('suffix')}</InputLabel>
                   <Controller
                     name='suffix'
@@ -362,7 +370,9 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({handleNext}) => {
             </Grid>
             <Box mt={2} className='person-button-box'>
               <Button onClick={handleBackPersonalDetails}>{t('backButton')}</Button>
-              <Button variant='contained' color='primary' type='submit'>{t('nextButton')}</Button>
+              <Button variant='contained' color='primary' type='submit'>
+                {isSubmitting ? <CircularProgress size={24} /> : t('nextButton')}
+              </Button>
             </Box>
           </FormGroup>
         </FormControl>

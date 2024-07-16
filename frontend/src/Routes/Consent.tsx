@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, FormControl, FormGroup, Typography, RadioGroup, FormControlLabel, Radio, FormHelperText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { Box, Button, FormControl, FormGroup, Typography, RadioGroup, FormControlLabel, Radio, FormHelperText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, CircularProgress } from '@mui/material';
+import { set, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../Store/Store';
 import '../Styles/Consent.css';
@@ -21,6 +21,7 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   const personalDetails = useStore(state => state.personalDetails);
   const setDLimage = useStore(state => state.setDLImage);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useTranslation();
 
   const mutationGetSignature = useMutation({
@@ -42,15 +43,18 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
   };
 
   const onSubmit = async (consentData: any) => {
+    setIsSubmitting(true);
     console.log(personalDetails);
     if (consentData.consent === 'consent' && personalDetails?.dl) {
       const signature = await mutationGetSignature.mutateAsync(personalDetails.dl);
       if (signature !== 'No' && signature) {
         setDLimage(signature);
+        setIsSubmitting(false);
         handleNextConsent();
       }
     } else {
       console.log('Consent declined');
+      setIsSubmitting(false);
       setDialogOpen(true);
     }
     setConsent(consentData);
@@ -89,7 +93,9 @@ const Consent: React.FC<ConsentProps> = ({ handleNext }) => {
             )}
             <Box mt={2}>
               <Button onClick={handleBackConsent}>{t('backButton')}</Button>
-              <Button variant="contained" color="primary" type="submit">{t('nextButton')}</Button>
+              <Button variant='contained' color='primary' type='submit'>
+                {isSubmitting ? <CircularProgress size={24} /> : t('nextButton')}
+              </Button>
             </Box>
           </FormGroup>
         </FormControl>

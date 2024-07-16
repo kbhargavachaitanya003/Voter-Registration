@@ -64,7 +64,7 @@
     "personalDetailsDialogText": "This driving license is invalid. For voter registration, please reach out to the nearest registration office Or you can register using SSN.",
     "personalDetailsDialogButton": "Register using SSN",
     "consentRequired": "Please select your consent option",
-    "consentPageText": "To register we are going to use the digital signature that you have in the driving license. Please select below for your consent",
+    "consentPageText": "To register we are going to use the digital signature that you have in the driving license. Please select below to indicate your consent.",
     "consent": "Consent",
     "decline": "Decline",
     "consentDialogHeading": "Consent Declined",

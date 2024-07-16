@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Data File ###
-data_export.txt
+transfered_data.txt

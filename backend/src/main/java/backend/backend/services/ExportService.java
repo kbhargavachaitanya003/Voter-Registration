@@ -35,9 +35,9 @@ public class ExportService {
         List<AddressDetails> addressDetailsList = addressDetailsRepository.findAll();
         List<SignatureDetails> signatureDetailsList = signatureDetailsRepository.findAll();
 
-        String fileName = "/home/bhargavachaitanya/Documents/Office/Voter-Registration/backend/data_export.txt";
+        String fileName = "/home/bhargavachaitanya/Documents/Office/Voter-Registration/backend/transfered_data.txt";
         File file = new File(fileName);
-        System.out.println("Exporting data to file: " + fileName);
+        System.out.println("Transfering data to file: " + fileName);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             for (PersonalDetails personalDetails : personalDetailsList) {
@@ -52,8 +52,8 @@ public class ExportService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            
         }
+        System.out.println("Data transfered successfully");
     }
 
     private AddressDetails findAddressDetailsByReferenceNumber(long referenceNumber, List<AddressDetails> addressDetailsList) {

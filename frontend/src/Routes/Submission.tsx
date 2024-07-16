@@ -54,7 +54,7 @@ const Submission: React.FC = () => {
     const EmailContent = `
       ${eligibilityAndType?.typeOfRegistration === "ssn" ? `<p>Please find the attached Voter Registration Application below.</p>` : ``}
       <h2>Confirmation</h2>
-      <h4>Information</h4>
+      <h4>Information</h4> 
       <p>Reference Number: ${referenceNumber}</p>
       <p>Application Submitted on: ${submittedDate}, ${submittedTime}</p>
       <p>Name: ${personalDetails?.prefix} ${personalDetails?.firstName} ${personalDetails?.middleName} ${personalDetails?.lastName} ${personalDetails?.suffix}</p>
@@ -62,7 +62,7 @@ const Submission: React.FC = () => {
       <p>Gender: ${otherDetails?.gender}</p>
       <p>Email: ${otherDetails?.email}</p>
       <h4>Note</h4>
-      <p>Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.</p>
+      ${eligibilityAndType?.typeOfRegistration === "ssn" ? `<p>Thank you for choosing our platform for voter registration. Your application has been recorded. Please take the print out of the application and reach out to the nearest registration office for the further process of voter registration.</p>` : `Thank you for choosing our platform for voter registration. Your application has been recorded. You should receive a confirmation within a month. If you do not receive the confirmation, please contact your nearest registration office.`}
     `;
 
     setIsLoading(true);

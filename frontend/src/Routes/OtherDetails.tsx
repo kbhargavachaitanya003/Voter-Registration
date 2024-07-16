@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, FormControl, FormGroup, Typography, RadioGroup, Radio, FormControlLabel, TextField, FormHelperText, Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, FormControl, FormGroup, Typography, RadioGroup, Radio, FormControlLabel, TextField, FormHelperText, Grid, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import '../Styles/OtherDetails.css';
@@ -15,16 +15,28 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
   const { register, handleSubmit, watch, formState } = useForm();
   const { errors } = formState;
   const navigate = useNavigate();
-  const [partyRadioValue, setPartyRadioValue] = React.useState('');
-  const [isNextClicked, setIsNextClicked] = React.useState(false);
-  const [phoneError, setPhoneError] = React.useState('');
+  const [partyRadioValue, setPartyRadioValue] = useState('');
+  const [isNextClicked, setIsNextClicked] = useState(false);
+  const [selectedParty, setSelectedParty] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const setOtherDetails = useStore(state => state.setOtherDetails);
   const otherDetails = useStore(state => state.otherDetails);
   const { t } = useTranslation();
 
   const handlePartyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPartyRadioValue(event.target.value);
+    if (event.target.value !== 'yes') {
+      setSelectedParty('');
+    }
     if (isNextClicked) setIsNextClicked(false);
+  };
+
+  const handleCheckboxChange = (party: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setSelectedParty(party);
+    } else {
+      setSelectedParty('');
+    }
   };
 
   const handlePhoneKeyPress = (e: any) => {
@@ -47,6 +59,7 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
       return;
     }
     data.partyEnroll = partyRadioValue;
+    data.partyName = selectedParty || data.partyName;
     setOtherDetails(data);
     console.log(data);
     navigate('/step/3');
@@ -54,7 +67,7 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
   };
 
   const onSubmit = (data: any) => {
-    if(data.partyEnroll === 'no') {
+    if (data.partyEnroll === 'no') {
       data.partyName = '';
     }
     handleNextOtherDetails(data);
@@ -76,20 +89,42 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
             onChange={handlePartyChange}
           >
             <FormControlLabel value="yes" control={<Radio />} label={t('partyYesLabel')} />
-            <TextField
-              disabled={partyRadioValue !== 'yes'}
-              className='other-party-name'
-              variant='outlined'
-              label={errors.partyName ? t('partyNameRequired') : (
-                <span>
-                  {t('partyName')}
-                  {partyRadioValue === 'yes' && <span style={{ color: 'Red' }}>*</span>}
-                </span>
-              )}              
-              {...register('partyName', { required: partyRadioValue === 'yes' })}
-              error={!!errors.partyName}
-            />
-            <FormControlLabel className='other-party-no' value="no" control={<Radio />} label={t('partyNoLabel')} />
+            <FormControlLabel
+            className='other-party-republican'
+            control={
+              <Checkbox
+                checked={selectedParty === 'Republican'}
+                onChange={handleCheckboxChange('Republican')}
+                disabled={partyRadioValue !== 'yes'}
+              />
+            }
+            label= {t('republican')}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedParty === 'Democratic'}
+                onChange={handleCheckboxChange('Democratic')}
+                disabled={partyRadioValue !== 'yes'}
+              />
+            }
+            label= {t('democratic')}
+          />
+          <TextField
+            disabled={partyRadioValue !== 'yes' || selectedParty === 'Republican' || selectedParty === 'Democratic'}
+            className='other-party-name'
+            variant='outlined'
+            label={errors.partyName ? t('partyNameRequired') : (
+              <span>
+                {t('partyNameOther')}
+                {partyRadioValue === 'yes' && <span style={{ color: 'Red' }}>*</span>}
+              </span>
+            )}
+            {...register('partyName', { required: partyRadioValue === 'yes' && selectedParty === '' })}
+            error={!!errors.partyName}
+            onChange={() => setSelectedParty('')}
+          />
+          <FormControlLabel value="no" control={<Radio />} label={t('partyNoLabel')} />
           </RadioGroup>
           {isNextClicked && partyRadioValue === '' && (
             <FormHelperText className='other-helper'>{t('partyHelpertext')}</FormHelperText>

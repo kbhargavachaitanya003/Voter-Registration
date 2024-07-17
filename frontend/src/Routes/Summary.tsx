@@ -42,7 +42,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       submittedOn: today +", " + time,
       typeOfRegistration: personalDetails?.voterType,
       drivingLicense: personalDetails?.dl,
-      ssn: "xxx-xxx-" + personalDetails?.ssn,
+      ssn: personalDetails?.ssn,
       prefix: personalDetails?.prefix,
       lastName: personalDetails?.lastName,
       firstName: personalDetails?.firstName,
@@ -155,7 +155,7 @@ const Summary: React.FC<SummaryProps> = ({ handleBack, handleNext }) => {
       <Box mt={2}>
         <Button onClick={handleBackSummary}>{t('backButton')}</Button>
         <Button variant="contained" color="primary" onClick={handleNextSummary}>
-          {isSubmitting ? <CircularProgress size={24} /> : t('nextButton')}
+          {isSubmitting ? <CircularProgress size={24} /> : t('summaryButton')}
         </Button>
       </Box>
     </div>

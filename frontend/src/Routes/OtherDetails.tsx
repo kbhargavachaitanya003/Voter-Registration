@@ -117,7 +117,7 @@ const OtherDetails: React.FC<OtherDetailsProps> = ({ handleBack, handleNext }) =
             label={errors.partyName ? t('partyNameRequired') : (
               <span>
                 {t('partyNameOther')}
-                {partyRadioValue === 'yes' && <span style={{ color: 'Red' }}>*</span>}
+                {(partyRadioValue === 'yes'&& selectedParty === '') && <span style={{ color: 'Red' }}>*</span>}
               </span>
             )}
             {...register('partyName', { required: partyRadioValue === 'yes' && selectedParty === '' })}

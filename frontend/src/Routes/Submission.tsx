@@ -6,12 +6,10 @@ import ReactToPrint from 'react-to-print';
 import '../Styles/Submission.css';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { sendEmail, getFile } from '../Components/api';
-import YourApplication from '../Components/YourApplication';
 import { useTranslation } from 'react-i18next';
 
 const Submission: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const yourApplicationRef = useRef<HTMLDivElement>(null);
   const personalDetails = useStore(state => state.personalDetails);
   const address = useStore(state => state.address);
   const otherDetails = useStore(state => state.otherDetails);
@@ -27,8 +25,9 @@ const Submission: React.FC = () => {
   const { t } = useTranslation();
 
   const { data: pdfBlob, isLoading: isFetchingFile, isError, error } = useQuery({
-    queryKey: ['getFile', referenceNumber], 
-    queryFn: () => getFile(referenceNumber as number)});
+    queryKey: ['getFile', referenceNumber],
+    queryFn: () => getFile(referenceNumber as number)
+  });
 
   const mutation = useMutation({
     mutationFn: sendEmail,
@@ -75,7 +74,7 @@ const Submission: React.FC = () => {
     });
   };
 
-  const handlePrint = async () => {
+  const handlePrint = async () => { 
     try {
       const url = window.URL.createObjectURL(new Blob([pdfBlob]));
       const link = document.createElement('a');
@@ -165,7 +164,7 @@ const Submission: React.FC = () => {
           </Grid>
           <Typography variant="h6" className='conf-sub-header'>{t('noteHeading')}</Typography>
           <Typography variant="body1" className='conf-note'>
-            {eligibilityAndType?.typeOfRegistration === "ssn" ? t('noteTextDl'): t('noteTextSsn') }
+            {eligibilityAndType?.typeOfRegistration === "ssn" ? t('noteTextDl') : t('noteTextSsn')}
           </Typography>
         </div>
         <Box mt={2} className='conf-buttons'>
@@ -173,20 +172,15 @@ const Submission: React.FC = () => {
             {isLoading ? <CircularProgress size={24} /> : t('emailButton')}
           </Button>
           {eligibilityAndType?.typeOfRegistration !== "ssn" && <ReactToPrint
-            trigger={() => <Button variant="contained" color="primary">{eligibilityAndType?.typeOfRegistration === "ssn" ? t('printApplicationButton') : t('printConfirmationButton')}</Button>}
-            content={() => eligibilityAndType?.typeOfRegistration === "ssn" ? yourApplicationRef.current : componentRef.current}
-            documentTitle={eligibilityAndType?.typeOfRegistration === "ssn"? 'Voter Registration Application':'Voter Registration Confirmation'}
-            pageStyle="print"
+            trigger={() => <Button variant="contained" color="primary" className='conf-button'>{t('printConfirmationButton')}</Button>}
+            content={() => componentRef.current}
           />}
           {eligibilityAndType?.typeOfRegistration === "ssn" && <Button variant="contained" color="primary" onClick={handlePrint}>
-          {isFetchingFile ? <CircularProgress size={24} /> : t('downloadApplicationButton')}
+            {isFetchingFile ? <CircularProgress size={24} /> : t('downloadApplicationButton')}
           </Button>}
           <Button variant="contained" color="primary" onClick={handleClose}>{t('closeButton')}</Button>
         </Box>
       </Container>
-      <div style={{ display: 'none' }}>
-        <YourApplication ref={yourApplicationRef} />
-      </div>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

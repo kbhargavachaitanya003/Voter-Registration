@@ -87,6 +87,8 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ handleNext }) => {
       personalData.dob = formattedDate;
       if (eligibilityAndType?.typeOfRegistration === 'ssn') {
         personalData.dl = 0;
+        const ssn= personalData.ssn;
+        personalData.ssn = 'xxx-xxx-' + ssn;
       }
       setPersonalDetails(personalData);
       const rNumber = generateTenDigitNumber();

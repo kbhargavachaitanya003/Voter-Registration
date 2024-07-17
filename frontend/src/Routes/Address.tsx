@@ -246,7 +246,7 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
 
           {sameAddress === false && (
             <>
-              <Typography variant="h5" className='addr-mail-heading'>{t('mailingAddressHeader')}</Typography>
+              <Typography variant="h5" className='addr-mail-heading'>{t('addressDetailsHeader2')}</Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -380,8 +380,8 @@ const Address: React.FC<AddressProps> = ({ handleNext, handleBack }) => {
             </>
           )}
           <Box mt={2}>
-            <Button variant="contained" color="secondary" onClick={handleBackAddress}>{t('back')}</Button>
-            <Button variant="contained" color="primary" type="submit">{t('next')}</Button>
+            <Button variant="contained" color="secondary" onClick={handleBackAddress}>{t('backButton')}</Button>
+            <Button variant="contained" color="primary" type="submit">{t('nextButton')}</Button>
           </Box>
         </FormGroup>
       </FormControl>

@@ -6,7 +6,7 @@ import Instructions from './Routes/Instructions';
 import RegistrationType from './Routes/EligibilityAndType';
 import Submission from './Routes/Submission';
 import { useTranslation } from 'react-i18next';
-import { Select, MenuItem, Typography, FormControl, InputLabel } from '@mui/material';
+import { Select, MenuItem, Typography } from '@mui/material';
 
 function App() {
   const { t, i18n } = useTranslation();
